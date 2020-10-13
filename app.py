@@ -11,7 +11,6 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from PySide2.QtWidgets import QApplication
 
 
 class Ui_MainWindow(object):
@@ -51,4 +50,5 @@ class Ui_MainWindow(object):
     # retranslateUi
 
 if __name__ == '__main__':
-	app = QApplication
+	app = QApplication(sys.argv)
+	
