@@ -1,7 +1,5 @@
-import json
 import os
 import sys
-import urllib.request
 
 from PySide2.QtCore import QStringListModel, QUrl
 from PySide2.QtGui import QGuiApplication

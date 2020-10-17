@@ -1,3 +1,33 @@
-venv
-.vscode
-.idea
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+__pycache__/
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# Local folder to be always excluded
+local
+
+# Jetbrains ide related
+# .idea configurations can be added to the version control itsef
+# comment that out in case you want them to be included
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Incase of using Cmake
+cmake-buid-debug
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so comment 
+# this line in that case
+.vscode/
+
+# The name of the virtal Environment
+venv/
