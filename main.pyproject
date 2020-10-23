@@ -1,0 +1,3 @@
+{
+    "files": ["vizually/app.py","vizually/ui/main.qml"]
+}

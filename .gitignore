@@ -157,8 +157,5 @@ cmake-buid-debug
 .vscode/
 
 # Also include QT creator project config files
-*.pyproject*
-main.py
-view.qml
 
 *autosave
