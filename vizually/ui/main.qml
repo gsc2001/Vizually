@@ -37,6 +37,7 @@ ApplicationWindow {
         x: 350; y: 0
         width: 1250; height: 900
         clip: true
+        boundsBehavior: Flickable.StopAtBounds
         contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
         Rectangle {
             id: photoFrame
@@ -83,14 +84,16 @@ ApplicationWindow {
         }
     }
 
+
     Label {
-        id: label
-        x: 20
-        y: 22
-        width: 128
-        height: 32
+        id: print_label
+        x: 71
+        y: 226
+        width: 158
+        height: 24
         text: fileDialog.fileUrl
     }
+
 }
 
 /*##^##

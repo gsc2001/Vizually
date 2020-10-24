@@ -5,6 +5,7 @@
 
 import sys
 
+from PySide2.QtCore import QUrl
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
 
@@ -14,7 +15,9 @@ if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
 
     # Load the qml file into an engine
-    engine = QQmlApplicationEngine('ui/main.qml')
+    engine = QQmlApplicationEngine()
+
+    engine.load(QUrl("ui/main.qml"))
 
     # find the root object of the engine
     win = engine.rootObjects()[0]
