@@ -34,7 +34,7 @@ def medianAdaptiveImageBinarizer(image: np.array, thresh_value: float) -> np.arr
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     medianGray = cv2.medianBlur(gray, 5)
 
-    retImg = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+    retImg = cv2.adaptiveThreshold(medianGray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                    cv2.THRESH_BINARY, 11, thresh_value)
 
     return retImg
