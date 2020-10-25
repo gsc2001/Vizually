@@ -21,13 +21,13 @@ def bilateralBlurringHandler(image: Image, params: dict) -> Image:
 
 
 def bilateralBlur(image: np.array) -> np.array:
-    """Binarize the image
+    """Blurs the image
 
     Args:
         image (np.array): image to change
 
     Returns:
-        np.array: binarized image
+        np.array: blurred image
     """
     retImg = cv2.bilateralFilter(image, 9, 75, 75)
     return retImg
