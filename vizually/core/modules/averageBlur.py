@@ -9,10 +9,10 @@ def averageBlurringHandler(image: Image, params: dict) -> Image:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { 'Blur amount' }
+        params (dict): params has { 'Blur amount' }, range (1, 20) step size of 1 (integer values only)
 
     Returns:
-        np.array: thresholded image
+        np.array: Blurred image (without edge preservation)
     """
     new_img = averageBlur(
         image.img, params['Blur amount'])
