@@ -9,7 +9,7 @@ def OstuThresholdingHandler(image: Image, params: dict) -> Image:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { } range(about): (0, 10)
+        params (dict): params has { }
 
     Returns:
         np.array: thresholded image
