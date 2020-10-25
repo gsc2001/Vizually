@@ -34,6 +34,6 @@ def GaussianOtsuImageBinarizer(image: np.array) -> np.array:
     gaussianImg = cv2.GaussianBlur(gray, (5, 5), 0)
 
     ret, retImg = cv2.threshold(
-        gaussianImg, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+        gaussianImg, 127, 255, cv2.THRESH_TOZERO+cv2.THRESH_OTSU)
 
     return retImg
