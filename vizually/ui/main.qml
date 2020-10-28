@@ -6,8 +6,11 @@ import QtQuick.Extras 1.4
 import Images 1.0
 
 ApplicationWindow {
-    id: root
+    id: window
+    objectName: "window"
     width: 1600; height: 900
+    title: project && project.loaded ?
+               ((project.url.toString().length > 0 ? project.displayUrl : "Untitled") + (project.unsavedChanges ? "*" : "")) : ""
     property var currentChose: undefined
     property real defaultSize: 400
     property real zoomRatio: 1.0
@@ -41,9 +44,17 @@ ApplicationWindow {
         id: flickable
         x: 350; y: 0
         width: 1250; height: 900
-        clip: true
         boundsBehavior: Flickable.StopAtBounds
         contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
+        clip: true
+        ScrollBar.vertical: ScrollBar {
+            id: verticalScrollBar
+            active: horizontalScrollBar.active
+        }
+        ScrollBar.horizontal: ScrollBar {
+            id: horizontalScrollBar
+            active: verticalScrollBar.active
+        }
         Rectangle {
             id: photoFrame
             width: image.width + 10; height: image.height + 10
