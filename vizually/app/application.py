@@ -20,12 +20,6 @@ class Application:
 
     def register_qml_types(self):
         QtQml.qmlRegisterType(ImageWriter, 'Image', 1, 0, "ImageCanvas")
+        
 
 
-"""
-    Appilication
-    -> list of open projects
-    -> multiple projects
-    -> single image
-    -> 1 project -> multiple Images
-"""

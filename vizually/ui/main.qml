@@ -21,7 +21,7 @@ ApplicationWindow {
         folder: shortcuts.home
         onAccepted: {
             console.log(fileUrl)
-            loader.load_image(fileUrl)
+            mainImage.load_image(fileUrl)
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         Component.onCompleted: {
@@ -77,11 +77,7 @@ ApplicationWindow {
             }
             ImageWriter {
                 id: mainImage
-                image: loader.image
                 anchors.fill: image
-            }
-            ImageLoader {
-                id: loader
             }
             MouseArea {
                 id: zoomArea
