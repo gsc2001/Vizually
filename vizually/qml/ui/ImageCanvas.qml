@@ -5,8 +5,8 @@ import Images 1.0
 
 Rectangle {
         id: photoFrame
-	    width: image.width + 10; height: image.height + 10
-        scale: defaultSize / Math.max(image.sourceSize.width, image.sourceSize.height)
+	    width: mainImage.width + 10; height: mainImage.height + 10
+        scale: defaultSize / Math.max(mainImage.sourceSize.width, mainImage.sourceSize.height)
 		Behavior on scale { NumberAnimation { duration: 20 } }
 		Behavior on x { NumberAnimation { duration: 20 } }
 		Behavior on y { NumberAnimation { duration: 20 } }
@@ -14,20 +14,13 @@ Rectangle {
 		border.color: "transparent"
 		smooth: true
 		antialiasing: true
-        property var lload: mainImage.load_image
+        property var mainImage: mainImage
 		property MouseArea mouse: zoomArea
-		Image  {
-            id: image
-            source: fileDialog.fileUrl
-            visible: false
-            cache: true
-            anchors.centerIn: photoFrame
-            fillMode: Image.PreserveAspectFit
-            antialiasing: true
-		}
         ImageViewer {
-            id: mainImage
-			anchors.fill: image
+           	id: mainImage
+			width: _width
+			height: _height
+			anchors.centerIn:parent
 		}
 		MouseArea {
             id: zoomArea

@@ -16,7 +16,7 @@ def create_application(args):
 
 class Application:
     def __init__(self, args, qml: str):
-        """ 
+        """
         Args:
             args: system level arguments
             qml : main qml file
@@ -25,18 +25,16 @@ class Application:
         self._engine = QtQml.QQmlApplicationEngine()
         self._settings = ApplicationSettings()
         self._engine.rootContext().setContextProperty("qtVersion", QtCore.QT_VERSION_STR)
-        
+
         self.register_qml_types()
 
-        self._engine.load(QtCore.QUrl(qml))        
+        self._engine.load(QtCore.QUrl(qml))
         assert(len(self._engine.rootObjects()) > 0)
-
 
     def register_qml_types(self):
         QtQml.qmlRegisterType(ImageViewer, 'Images', 1, 0, "ImageViewer")
-        
+
     def run(self):
         win = self._engine.rootObjects()[0]
         win.show()
         self._app.exec_()
-

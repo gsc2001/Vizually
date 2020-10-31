@@ -26,7 +26,7 @@ ApplicationWindow {
         folder: shortcuts.home
         onAccepted: {
             console.log(fileUrl)
-            image.lload(fileUrl)
+            image.mainImage.load_image(fileUrl)
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         Component.onCompleted: {
@@ -43,6 +43,16 @@ ApplicationWindow {
                 fileDialog.open();
             }
         }
+    }
+    Button {
+        x: 150; y: 450
+        text: 'gray'
+        onClicked: image.mainImage.apply('gray')
+    }
+    Label {
+        id: mousePosition
+        x: 150; y: 550
+        text: "%1".arg(image.zoomArea.mouseX.toString())
     }
 
     Flickable {

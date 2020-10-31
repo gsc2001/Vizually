@@ -1,3 +1,5 @@
+from typing import Callable
+
 import cv2
 import numpy as np
 
@@ -10,5 +12,8 @@ class Image:
             self.img = img
 
     def load(self, path):
-        self.path = path[7:]
+        self.path = path
         self.img = cv2.imread(self.path)
+
+    def apply(self, func: Callable):
+        self.img = func(self.img)
