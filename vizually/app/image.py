@@ -3,7 +3,7 @@ import numpy as np
 
 from ..core.models.image import Image
 
-class ImageWriter(QtQuick.QQuickPaintedItem):
+class ImageViewer(QtQuick.QQuickPaintedItem):
     imageChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):

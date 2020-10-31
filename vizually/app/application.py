@@ -2,7 +2,7 @@ from PyQt5 import QtGui, QtQml, QtCore
 
 from .application_settings import ApplicationSettings
 
-from .image import ImageWriter
+from .image import ImageViewer
 
 
 def create_application(args):
@@ -11,7 +11,6 @@ def create_application(args):
     new_app.setApplicationName("Vizually")
     new_app.setApplicationDisplayName("Vizually: Image Processing Application")
     new_app.setApplicationVersion("0.0.1")
-    new_app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     return new_app
 
 
@@ -34,7 +33,7 @@ class Application:
 
 
     def register_qml_types(self):
-        QtQml.qmlRegisterType(ImageWriter, 'Images', 1, 0, "ImageWriter")
+        QtQml.qmlRegisterType(ImageViewer, 'Images', 1, 0, "ImageViewer")
         
     def run(self):
         win = self._engine.rootObjects()[0]
