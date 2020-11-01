@@ -26,7 +26,7 @@ ApplicationWindow {
         folder: shortcuts.home
         onAccepted: {
             console.log(fileUrl)
-            console.log(flickable.image.targetimage)
+            image.lload(fileUrl)
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         Component.onCompleted: {
@@ -52,12 +52,9 @@ ApplicationWindow {
         boundsBehavior: Flickable.StopAtBounds
         contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
         clip: true
-        property alias targetimage: image.item.
-        Component {
-            id: image
-            ImageCanvas { }
+        Ui.ImageCanvas {
+           id: image
         }
-
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
             active: horizontalScrollBar.active

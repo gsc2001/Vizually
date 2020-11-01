@@ -14,6 +14,8 @@ Rectangle {
 		border.color: "transparent"
 		smooth: true
 		antialiasing: true
+        property var lload: mainImage.load_image
+		property MouseArea mouse: zoomArea
 		Image  {
             id: image
             source: fileDialog.fileUrl
@@ -36,7 +38,6 @@ Rectangle {
 			anchors.bottomMargin: 0
 			anchors.leftMargin: 0
 			anchors.topMargin: 0
-			onPressed: parent.setToBeSelected();
             onWheel: {
 				if (wheel.modifiers & Qt.ControlModifier) {
 					photoFrame.scale += photoFrame.scale * wheel.angleDelta.y / 120 / 10;
