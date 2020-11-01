@@ -8,6 +8,9 @@ from .utils.functions import functions
 class ImageViewer(QtQuick.QQuickPaintedItem):
     imageChanged = QtCore.pyqtSignal()
 
+    widthChanged = QtCore.pyqtSignal()
+    heightChanged = QtCore.pyqtSignal()
+
     def __init__(self, parent=None):
         QtQuick.QQuickPaintedItem.__init__(self, parent)
         self.m_image = QtGui.QImage()  # what will be shown
@@ -36,7 +39,21 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
             return
         self.m_image = image
         self.imageChanged.emit()
+        self.widthChanged.emit()
+        self.heightChanged.emit()
         self.update()
+
+    def _width(self):
+        if self._image.img is None:
+            return 0
+        print('hi')
+        return self._image.img.shape[1]
+
+    def _height(self):
+        if self._image.img is None:
+            return 0
+        print('hi')
+        return self._image.img.shape[0]
 
     @staticmethod
     def to_qimage(image: Image) -> QtGui.QImage:
@@ -47,3 +64,6 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
 
     image = QtCore.pyqtProperty(QtGui.QImage, fget=image, fset=set_image,
                                 notify=imageChanged)
+
+    _width = QtCore.pyqtProperty(int, fget=_width, notify=widthChanged)
+    _height = QtCore.pyqtProperty(int, fget=_height, notify=heightChanged)
