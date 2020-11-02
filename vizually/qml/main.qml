@@ -72,18 +72,14 @@ ApplicationWindow {
         color: "#333"
 
         Rectangle {
-            x: 25
-            y: 25
-            width: 300
-            height: 100
+            x: 25; y: 25
+            width: 300; height: 100
             color: "#eee"
             radius: 10
             Text {
                 id: tb
-                x : 0
-                y : 0
-                width: 100
-                height: 100
+                x : 0; y : 0
+                width: 100; height: 100
                 text: qsTr("Hello World!")
             }
         }
