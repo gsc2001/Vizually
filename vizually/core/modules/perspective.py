@@ -1,6 +1,8 @@
 import numpy as np
+
 import cv2
-from models.image import Image
+
+from ..models.image import Image
 
 def perspectiveHandler(image: Image, params : dict)-> Image:
     """

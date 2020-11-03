@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.2, 2020-10-23T22:38:59. -->
+<!-- Written by QtCreator 4.13.2, 2020-11-02T01:40:32. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{b2750d63-e430-4b7f-94de-0920a400f953}</value>
+  <value type="QByteArray">{3bae61d6-e065-4dff-914f-d2ade9b3c248}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -85,6 +85,7 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
+<<<<<<< HEAD
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.15.1 GCC 64bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.15.1 GCC 64bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt5.5151.gcc_64_kit</value>
@@ -167,12 +168,12 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">app</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/vagrant/dev/vizually/vizually/app.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/vagrant/dev/vizually/vizually/app.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/vagrant/dev/vizually/main.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/vagrant/dev/vizually/main.py</value>
     <value type="bool" key="PythonEditor.RunConfiguation.Buffered">false</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{0aa5e1ee-88f3-4f4f-a8eb-ae938b0ca7af}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/vagrant/dev/vizually/vizually/app.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/vagrant/dev/vizually/main.py</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
@@ -182,7 +183,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/vagrant/dev/vizually/vizually</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/vagrant/dev/vizually</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
@@ -191,9 +192,11 @@
   <variable>ProjectExplorer.Project.Target.1</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
+=======
+>>>>>>> [Add] xy on image
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{df1a4eeb-4b4d-4942-9f83-72027d61280b}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{e153ac68-565e-493e-89d7-c9e21fcf2bb6}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">-1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -273,9 +276,12 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/gurkirat/self_projects/Vizually/main.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/gurkirat/self_projects/Vizually/main.py</value>
+    <value type="bool" key="PythonEditor.RunConfiguation.Buffered">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{66ba37bc-3351-493e-bbe8-c26fd125c4f0}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/gurkirat/self_projects/Vizually/main.py</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
@@ -285,14 +291,14 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default"></value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/gurkirat/self_projects/Vizually</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
  </data>
  <data>
   <variable>ProjectExplorer.Project.TargetCount</variable>
-  <value type="int">2</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
