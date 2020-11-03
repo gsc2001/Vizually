@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtQuick
+from PyQt5 import QtCore, QtGui, QtQuick, QtQml
 import numpy as np
 
 from ..core.models.image import Image
@@ -15,6 +15,8 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         QtQuick.QQuickPaintedItem.__init__(self, parent)
         self.m_image = QtGui.QImage()  # what will be shown
         self._image = Image()  # what is actually used
+        # self._stack = []
+        # self.
 
     def paint(self, painter):
         if self.m_image.isNull():
@@ -26,9 +28,12 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         self._image.load(path[7:])
         self.set_image(self.to_qimage(self._image))
 
-    @QtCore.pyqtSlot(str)
-    def apply(self, func_name: str):
-        self._image.apply(functions[func_name])
+    @QtCore.pyqtSlot(QtQml.QJSValue)
+    def apply(self, config: QtQml.QJSValue):
+        params = config.toVariant()
+        func_name = params['func_name']
+        params.pop('func_name')
+        self._image.apply(lambda img: functions[func_name](img, params))
         self.set_image(self.to_qimage(self._image))
 
     def image(self):

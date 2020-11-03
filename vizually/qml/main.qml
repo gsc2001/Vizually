@@ -45,7 +45,7 @@ ApplicationWindow {
     Button {
         x: 150; y: 450
         text: 'gray'
-        onClicked: image.mainImage.apply('gray')
+        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
     }
     Label {
         id: mousePosition
@@ -73,25 +73,25 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
-        id: sidebar
-        x: 0; y: 0
-        width: 350; height: 900
-        color: "#333"
+    // Rectangle {
+    //     id: sidebar
+    //     x: 0; y: 0
+    //     width: 350; height: 900
+    //     color: "#333"
 
-        Rectangle {
-            x: 25; y: 25
-            width: 300; height: 100
-            color: "#eee"
-            radius: 10
-            Text {
-                id: tb
-                x : 0; y : 0
-                width: 100; height: 100
-                text: qsTr("Hello World!")
-            }
-        }
-    }
+    //     Rectangle {
+    //         x: 25; y: 25
+    //         width: 300; height: 100
+    //         color: "#eee"
+    //         radius: 10
+    //         Text {
+    //             id: tb
+    //             x : 0; y : 0
+    //             width: 100; height: 100
+    //             text: qsTr("Hello World!")
+    //         }
+    //     }
+    // }
 
 }
 
