@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-from models.image import Image
-from modules.sharpening import sharpenHandler
+from ..models.image import Image
+from ..modules.sharpening import sharpenHandler
 
 def cornerDetectionHandler(image: Image, params: dict) -> Image:
     """Corner Detection Handler
