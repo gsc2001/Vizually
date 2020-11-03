@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from skimage.filters import meijering, sato, frangi, hessian
 
-from models.image import Image
+from ..models.image import Image
 
 
 def ridgeDetectorHandler(image: Image, params: dict) -> Image:

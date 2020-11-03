@@ -4,7 +4,7 @@ import numpy as np
 from ..models.image import Image
 
 
-def OstuThresholdingHandler(image: Image, params: dict) -> Image:
+def OtsuThresholdingHandler(image: Image, params: dict) -> Image:
     """Adaptive Thresholding Handler
 
     Args:
