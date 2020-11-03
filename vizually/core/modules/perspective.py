@@ -16,7 +16,7 @@ def perspectiveHandler(image: Image, params : dict)-> Image:
 
     """
 
-    new_img = transformImage(image.img, params['rotation_angle'])
+    new_img = transformImage(image.img, params['point_list'])
     new_image = Image(path=image.path, img=new_img)
     return new_image
 
