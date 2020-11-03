@@ -73,25 +73,303 @@ ApplicationWindow {
         }
     }
 
-    // Rectangle {
-    //     id: sidebar
-    //     x: 0; y: 0
-    //     width: 350; height: 900
-    //     color: "#333"
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("&File")
+            MenuItem {
+                text: "Open"
+                onTriggered: fileDialog.open()
+            }
+            // MenuItem {
+            //     text: "Save"
+            // }
+            MenuItem {
+                text: "Exit"
+                onTriggered: Qt.quit()
+            }
+        }
+        Menu {
+            title: qsTr("&Help")
+            MenuItem {
+                text: "About"
+            }
+        }
+    }
 
-    //     Rectangle {
-    //         x: 25; y: 25
-    //         width: 300; height: 100
-    //         color: "#eee"
-    //         radius: 10
-    //         Text {
-    //             id: tb
-    //             x : 0; y : 0
-    //             width: 100; height: 100
-    //             text: qsTr("Hello World!")
-    //         }
-    //     }
-    // }
+    Button {
+        id: commit
+        palette {
+            button: "blue"
+            buttonText: "white"
+        }
+        anchors.right : parent.right
+        anchors.bottom : parent.bottom
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 20
+        text: 'Commit Changes'
+        onClicked: console.log("commit")
+    }
+    Button {
+        id: revert
+        palette {
+            button: "red"
+            buttonText: "white"
+        }
+        anchors.right : parent.right
+        anchors.bottom : parent.bottom
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 80
+        text: 'Revert Changes'
+        onClicked: console.log("revert")
+    }
+
+    Rectangle {
+        id: sidebar
+        x: 0; y: 0
+        width: 345; height: parent.height
+        color: "#333"
+        clip: true
+
+        Behavior on width { NumberAnimation { duration: 250 } }
+
+       // collapse 
+        Rectangle {
+            color: 'steelblue'
+            width: 20; height: parent.height
+            anchors.right: parent.right
+
+            Text {
+                id: hsymbol
+                text: '<'
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: 5
+                font.bold: true
+                font.pointSize: 20
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: () => {
+                    sidebar.width = 360 - sidebar.width
+                    hsymbol.text = String.fromCharCode('>'.charCodeAt(0) + '<'.charCodeAt(0) - hsymbol.text.charCodeAt(0))
+                }
+            }
+        }
+
+        Flickable {
+            width: 325; height: parent.height
+            x: 15; y: 15
+            contentHeight: sidebar_col.height + 30
+            clip: true
+            // boundsMovement: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar {}
+
+            Column {
+                id: sidebar_col
+                spacing: 15
+
+                // Rotation
+                Ui.Feature {
+                    id: rotation
+                    name: "Rotation"
+
+                    Column {
+                        x: 25; y: 35
+
+                            Ui.Slider {
+                                from: 0
+                                to: 360
+                                unit: " deg"
+                            }
+                    }
+                }
+
+                // Blur
+                Ui.Feature {
+                    id: blur
+                    name: "Blurring"
+
+                    Column {
+                    x: 25; y: 35
+                        
+                        Ui.Slider {
+                            from: 1
+                            to: 20
+                            unit: "%"
+                        }
+                    }
+                }
+                
+                // Flip
+                Ui.Feature {
+                    id: flip
+                    name: "Flip"
+                    height: 130
+
+                    Column {
+                    x: 25; y: 35
+
+                        Switch {
+                            text: 'Horizontal'
+                        }
+                        Switch {
+                            text: 'Vertical'
+                        }
+                    }
+                }
+
+                // Contrast
+                Ui.Feature {
+                    id: contrast
+                    name: "Contrast"
+                    
+                    Column {
+                        x: 25; y: 35
+
+                        Ui.Slider{
+                            from: 0
+                            to: 3
+                            value: 0
+                            stepSize: 0.1
+                            unit: " lev"
+                        }
+                    }
+                }
+
+                // Bilateral Blue
+                Ui.Feature {
+                    id: bilateralBlur
+                    name: "Bilateral Blue"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+
+                // Edge
+                Ui.Feature {
+                    id: edge
+                    name: "Edge detection"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Ui.Slider{
+                            from: 0
+                            to: 127
+                            value: 0
+                            stepSize: 1
+                            unit: " pow" 
+                        }
+                    }
+                }
+
+                // Thresholding
+                Ui.Feature {
+                    id: thresholding
+                    name: "Thresholding"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+                
+                // Ridge Detection
+                Ui.Feature {
+                    id: ridge
+                    name: "Ridge Detect"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+
+                // Sharpening
+                Ui.Feature {
+                    id: sharpen
+                    name: "Sharpening"
+                    height: 130
+
+                    Column {
+                        x: 25; y: 35
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 1
+                            to: 11
+                            stepSize: 2
+                            unit: " kernel size"
+                        }
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 0
+                            to: 10
+                            stepSize: 0.5
+                            unit: " strength"
+                        }
+                    }
+                }
+                
+
+                // combo box
+                // Rectangle {
+                //     width: 300; height: 100
+                //     color: "#eee"
+                //     radius: 10
+
+                //     Column {
+                //         x: 25; y: 15
+
+                //         Text {
+                //             y: 100
+                //             text: "Select Filter to be applied: "
+                //             font.italic: true
+                //             font.pointSize: 11
+                //         }
+
+                //         ComboBox {
+                //             y: 50
+                //             currentIndex: 0
+                //             model: ListModel {
+                //                 id: cbItems
+                //                 ListElement { text: "None"}
+                //                 ListElement { text: "Sharpening" }
+                //                 ListElement { text: "Blurring" }
+                //                 ListElement { text: "Perspective" }
+                //                 ListElement { text: "Morphing" }
+                //                 ListElement { text: "Perspective" }
+                //             }
+                //             width: 200
+                //             onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
+                //         }
+                //     }
+                // }   
+            }
+        // Rectangle {
+        //     x: 25; y: 25
+        //     width: 300; height: 100
+        //     color: "#eee"
+        //     radius: 10
+        //     Text {
+        //         id: tb
+        //         x : 0; y : 0
+        //         width: 100; height: 100
+        //         text: qsTr("Hello World!")
+        //     }
+        // }
+        }
+    }
 
 }
 
