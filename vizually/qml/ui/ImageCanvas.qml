@@ -6,15 +6,15 @@ import Images 1.0
 Rectangle {
         id: photoFrame
 	    width: mainImage.width + 10; height: mainImage.height + 10
-        scale: defaultSize / Math.max(mainImage.sourceSize.width, mainImage.sourceSize.height)
-		Behavior on scale { NumberAnimation { duration: 20 } }
+        scale: defaultSize / Math.max(image.mainImage.width, image.mainImage.height)
+        Behavior on scale { NumberAnimation { duration: 20 } }
 		Behavior on x { NumberAnimation { duration: 20 } }
 		Behavior on y { NumberAnimation { duration: 20 } }
 		border.width: 10
 		border.color: "transparent"
 		smooth: true
 		antialiasing: true
-        property var mainImage: mainImage
+        property ImageViewer mainImage: mainImage
 		property MouseArea mouse: zoomArea
         ImageViewer {
            	id: mainImage

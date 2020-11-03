@@ -10,9 +10,7 @@ ApplicationWindow {
     id: window
     objectName: "window"
     width: 1200; height: 800
-    title: project && project.loaded ?
-         ((project.url.toString().length > 0 ? project.displayUrl : "Untitled")
-          + (project.unsavedChanges ? "*" : "")) : ""
+    title: qsTr("Vizually")
     visible: true
     
     
@@ -52,7 +50,7 @@ ApplicationWindow {
     Label {
         id: mousePosition
         x: 150; y: 550
-        text: "%1".arg(image.zoomArea.mouseX.toString())
+        text: "%1".arg(image.mouse.mouseX.toString())
     }
 
     Flickable {

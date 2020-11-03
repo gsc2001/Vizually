@@ -46,13 +46,11 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
     def _width(self):
         if self._image.img is None:
             return 0
-        print('hi')
         return self._image.img.shape[1]
 
     def _height(self):
         if self._image.img is None:
             return 0
-        print('hi')
         return self._image.img.shape[0]
 
     @staticmethod
