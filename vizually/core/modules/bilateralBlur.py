@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from models.image import Image
+from ..models.image import Image
 
 
 def bilateralBlurringHandler(image: Image, params: dict) -> Image:
