@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from models.image import Image
+from ..models.image import Image
 
 def cannyEDHandler(image: Image, params: dict) -> Image:
     """Canny Edge Detection Hnadler
@@ -11,6 +11,8 @@ def cannyEDHandler(image: Image, params: dict) -> Image:
         params (dict): params has { strength}
 
         strength is used to calculate low and high thresholds
+        strength is in range [0, 127]
+        step value = 1
 
     Returns:
         np.array:  image  after canny edge detection 
