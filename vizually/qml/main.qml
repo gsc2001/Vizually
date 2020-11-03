@@ -73,11 +73,12 @@ ApplicationWindow {
         }
         
     }
-    Rectangle {
-        id: sidebar
-        x: 0; y: 0
-        width: 350; height: 800
-        color: "#333"
+
+    // Rectangle {
+    //     id: sidebar
+    //     x: 0; y: 0
+    //     width: 350; height: 900
+    //     color: "#333"
 
     //     Rectangle {
     //         x: 25; y: 25
