@@ -9,7 +9,8 @@ def histogramManipulationHandler(image: Image, params: dict) -> Image:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { contrast_limit: float ((0, 3], step size of 0.1) }
+        params (dict): params has { contrast_limit: float 
+                                    ((0, 3], step size of 0.1) }
 
     Returns:
         np.array: manipulated image
