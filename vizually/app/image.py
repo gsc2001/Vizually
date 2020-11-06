@@ -60,8 +60,8 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
 
     @staticmethod
     def to_qimage(image: Image) -> QtGui.QImage:
-        new_image = QtGui.QImage(image.img, image.img.shape[1],
-                                 image.img.shape[0], image.img.shape[1] * 3,
+        new_image = QtGui.QImage(image.img.data, image.img.shape[1],
+                                 image.img.shape[0], image.img.strides[0],
                                  QtGui.QImage.Format_BGR888)
         return new_image
 

@@ -14,6 +14,7 @@ class Image:
     def load(self, path):
         self.path = path
         self.img = cv2.imread(self.path)
+        print(self.img.shape)
 
     def apply(self, func: Callable):
         self.img = func(self.img)

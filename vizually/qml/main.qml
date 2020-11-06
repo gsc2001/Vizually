@@ -13,7 +13,6 @@ ApplicationWindow {
     title: qsTr("Vizually")
     visible: true
     
-    
     property var currentChose: undefined
     property real defaultSize: 400
     property real zoomRatio: 1.0
@@ -52,16 +51,17 @@ ApplicationWindow {
         x: 150; y: 550
         text: "%1".arg(image.mouse.mouseX.toString())
     }
-
     Flickable {
         id: flickable
-        x: 350; y: 0
-        width: 1250; height: 900
+        anchors.left: sidebar.right
+        anchors.right: parent.right
+        anchors.top : parent.top
+        anchors.bottom: parent.bottom
         boundsBehavior: Flickable.StopAtBounds
         contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
         clip: true
         Ui.ImageCanvas {
-           id: image
+            id: image
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
@@ -71,32 +71,33 @@ ApplicationWindow {
             id: horizontalScrollBar
             active: verticalScrollBar.active
         }
+        
     }
 
-    // Rectangle {
-    //     id: sidebar
-    //     x: 0; y: 0
-    //     width: 350; height: 900
-    //     color: "#333"
+    Rectangle {
+        id: sidebar
+        x: 0; y: 0
+        width: 350; height: 900
+        color: "#333"
 
-    //     Rectangle {
-    //         x: 25; y: 25
-    //         width: 300; height: 100
-    //         color: "#eee"
-    //         radius: 10
-    //         Text {
-    //             id: tb
-    //             x : 0; y : 0
-    //             width: 100; height: 100
-    //             text: qsTr("Hello World!")
-    //         }
-    //     }
-    // }
+        Rectangle {
+            x: 25; y: 25
+            width: 300; height: 100
+            color: "#eee"
+            radius: 10
+            Text {
+                id: tb
+                x : 0; y : 0
+                width: 100; height: 100
+                text: qsTr("Hello World!")
+            }
+        }
+    }
 
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.6600000262260437}
+    D{i:0;formeditorZoom:0.5}
 }
 ##^##*/
