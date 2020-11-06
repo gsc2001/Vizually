@@ -3,7 +3,8 @@ import numpy as np
 
 from ..models.image import Image
 
-def cannyEDHandler(image: Image, params: dict) -> Image:
+
+def cannyEDHandler(image: np.array, params: dict) -> np.array:
     """Canny Edge Detection Hnadler
 
     Args:
@@ -15,14 +16,14 @@ def cannyEDHandler(image: Image, params: dict) -> Image:
         step value = 1
 
     Returns:
-        np.array:  image  after canny edge detection 
+        np.array:  image  after canny edge detection
     """
-    new_img = cannyED(image.img, params['strength'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+
+    return cannyED(image, params['strength'])
+
 
 def cannyED(image: np.array, strength: float) -> np.array:
-    """Canny Edge detection technique 
+    """Canny Edge detection technique
 
     Args:
         image (np.array): image to change
@@ -31,8 +32,6 @@ def cannyED(image: np.array, strength: float) -> np.array:
     Returns:
         np.array: image after canny edge detection
     """
-    blurred_img =  cv2.blur(image, (5,5))
-    final_img = cv2.Canny(blurred_img, strength*.5, strength*2)
-    return cv2.cvtColor(final_img,cv2.COLOR_GRAY2BGR)
-    
-
+    blurred_img = cv2.blur(image, (5, 5))
+    final_img = cv2.Canny(blurred_img, strength * .5, strength * 2)
+    return cv2.cvtColor(final_img, cv2.COLOR_GRAY2BGR)

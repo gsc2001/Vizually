@@ -44,7 +44,7 @@ ApplicationWindow {
     Button {
         x: 150; y: 450
         text: 'gray'
-        onClicked: image.mainImage.apply('gray')
+        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
     }
     Label {
         id: mousePosition
