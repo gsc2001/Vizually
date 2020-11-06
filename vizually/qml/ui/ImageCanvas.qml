@@ -8,7 +8,7 @@ import "."
 Rectangle {
         id: photoFrame
         width: mainImage.width + 10; height: mainImage.height + 10
-        scale: defaultSize / Math.max(image.mainImage.width, image.mainImage.height)
+        scale: defaultSize / Math.max(mainImage.width, mainImage.height)
         Behavior on scale { NumberAnimation { duration: 20 } }
 		Behavior on x { NumberAnimation { duration: 20 } }
 		Behavior on y { NumberAnimation { duration: 20 } }
@@ -26,19 +26,12 @@ Rectangle {
 			height: _height
 			anchors.centerIn:parent
         }
-		MouseArea {
+        MouseArea {
             id: zoomArea
-            hoverEnabled: true
             anchors.fill: parent
-            drag.target: parent
-            onPressed: {
-				if (reset)
-                    image.anchors.centerIn = undefined
-					reset = false
-			}
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
-                    image.scale += image.scale * wheel.angleDelta.y / 120 / 10;
+                    photoFrame.scale += photoFrame.scale * wheel.angleDelta.y / 120 / 10;
                 }
             }
         }

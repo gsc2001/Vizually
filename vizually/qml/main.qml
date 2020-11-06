@@ -41,16 +41,7 @@ ApplicationWindow {
             }
         }
     }
-    Button {
-        x: 150; y: 450
-        text: 'gray'
-        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
-    }
-    Label {
-        id: mousePosition
-        x: 150; y: 550
-        text: "%1".arg(image.mouse.mouseX.toString())
-    }
+
     Flickable {
         id: flickable
         anchors.left: sidebar.right
@@ -58,7 +49,8 @@ ApplicationWindow {
         anchors.top : parent.top
         anchors.bottom: parent.bottom
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
+        contentWidth: Math.max(image.width * image.scale + 300, width);
+        contentHeight: Math.max(image.height * image.scale + 100, height);
         clip: true
         Ui.ImageCanvas {
             id: image
@@ -91,6 +83,17 @@ ApplicationWindow {
                 text: qsTr("Hello World!")
             }
         }
+        Button {
+            x: 150; y: 450
+            text: 'gray'
+            onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
+        }
+        Label {
+            id: mousePosition
+            x: 150; y: 550
+            text: "%1".arg(image.mouse.mouseX.toString())
+        }
+
     }
 
 }
