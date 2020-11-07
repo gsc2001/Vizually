@@ -38,14 +38,17 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         self._image.img = functions[func_name](self.img_src.current, params)
         self.set_image(self._image)
 
+    @QtCore.pyqtSlot()
     def commit(self):
         self.img_src.commit(self._image.img)
 
+    @QtCore.pyqtSlot()
     def undo(self):
         if self.img_src.undo():
             self._image.img = self.img_src.current
             self.set_image(self._image)
 
+    @QtCore.pyqtSlot()
     def redo(self):
         if self.img_src.redo():
             self._image.img = self.img_src.current

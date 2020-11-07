@@ -109,7 +109,7 @@ ApplicationWindow {
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
         text: 'Commit Changes'
-        onClicked: console.log("commit")
+        onClicked: image.mainImage.commit()
     }
     Button {
         id: revert
