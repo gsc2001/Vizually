@@ -43,7 +43,7 @@ ApplicationWindow {
         }
     }
     Button {
-        x: 150; y: 450
+        x: 150; y: 500
         text: 'gray'
         onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
     }
@@ -55,13 +55,16 @@ ApplicationWindow {
 
     Flickable {
         id: flickable
-        x: 350; y: 0
-        width: 1250; height: 900
+        anchors.left: sidebar.right
+        anchors.right: parent.right
+        anchors.top : parent.top
+        anchors.bottom: parent.bottom
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
+        contentWidth: Math.max(image.width * image.scale + 300, width);
+        contentHeight: Math.max(image.height * image.scale + 100, height);
         clip: true
         Ui.ImageCanvas {
-           id: image
+            id: image
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
@@ -168,6 +171,8 @@ ApplicationWindow {
                 id: sidebar_col
                 spacing: 15
 
+                property var opened: 0
+
                 // Rotation
                 Ui.Feature {
                     id: rotation
@@ -188,6 +193,7 @@ ApplicationWindow {
                 Ui.Feature {
                     id: blur
                     name: "Blurring"
+                    args: ({func_name: "avgBlur"})
 
                     Column {
                     x: 25; y: 35
@@ -196,6 +202,8 @@ ApplicationWindow {
                             from: 1
                             to: 20
                             unit: "%"
+                            key: "blurValue"
+                            // fun: function() {image.mainImage.apply({func_name: "avgBlur", blurValue: value})}
                         }
                     }
                 }
@@ -301,6 +309,7 @@ ApplicationWindow {
                     id: sharpen
                     name: "Sharpening"
                     height: 130
+                    args: ({func_name: "sharpen", strength: 0.0, kernel_size: 0})
 
                     Column {
                         x: 25; y: 35
@@ -310,6 +319,8 @@ ApplicationWindow {
                             to: 11
                             stepSize: 2
                             unit: " kernel size"
+
+                            key: "kernel_size"
                         }
                         Ui.Slider{
                             implicitWidth: 150
@@ -317,6 +328,8 @@ ApplicationWindow {
                             to: 10
                             stepSize: 0.5
                             unit: " strength"
+
+                            key: "strength"
                         }
                     }
                 }
@@ -375,6 +388,6 @@ ApplicationWindow {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.6600000262260437}
+    D{i:0;formeditorZoom:0.5}
 }
 ##^##*/

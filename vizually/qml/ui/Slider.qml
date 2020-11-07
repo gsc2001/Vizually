@@ -9,13 +9,21 @@ Slider {
     value: 0
     stepSize: 1
 	property string unit: ""
-	// alias font: text.font
+    property string key
+    onVisibleChanged: {
+        value = 0
+        text.text = '0'+ unit
+        parent.parent.update(key, slider.value)
+    }
+
     function change() {
         if (Number.isInteger(stepSize)) {
+            parent.parent.update(key, slider.value)
             text.text = slider.value + unit
         }
         else
         {
+            parent.parent.update(key, slider.value)
             text.text = slider.value.toFixed(1) + unit
         }
     }
