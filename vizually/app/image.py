@@ -3,6 +3,7 @@ import numpy as np
 
 from ..core.models.image import Image
 from .utils.functions import functions
+from collections import deque
 
 
 class ImageViewer(QtQuick.QQuickPaintedItem):
@@ -13,36 +14,51 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
 
     def __init__(self, parent=None):
         QtQuick.QQuickPaintedItem.__init__(self, parent)
-        self.m_image = QtGui.QImage()  # what will be shown
+        self.preview_img = QtGui.QImage()  # Preview Image
         self._image = Image()  # what is actually used
-        # self._stack = []
-        # self.
+        self.img_src = ImageSource()
+        self.dirty = False
 
     def paint(self, painter):
-        if self.m_image.isNull():
+        if self.preview_img.isNull():
             return
-        painter.drawImage(QtCore.QPoint(), self.m_image)
+        painter.drawImage(QtCore.QPoint(), self.preview_img)
 
     @QtCore.pyqtSlot(str)
     def load_image(self, path: str):
         self._image.load(path[7:])
-        self.set_image(self.to_qimage(self._image))
+        self.img_src.set_src(self._image.img)
+        self.set_image(self._image)
 
     @QtCore.pyqtSlot(QtQml.QJSValue)
     def apply(self, config: QtQml.QJSValue):
         params = config.toVariant()
         func_name = params['func_name']
         params.pop('func_name')
-        self._image.apply(lambda img: functions[func_name](img, params))
-        self.set_image(self.to_qimage(self._image))
+        self._image.img = functions[functions](self.img_src.current, params)
+        self.set_image(self._image)
+
+    def commit(self):
+        self.img_src.commit(self._image.img)
+
+    def undo(self):
+        if self.img_src.undo():
+            self._image.img = self.img_src.current
+            self.set_image(self._image)
+
+    def redo(self):
+        if self.img_src.redo():
+            self._image.img = self.img_src.current
+            self.set_image(self._image)
 
     def image(self):
-        return self.m_image
+        return self.preview_img
 
-    def set_image(self, image: QtGui.QImage):
-        if self.m_image == image:
+    def set_image(self, image: Image):
+        image = self.to_qimage(image)
+        if self.preview_img == image:
             return
-        self.m_image = image
+        self.preview_img = image
         self.imageChanged.emit()
         self.widthChanged.emit()
         self.heightChanged.emit()
@@ -70,3 +86,34 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
 
     _width = QtCore.pyqtProperty(int, fget=_width, notify=widthChanged)
     _height = QtCore.pyqtProperty(int, fget=_height, notify=heightChanged)
+
+
+class ImageSource:
+    def __init__(self):
+        self.undo_stack = deque(maxlen=10)
+        self.redo_stack = []
+
+    def set_src(self, src: np.array):
+        self.current = src.copy()
+
+    def commit(self, src: np.array):
+        """Replace src and add to stack"""
+        self.redo_stack.clear()
+        self.undo_stack.append(self.current)
+        self.current = src.copy()
+
+    def undo(self):
+        """Undo"""
+        if len(self.undo_stack) == 0:
+            return False
+        self.redo_stack.append(self.current)
+        self.current = self.undo_stack.pop()
+        return True
+
+    def redo(self):
+        """Redo"""
+        if len(self.redo_stack) == 0:
+            return False
+        self.undo_stack.append(self.current)
+        self.current = self.redo_stack.pop()
+        return True
