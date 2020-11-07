@@ -15,7 +15,7 @@ def averageBlurringHandler(image: np.array, params: dict) -> np.array:
     new_img = averageBlur(image, params['blurValue'])
     return new_img
 
-def averageBlur(image: np.array, blurValue: int) -> np.array:
+def averageBlur(image: np.array, blurValue: float) -> np.array:
     """Blurs the image
 
     Args:
@@ -24,5 +24,6 @@ def averageBlur(image: np.array, blurValue: int) -> np.array:
     Returns:
         np.array: blurred image
     """
+    blurValue = int(blurValue)
     retImg = cv2.blur(image, (blurValue, blurValue))
     return retImg
