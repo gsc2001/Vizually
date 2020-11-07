@@ -1,3 +1,6 @@
 {
-    "files": ["vizually/ui/main.qml","main.py","vizually/ui/qml/menubar.qml"]
+    "files": ["vizually/qml/main.qml",
+              "vizually/main.py",
+              "vizually/qml/ui/ImageCanvas.qml"
+              ]
 }

@@ -13,7 +13,6 @@ ApplicationWindow {
     title: qsTr("Vizually")
     visible: true
     
-    
     property var currentChose: undefined
     property real defaultSize: 400
     property real zoomRatio: 1.0
@@ -42,26 +41,19 @@ ApplicationWindow {
             }
         }
     }
-    Button {
-        x: 150; y: 450
-        text: 'gray'
-        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
-    }
-    Label {
-        id: mousePosition
-        x: 150; y: 550
-        text: "%1".arg(image.mouse.mouseX.toString())
-    }
 
     Flickable {
         id: flickable
-        x: 350; y: 0
-        width: 1250; height: 900
+        anchors.left: sidebar.right
+        anchors.right: parent.right
+        anchors.top : parent.top
+        anchors.bottom: parent.bottom
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
+        contentWidth: Math.max(image.width * image.scale + 300, width);
+        contentHeight: Math.max(image.height * image.scale + 100, height);
         clip: true
         Ui.ImageCanvas {
-           id: image
+            id: image
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
@@ -71,8 +63,8 @@ ApplicationWindow {
             id: horizontalScrollBar
             active: verticalScrollBar.active
         }
+        
     }
-
     menuBar: MenuBar {
         Menu {
             title: qsTr("&File")
