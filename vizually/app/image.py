@@ -35,7 +35,7 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         params = config.toVariant()
         func_name = params['func_name']
         params.pop('func_name')
-        self._image.img = functions[functions](self.img_src.current, params)
+        self._image.img = functions[func_name](self.img_src.current, params)
         self.set_image(self._image)
 
     def commit(self):
