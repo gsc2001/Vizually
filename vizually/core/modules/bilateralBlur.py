@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def bilateralBlurringHandler(image: Image, params: dict) -> Image:
+def bilateralBlurringHandler(image: np.array, params: dict) -> np.array:
     """Adaptive Thresholding Handler
 
     Args:
@@ -15,9 +13,8 @@ def bilateralBlurringHandler(image: Image, params: dict) -> Image:
         np.array: Blurred image (with edge preservation)
     """
     new_img = bilateralBlur(
-        image.img)
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+        image)
+    return new_img
 
 
 def bilateralBlur(image: np.array) -> np.array:

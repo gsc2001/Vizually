@@ -2,9 +2,8 @@ import numpy as np
 
 import cv2
 
-from ..models.image import Image
 
-def perspectiveHandler(image: Image, params : dict)-> Image:
+def perspectiveHandler(image: np.array, params: dict) -> np.array:
     """
     Args:
         image (np.array): image to change
@@ -18,12 +17,11 @@ def perspectiveHandler(image: Image, params : dict)-> Image:
 
     """
 
-    new_img = transformImage(image.img, params['point_list'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = transformImage(image, params['point_list'])
+    return new_img
 
 
-def transformImage(image:Image, points: list)->Image:
+def transformImage(image: np.array, points: list) -> np.array:
     """
     Args:
         image (np.array): image to change

@@ -1,10 +1,9 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 from ..modules.sharpening import sharpenHandler
 
-def cornerDetectionHandler(image: Image, params: dict) -> Image:
+def cornerDetectionHandler(image: np.array, params: dict) -> np.array:
     """Corner Detection Handler
 
     Args:
@@ -15,11 +14,10 @@ def cornerDetectionHandler(image: Image, params: dict) -> Image:
         np.array: Image with corners
     """
     new_img = cornerDetect(image, params['kernel_size'], params['sharpen_strength'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    return new_img
 
 
-def cornerDetect(image: Image, kernel_size: int, strength: float) -> np.array:
+def cornerDetect(image: np.array, kernel_size: int, strength: float) -> np.array:
     """Detect corners in the image
 
     Args:
@@ -29,12 +27,10 @@ def cornerDetect(image: Image, kernel_size: int, strength: float) -> np.array:
         np.array: corners in image
     """
     #Make copy to display corners
-    n_image = image.img
-    copy = n_image.copy()
+    copy = image.copy()
     
     # Sharpen The Image
     sharpened_img = sharpenHandler(image, {'kernel_size': kernel_size, 'strength': strength})
-    sharpened_img = sharpened_img.img
     
     # Find Corners
     gray = cv2.cvtColor(sharpened_img, cv2.COLOR_BGR2GRAY)

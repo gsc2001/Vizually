@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-def sobelEDHandler(image: Image, params: dict) -> Image:
+def sobelEDHandler(image: np.array, params: dict) -> np.array:
     """Sobel Edge Detection Handler
 
     Args:
@@ -13,9 +12,8 @@ def sobelEDHandler(image: Image, params: dict) -> Image:
     Returns:
         np.array:  image  after sobel edge detection 
     """
-    new_img = sobelED(image.img)
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = sobelED(image)
+    return new_img
 
 def sobelED(image: np.array) -> np.array:
     """Sobel Edge detection technique 

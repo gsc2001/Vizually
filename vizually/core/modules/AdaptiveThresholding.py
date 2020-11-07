@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def adaptiveThresholdingHandler(image: Image, params: dict) -> Image:
+def adaptiveThresholdingHandler(image: np.array, params: dict) -> np.array:
     """Adaptive Thresholding Handler
 
     Args:
@@ -15,9 +13,8 @@ def adaptiveThresholdingHandler(image: Image, params: dict) -> Image:
         np.array: thresholded image
     """
     new_img = medianAdaptiveImageBinarizer(
-        image.img, params['threshold_value'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+        image, params['threshold_value'])
+    return new_img
 
 
 def medianAdaptiveImageBinarizer(image: np.array, thresh_value: float) -> np.array:
