@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def sharpenHandler(image: Image, params: dict) -> Image:
+def sharpenHandler(image: np.array, params: dict) -> np.array:
     """Sharpening Image handler
 
     Args:
@@ -15,9 +13,8 @@ def sharpenHandler(image: Image, params: dict) -> Image:
         np.array: Sharpened image
     """
     
-    new_img = sharpenImage(image.img, params['kernel_size'], params['strength'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = sharpenImage(image, params['kernel_size'], params['strength'])
+    return new_img
 
 
 def sharpenImage(image: np.array, kernel_size: int, strength: float) -> np.array:

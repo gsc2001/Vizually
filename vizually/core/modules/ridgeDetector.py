@@ -2,10 +2,8 @@ import cv2
 import numpy as np
 from skimage.filters import meijering, sato, frangi, hessian
 
-from ..models.image import Image
 
-
-def ridgeDetectorHandler(image: Image, params: dict) -> Image:
+def ridgeDetectorHandler(image: np.array, params: dict) -> np.array:
     """Ridge Detector Handler
 
     Args:
@@ -16,9 +14,8 @@ def ridgeDetectorHandler(image: Image, params: dict) -> Image:
         np.array: Ridges present in the image
     """
     new_img = hessianRidgeDetector(
-        image.img)
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+        image)
+    return new_img
 
 
 def hessianRidgeDetector(image: np.array) -> np.array:

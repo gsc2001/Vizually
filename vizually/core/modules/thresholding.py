@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def threshHandler(image: Image, params: dict) -> Image:
+def threshHandler(image: np.array, params: dict) -> np.array:
     """Thresholding handler
 
     Args:
@@ -14,11 +12,10 @@ def threshHandler(image: Image, params: dict) -> Image:
     Returns:
         np.array: thresholded image
     """
-    new_img = binarizeImage(image.img, params['threshold_value'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = binarizeImage(image, params['threshold_value'])
+    return new_img    
 
-
+    
 def binarizeImage(image: np.array, thresh_value: float) -> np.array:
     """Binarize the image
 
