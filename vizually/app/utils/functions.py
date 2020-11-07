@@ -4,9 +4,7 @@ All function mapping to string
 
 import cv2
 import numpy as np
-
-from ...core.modules.rotate import rotateHandler
-
+from ...core.modules import *
 
 def gray(img: np.array, params: dict) -> np.array:
     print(f"In function: {params}")
@@ -15,5 +13,9 @@ def gray(img: np.array, params: dict) -> np.array:
 
 
 functions = {
-    'rotate': rotateHandler
+    'gray': gray,
+    'rotate': rotate.rotateHandler,
+    'avgBlur': averageBlur.averageBlurringHandler,
+    'thres': AdaptiveThresholding.adaptiveThresholdingHandler,
+    'sharpen': sharpening.sharpenHandler,
 }

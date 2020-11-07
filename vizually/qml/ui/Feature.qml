@@ -8,9 +8,36 @@ Rectangle {
     radius: 10
     clip: true
     property string name: "Feature"
-    property int change: height + 30
+    property int total_height: height + 30
+    property var args
+    property var fun: function() {image.mainImage.apply(args)}
 
-    Behavior on height { NumberAnimation { duration: 250 } }
+    property var toggle: () => {
+        if (parent.opened != feature && parent.opened) {
+            parent.opened.toggle()
+        }
+        
+        feature.height = feature.total_height - feature.height
+        vsymbol.text = String.fromCharCode('^'.charCodeAt(0) + 'V'.charCodeAt(0) - vsymbol.text.charCodeAt(0))
+    
+        if (vsymbol.text == "^")
+            {   
+                parent.opened = feature
+                feature.children[1].visible = 1
+            }
+        else
+            {
+                parent.opened = 0
+                feature.children[1].visible = 0
+            }
+    }
+
+    property var update: (key, value) => {
+        args[key] = value
+        fun()
+    }
+
+    Behavior on height { NumberAnimation { duration: 100 } }
 
     Rectangle {
         color: '#eee'
@@ -39,15 +66,12 @@ Rectangle {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: () => {
-                feature.height = feature.change - feature.height
-                vsymbol.text = String.fromCharCode('^'.charCodeAt(0) + 'V'.charCodeAt(0) - vsymbol.text.charCodeAt(0))
-            }
+            onClicked: toggle()
         }
     }
 
     Component.onCompleted: () => {
-        change = change
-        height = change - height
+        total_height = total_height
+        height = total_height - height
     }
 }
