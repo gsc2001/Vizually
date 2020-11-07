@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def gaussianBlurringHandler(image: Image, params: dict) -> Image:
+def gaussianBlurringHandler(image: np.array, params: dict) -> np.array:
     """Gaussian Blurring
 
     Args:
@@ -13,9 +11,8 @@ def gaussianBlurringHandler(image: Image, params: dict) -> Image:
     Returns:
         np.array: Blurred image
     """
-    new_img = gaussianBlurring(image.img, params['sigmaX'], params['sigmaY'])
-    new_image = Image(path = image.path, img = new_img)
-    return new_image
+    new_img = gaussianBlurring(image, params['sigmaX'], params['sigmaY'])
+    return new_img
 
 
 def gaussianBlurring(image: np.array, sigmaX: float, sigmaY: float) -> np.array:
