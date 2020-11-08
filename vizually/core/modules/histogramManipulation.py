@@ -1,23 +1,21 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def histogramManipulationHandler(image: Image, params: dict) -> Image:
+def histogramManipulationHandler(image: np.array, params: dict) -> np.array:
     """Histogram Equalization handler
 
     Args:
         image (np.array): image to change
-        params (dict): params has { contrast_limit: float ((0, 3], step size of 0.1) }
+        params (dict): params has { contrast_limit: float 
+                                    ((0, 3], step size of 0.1) }
 
     Returns:
         np.array: manipulated image
     """
     
-    new_img = contrastManipulation(image.img, params['contrast_limit'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = contrastManipulation(image, params['contrast_limit'])
+    return new_img
 
 
 def contrastManipulation(image: np.array, contrast_limit: float) -> np.array:

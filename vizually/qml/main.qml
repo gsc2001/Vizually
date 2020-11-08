@@ -13,7 +13,6 @@ ApplicationWindow {
     title: qsTr("Vizually")
     visible: true
     
-    
     property var currentChose: undefined
     property real defaultSize: 400
     property real zoomRatio: 1.0
@@ -43,9 +42,9 @@ ApplicationWindow {
         }
     }
     Button {
-        x: 150; y: 450
+        x: 150; y: 500
         text: 'gray'
-        onClicked: image.mainImage.apply('gray')
+        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
     }
     Label {
         id: mousePosition
@@ -55,13 +54,16 @@ ApplicationWindow {
 
     Flickable {
         id: flickable
-        x: 350; y: 0
-        width: 1250; height: 900
+        anchors.left: sidebar.right
+        anchors.right: parent.right
+        anchors.top : parent.top
+        anchors.bottom: parent.bottom
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: width * zoomRatio; contentHeight: height * zoomRatio // current size of viewport
+        contentWidth: Math.max(image.width * image.scale + 300, width);
+        contentHeight: Math.max(image.height * image.scale + 100, height);
         clip: true
         Ui.ImageCanvas {
-           id: image
+            id: image
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
@@ -71,25 +73,313 @@ ApplicationWindow {
             id: horizontalScrollBar
             active: verticalScrollBar.active
         }
+        
+    }
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("&File")
+            MenuItem {
+                text: "Open"
+                onTriggered: fileDialog.open()
+            }
+            // MenuItem {
+            //     text: "Save"
+            // }
+            MenuItem {
+                text: "Exit"
+                onTriggered: Qt.quit()
+            }
+        }
+        Menu {
+            title: qsTr("&Help")
+            MenuItem {
+                text: "About"
+            }
+        }
+    }
+
+    Button {
+        id: commit
+        palette {
+            button: "blue"
+            buttonText: "white"
+        }
+        anchors.right : parent.right
+        anchors.bottom : parent.bottom
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 20
+        text: 'Commit Changes'
+        onClicked: image.mainImage.commit()
+    }
+    Button {
+        id: revert
+        palette {
+            button: "red"
+            buttonText: "white"
+        }
+        anchors.right : parent.right
+        anchors.bottom : parent.bottom
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 80
+        text: 'Revert Changes'
+        onClicked: console.log("revert")
     }
 
     Rectangle {
         id: sidebar
         x: 0; y: 0
-        width: 350; height: 900
+        width: 345; height: parent.height
         color: "#333"
+        clip: true
 
+        Behavior on width { NumberAnimation { duration: 250 } }
+
+       // collapse 
         Rectangle {
-            x: 25; y: 25
-            width: 300; height: 100
-            color: "#eee"
-            radius: 10
+            color: 'steelblue'
+            width: 20; height: parent.height
+            anchors.right: parent.right
+
             Text {
-                id: tb
-                x : 0; y : 0
-                width: 100; height: 100
-                text: qsTr("Hello World!")
+                id: hsymbol
+                text: '<'
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: 5
+                font.bold: true
+                font.pointSize: 20
             }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: () => {
+                    sidebar.width = 360 - sidebar.width
+                    hsymbol.text = String.fromCharCode('>'.charCodeAt(0) + '<'.charCodeAt(0) - hsymbol.text.charCodeAt(0))
+                }
+            }
+        }
+
+        Flickable {
+            width: 325; height: parent.height
+            x: 15; y: 15
+            contentHeight: sidebar_col.height + 30
+            clip: true
+            // boundsMovement: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar {}
+
+            Column {
+                id: sidebar_col
+                spacing: 15
+
+                property var opened: 0
+
+                // Rotation
+                Ui.Feature {
+                    id: rotation
+                    name: "Rotation"
+
+                    Column {
+                        x: 25; y: 35
+
+                            Ui.Slider {
+                                from: 0
+                                to: 360
+                                unit: " deg"
+                            }
+                    }
+                }
+
+                // Blur
+                Ui.Feature {
+                    id: blur
+                    name: "Blurring"
+                    args: ({func_name: "avgBlur"})
+
+                    Column {
+                    x: 25; y: 35
+                        
+                        Ui.Slider {
+                            from: 1
+                            to: 20
+                            unit: "%"
+                            key: "blurValue"
+                            // fun: function() {image.mainImage.apply({func_name: "avgBlur", blurValue: value})}
+                        }
+                    }
+                }
+                
+                // Flip
+                Ui.Feature {
+                    id: flip
+                    name: "Flip"
+                    height: 130
+
+                    Column {
+                    x: 25; y: 35
+
+                        Switch {
+                            text: 'Horizontal'
+                        }
+                        Switch {
+                            text: 'Vertical'
+                        }
+                    }
+                }
+
+                // Contrast
+                Ui.Feature {
+                    id: contrast
+                    name: "Contrast"
+                    
+                    Column {
+                        x: 25; y: 35
+
+                        Ui.Slider{
+                            from: 0
+                            to: 3
+                            value: 0
+                            stepSize: 0.1
+                            unit: " lev"
+                        }
+                    }
+                }
+
+                // Bilateral Blue
+                Ui.Feature {
+                    id: bilateralBlur
+                    name: "Bilateral Blue"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+
+                // Edge
+                Ui.Feature {
+                    id: edge
+                    name: "Edge detection"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Ui.Slider{
+                            from: 0
+                            to: 127
+                            value: 0
+                            stepSize: 1
+                            unit: " pow" 
+                        }
+                    }
+                }
+
+                // Thresholding
+                Ui.Feature {
+                    id: thresholding
+                    name: "Thresholding"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+                
+                // Ridge Detection
+                Ui.Feature {
+                    id: ridge
+                    name: "Ridge Detect"
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Switch {
+                            text: "Apply"
+                        }
+                    }
+                }
+
+                // Sharpening
+                Ui.Feature {
+                    id: sharpen
+                    name: "Sharpening"
+                    height: 130
+                    args: ({func_name: "sharpen", strength: 0.0, kernel_size: 0})
+
+                    Column {
+                        x: 25; y: 35
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 1
+                            to: 11
+                            stepSize: 2
+                            unit: " kernel size"
+
+                            key: "kernel_size"
+                        }
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 0
+                            to: 10
+                            stepSize: 0.5
+                            unit: " strength"
+
+                            key: "strength"
+                        }
+                    }
+                }
+                
+
+                // combo box
+                // Rectangle {
+                //     width: 300; height: 100
+                //     color: "#eee"
+                //     radius: 10
+
+                //     Column {
+                //         x: 25; y: 15
+
+                //         Text {
+                //             y: 100
+                //             text: "Select Filter to be applied: "
+                //             font.italic: true
+                //             font.pointSize: 11
+                //         }
+
+                //         ComboBox {
+                //             y: 50
+                //             currentIndex: 0
+                //             model: ListModel {
+                //                 id: cbItems
+                //                 ListElement { text: "None"}
+                //                 ListElement { text: "Sharpening" }
+                //                 ListElement { text: "Blurring" }
+                //                 ListElement { text: "Perspective" }
+                //                 ListElement { text: "Morphing" }
+                //                 ListElement { text: "Perspective" }
+                //             }
+                //             width: 200
+                //             onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
+                //         }
+                //     }
+                // }   
+            }
+        // Rectangle {
+        //     x: 25; y: 25
+        //     width: 300; height: 100
+        //     color: "#eee"
+        //     radius: 10
+        //     Text {
+        //         id: tb
+        //         x : 0; y : 0
+        //         width: 100; height: 100
+        //         text: qsTr("Hello World!")
+        //     }
+        // }
         }
     }
 
@@ -97,6 +387,6 @@ ApplicationWindow {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.6600000262260437}
+    D{i:0;formeditorZoom:0.5}
 }
 ##^##*/

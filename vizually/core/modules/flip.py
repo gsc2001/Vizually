@@ -1,10 +1,8 @@
 import cv2
 import numpy as np
 
-from ..models.image import Image
 
-
-def flipHandler(image: Image, params : dict)-> Image:
+def flipHandler(image: np.array, params : dict)-> np.array:
     """ Flipping Image Handler
 
     Args:
@@ -21,12 +19,11 @@ def flipHandler(image: Image, params : dict)-> Image:
 
     """
 
-    new_img = flipImage(image.img, params['flipCode'])
-    new_image = Image(path=image.path, img=new_img)
-    return new_image
+    new_img = flipImage(image, params['flipCode'])
+    return new_img
 
 
-def flipImage(image:Image, flipCode: int)-> Image:
+def flipImage(image: np.array, flipCode: int) -> np.array:
     """Flipping image
     Args:
         image (np.array): image to change
