@@ -12,8 +12,14 @@ def adaptiveThresholdingHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: thresholded image
     """
+
+    if params['threshold_value'] > 10 :
+        params['threshold_value'] = 10
+    elif  params['threshold_value'] < 0 :
+        params['threshold_value'] = 0
+
     new_img = medianAdaptiveImageBinarizer(
-        image, params['threshold_value'])
+        image, float(params['threshold_value']))
     return new_img
 
 
@@ -34,4 +40,4 @@ def medianAdaptiveImageBinarizer(image: np.array, thresh_value: float) -> np.arr
     retImg = cv2.adaptiveThreshold(medianGray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                    cv2.THRESH_BINARY, 11, thresh_value)
 
-    return retImg
+    return cv2.cvtColor(retImg, cv2.COLOR_GRAY2BGR)

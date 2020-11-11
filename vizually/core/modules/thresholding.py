@@ -12,7 +12,11 @@ def threshHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: thresholded image
     """
-    new_img = binarizeImage(image, params['threshold_value'])
+
+    if params['threshold_value'] < 0: 
+        params['threshold_value'] = 0
+
+    new_img = binarizeImage(image, float(params['threshold_value']))
     return new_img    
 
     
@@ -29,4 +33,4 @@ def binarizeImage(image: np.array, thresh_value: float) -> np.array:
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     binary = np.array(255 * (gray > thresh_value), dtype=np.uint8)
-    return binary
+    return cv2.cvtColor(binary, cv2.COLOR_GRAY2BGR)

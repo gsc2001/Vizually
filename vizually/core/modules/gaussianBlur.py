@@ -11,7 +11,18 @@ def gaussianBlurringHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: Blurred image
     """
-    new_img = gaussianBlurring(image, params['sigmaX'], params['sigmaY'])
+
+    if params['sigmaX'] > 2 :
+        params['sigmaX'] = 2
+    elif  params['sigmaX'] < 0 :
+        params['sigmaX'] = 0
+
+    if params['sigmaY'] > 2 :
+        params['sigmaY'] = 2
+    elif  params['sigmaY'] < 0 :
+        params['sigmaY'] = 0
+
+    new_img = gaussianBlurring(image, float(params['sigmaX']), float(params['sigmaY']))
     return new_img
 
 

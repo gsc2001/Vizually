@@ -14,7 +14,12 @@ def histogramManipulationHandler(image: np.array, params: dict) -> np.array:
         np.array: manipulated image
     """
     
-    new_img = contrastManipulation(image, params['contrast_limit'])
+    if params['contrast_limit'] > 3 :
+        params['contrast_limit'] = 3
+    elif  params['contrast_limit'] < 0 :
+        params['contrast_limit'] = 0
+
+    new_img = contrastManipulation(image, float(params['contrast_limit']))
     return new_img
 
 
@@ -32,4 +37,5 @@ def contrastManipulation(image: np.array, contrast_limit: float) -> np.array:
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     clahe = cv2.createCLAHE(clipLimit = contrast_limit)
     final_img = clahe.apply(gray)
-    return final_img
+    return cv2.cvtColor(final_img, cv2.COLOR_GRAY2BGR)
+

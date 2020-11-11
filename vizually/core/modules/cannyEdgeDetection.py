@@ -19,7 +19,12 @@ def cannyEDHandler(image: np.array, params: dict) -> np.array:
         np.array:  image  after canny edge detection
     """
 
-    return cannyED(image, params['strength'])
+    if params['strength'] > 127 :
+        params['strength'] = 127
+    elif  params['strength'] < 0 :
+        params['strength'] = 0
+
+    return cannyED(image, float(params['strength']))
 
 
 def cannyED(image: np.array, strength: float) -> np.array:
