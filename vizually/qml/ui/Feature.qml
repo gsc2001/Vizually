@@ -49,7 +49,6 @@ Rectangle {
             id: vsymbol
             text: 'V'
             anchors.verticalCenter: parent.verticalCenter
-            // x: 280
             anchors.right: parent.right
             anchors.rightMargin: 10
             font.bold: true

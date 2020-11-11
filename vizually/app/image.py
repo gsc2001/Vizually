@@ -95,6 +95,7 @@ class ImageSource:
     def __init__(self):
         self.undo_stack = deque(maxlen=10)
         self.redo_stack = []
+        self.current = np.array(0)
 
     def set_src(self, src: np.array):
         self.current = src.copy()

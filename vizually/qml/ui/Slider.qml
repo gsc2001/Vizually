@@ -6,24 +6,25 @@ Slider {
     id: slider
     from: 0
     to: 360
-    value: 0
+    value: slider.from
     stepSize: 1
 	property string unit: ""
     property string key
+    property var feature: parent.parent
     onVisibleChanged: {
-        value = 0
-        text.text = '0'+ unit
-        parent.parent.update(key, slider.value)
+        value = slider.from
+        text.text = slider.from + unit
+        feature.update(key, slider.value)
     }
 
     function change() {
         if (Number.isInteger(stepSize)) {
-            parent.parent.update(key, slider.value)
+            feature.update(key, slider.value)
             text.text = slider.value + unit
         }
         else
         {
-            parent.parent.update(key, slider.value)
+            feature.update(key, slider.value)
             text.text = slider.value.toFixed(1) + unit
         }
     }
@@ -31,12 +32,14 @@ Slider {
 
     Text {
         id: text
-        text: '0'+ unit
+        text: slider.value + unit
         anchors.left: parent.right
         // anchors.Margin: 5
         y: 10
     }
 
     implicitWidth: 200
+
+    // onCompleted
     // implicitHeight: 26
 }

@@ -16,6 +16,8 @@ functions = {
     'gray': gray,
     'rotate': rotate.rotateHandler,
     'avgBlur': averageBlur.averageBlurringHandler,
+    'gaussianBlur': gaussianBlur.gaussianBlurringHandler,
+    'bilateralBlur': bilateralBlur.bilateralBlurringHandler,
     'thres': AdaptiveThresholding.adaptiveThresholdingHandler,
     'sharpen': sharpening.sharpenHandler,
 }
