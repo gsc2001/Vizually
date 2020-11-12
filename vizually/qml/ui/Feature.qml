@@ -10,11 +10,10 @@ Rectangle {
     property string name: "Feature"
     property int total_height: height + 30
     property var args
-    property var fun: function() {image.mainImage.apply(args)}
 
     property var toggle: () => {
-        if (parent.opened != feature && parent.opened) {
-            parent.opened.toggle()
+        if (sidebar.opened != feature && sidebar.opened) {
+            sidebar.opened.toggle()
         }
         
         feature.height = feature.total_height - feature.height
@@ -22,19 +21,20 @@ Rectangle {
     
         if (vsymbol.text == "^")
             {   
-                parent.opened = feature
+                sidebar.opened = feature
                 feature.children[1].visible = 1
             }
         else
             {
-                parent.opened = 0
+                sidebar.opened = 0
                 feature.children[1].visible = 0
+                image.mainImage.reset()
             }
     }
 
     property var update: (key, value) => {
         args[key] = value
-        fun()
+        image.mainImage.apply(args)
     }
 
     Behavior on height { NumberAnimation { duration: 100 } }

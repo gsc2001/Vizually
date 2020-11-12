@@ -8,11 +8,15 @@ def ridgeDetectorHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { }
+        params (dict): params has { apply: bool }
 
     Returns:
         np.array: Ridges present in the image
     """
+
+    if 'apply' not in params or params['apply'] is False:
+        return image
+    
     new_img = hessianRidgeDetector(
         image)
     return new_img

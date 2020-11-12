@@ -10,21 +10,19 @@ Slider {
     stepSize: 1
 	property string unit: ""
     property string key
-    property var feature: parent.parent
     onVisibleChanged: {
         value = slider.from
         text.text = slider.from + unit
-        feature.update(key, slider.value)
     }
 
     function change() {
         if (Number.isInteger(stepSize)) {
-            feature.update(key, slider.value)
+            parent.parent.update(key, slider.value)
             text.text = slider.value + unit
         }
         else
         {
-            feature.update(key, slider.value)
+            parent.parent.update(key, slider.value)
             text.text = slider.value.toFixed(1) + unit
         }
     }
@@ -39,7 +37,4 @@ Slider {
     }
 
     implicitWidth: 200
-
-    // onCompleted
-    // implicitHeight: 26
 }

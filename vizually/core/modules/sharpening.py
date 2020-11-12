@@ -23,7 +23,7 @@ def sharpenHandler(image: np.array, params: dict) -> np.array:
         params['strength'] = 0
 
     params['kernel_size'] = round(params['kernel_size'])
-    params['kernel_size'] += 1 if params['kernel_size'] % 2 == 1 else 0
+    # params['kernel_size'] += 1 if params['kernel_size'] % 2 == 1 else 0
     
     new_img = sharpenImage(image, params['kernel_size'], float(params['strength']))
     return new_img

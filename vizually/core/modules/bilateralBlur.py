@@ -7,11 +7,15 @@ def bilateralBlurringHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { }
+        params (dict): params has { apply: bool }
 
     Returns:
         np.array: Blurred image (with edge preservation)
     """
+
+    if params['apply'] is False:
+        return image
+
     new_img = bilateralBlur(
         image)
     return new_img

@@ -80,7 +80,10 @@ ApplicationWindow {
             title: qsTr("&File")
             MenuItem {
                 text: "Open"
-                onTriggered: fileDialog.open()
+                onTriggered: {
+                fileDialog.open()
+                if (sidebar.opened) sidebar.opened.toggle()
+                }
             }
             // MenuItem {
             //     text: "Save"
@@ -124,6 +127,7 @@ ApplicationWindow {
         text: 'Revert Changes'
         onClicked: () => {
             if (sidebar.opened) sidebar.opened.toggle()
+            image.mainImage.reset()
         }
     }
     Ui.Sidebar {

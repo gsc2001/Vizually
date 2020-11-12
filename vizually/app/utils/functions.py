@@ -14,10 +14,18 @@ def gray(img: np.array, params: dict) -> np.array:
 
 functions = {
     'gray': gray,
-    'rotate': rotate.rotateHandler,
-    'avgBlur': averageBlur.averageBlurringHandler,
-    'gaussianBlur': gaussianBlur.gaussianBlurringHandler,
-    'bilateralBlur': bilateralBlur.bilateralBlurringHandler,
     'thres': AdaptiveThresholding.adaptiveThresholdingHandler,
+    'avgBlur': averageBlur.averageBlurringHandler,
+    'bilateralBlur': bilateralBlur.bilateralBlurringHandler,
+    'canny': cannyEdgeDetection.cannyEDHandler,
+    'corner': cornerDetection.cornerDetectionHandler,
+    'flip': flip.flipHandler,
+    'gaussianBlur': gaussianBlur.gaussianBlurringHandler,
+    'contrast': histogramManipulation.histogramManipulationHandler,
+    'otsuThres': otsuThresholding.OtsuThresholdingHandler,
+    'ridge': ridgeDetector.ridgeDetectorHandler,
+    'rotate': rotate.rotateHandler,
     'sharpen': sharpening.sharpenHandler,
+    'sobel': sobelEdgeDetection.sobelEDHandler,
+    'thres': thresholding.threshHandler,
 }

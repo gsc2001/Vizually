@@ -54,6 +54,11 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
             self._image.img = self.img_src.current
             self.set_image(self._image)
 
+    @QtCore.pyqtSlot()
+    def reset(self):
+        self._image.img = self.img_src.current
+        self.set_image(self._image)
+
     def image(self):
         return self.preview_img
 

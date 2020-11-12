@@ -23,7 +23,7 @@ def cornerDetectionHandler(image: np.array, params: dict) -> np.array:
         params['sharpen_strength'] = 0
 
     params['kernel_size'] = round(params['kernel_size'])
-    params['kernel_size'] += 1 if params['kernel_size'] % 2 == 1 else 0
+    # params['kernel_size'] += 1 if params['kernel_size'] % 2 == 1 else 0
 
     new_img = cornerDetect(image, params['kernel_size'], float(params['sharpen_strength']))
     return new_img

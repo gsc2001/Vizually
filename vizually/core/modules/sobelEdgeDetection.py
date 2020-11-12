@@ -7,11 +7,15 @@ def sobelEDHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { }
+        params (dict): params has { apply: bool }
 
     Returns:
         np.array:  image  after sobel edge detection 
     """
+
+    if params['apply'] is False:
+        return image
+
     new_img = sobelED(image)
     return new_img
 

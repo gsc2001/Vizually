@@ -7,23 +7,28 @@ def flipHandler(image: np.array, params : dict)-> np.array:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { flipCode : int}
-
-        THE FLIPCODE MUST BE AMONG 
-         1 : to flip horizontally
-         0 : to flip vertically
-        -1 : to flip both horizontally and vertically
+        params (dict): params has { horizontal: bool, vertical: bool}
     
     Returns:
         np.array: Flipped image
 
     """
 
-
-    if 'flipCode' not in params:
+    if 'horizontal' not in params or 'vertical' not in params:
         return image
 
-    new_img = flipImage(image, round(params['flipCode']))
+    flipCode = 0
+    if params['horizontal'] is False and params['vertical'] is False:
+        return image
+    elif params['horizontal'] is True and params['vertical'] is False:
+        flipCode = 1
+    elif params['horizontal'] is False and params['vertical'] is True:
+        flipCode = 0
+    else:
+        flipCode = -1
+
+    # new_img = flipImage(image, round(params['flipCode']))
+    new_img = flipImage(image, round(flipCode))
     return new_img
 
 

@@ -49,31 +49,12 @@ Rectangle {
                 id: sidebar_col
                 spacing: 15
 
-                property var opened: sidebar.opened
-
-                // Rotation
-                Ui.Feature {
-                    id: rotation
-                    name: "Rotation"
-
-                    Column {
-                        x: 25; y: 35
-
-                            Ui.Slider {
-                                from: 0
-                                to: 360
-                                unit: " deg"
-                            }
-                    }
-                }
-
-
                 // Blur
                 Ui.Feature {
                     id: blur
                     name: "Blur"
                     property int option: 0
-                    args: blurItems.get(0).func_name
+                    args: ({func_name: blurItems.get(0).func_name})
                     height: blurItems.get(0).height
 
                     Column {
@@ -93,6 +74,7 @@ Rectangle {
                                 blur.option = currentIndex
                                 blur.height = blurItems.get(blur.option).height
                                 blur.args = ({func_name: blurItems.get(blur.option).func_name})
+                                image.mainImage.reset()
                             }
                         }
 
@@ -100,7 +82,7 @@ Rectangle {
                             visible: (blur.option == 0)
                             from: 1
                             to: 20
-                            unit: "%"
+                            unit: " value"
                             key: "blurValue"
                         }
 
@@ -109,7 +91,7 @@ Rectangle {
                             from: 0
                             to: 2
                             stepSize: 0.1
-                            unit: "%"
+                            unit: "% sigmaX"
                             key: "sigmaX"
                         }
 
@@ -118,11 +100,11 @@ Rectangle {
                             from: 0
                             to: 2
                             stepSize: 0.1
-                            unit: "%"
+                            unit: " sigmaY"
                             key: "sigmaY"
                         }
 
-                        Switch {
+                        Ui.Switch {
                             visible: (blur.option == 2)
                             text: "Apply"
                         }
@@ -142,26 +124,132 @@ Rectangle {
                 //             to: 20
                 //             unit: "%"
                 //             key: "blurValue"
-                //             // fun: function() {image.mainImage.apply({func_name: "avgBlur", blurValue: value})}
                 //         }
                 //     }
                 // }
+
+                // Edge Detection
+                Ui.Feature {
+                    id: edge
+                    name: "Edge"
+                    property int option: 0
+                    args: ({func_name: edgeItems.get(0).func_name})
+                    height: 130
+
+                    Column {
+                    x: 25; y: 35
+
+                        ComboBox {
+                            currentIndex: 0
+                            textRole: "text"
+                            model: ListModel {
+                                id: edgeItems
+                                ListElement { text: "Canny Edge Detection"; func_name: "canny"}
+                                ListElement { text: "Sobel Edge Detection"; func_name: "sobel"}
+                            }
+                            width: 200
+                            onCurrentIndexChanged: () => {
+                                edge.option = currentIndex
+                                edge.args = ({func_name: edgeItems.get(edge.option).func_name})
+                                image.mainImage.reset()
+                            }
+                        }
+
+                        // canny
+                        Ui.Slider {
+                            visible: (edge.option == 0)
+                            from: 0
+                            to: 127
+                            unit: " value"
+                            key: "strength"
+                        }
+
+                        Ui.Switch {
+                            visible: (edge.option == 1)
+                            text: "Apply"
+                        }
+                    }
+                }
+
+                // Thresholding
+                Ui.Feature {
+                    id: thresholding
+                    name: "Thresholding"
+                    property int option: 0
+                    args: ({func_name: thresholdingItems.get(0).func_name})
+                    height: 130
+
+                    Column {
+                    x: 25; y: 35
+
+                        ComboBox {
+                            currentIndex: 0
+                            textRole: "text"
+                            model: ListModel {
+                                id: thresholdingItems
+                                ListElement { text: "otsu"; func_name: "otsuThres"}
+                                ListElement { text: "Adaptive"; func_name: "thres"}
+                            }
+                            width: 200
+                            onCurrentIndexChanged: () => {
+                                thresholding.option = currentIndex
+                                thresholding.args = ({func_name: thresholdingItems.get(thresholding.option).func_name})
+                                image.mainImage.reset()
+                            }
+                        }
+                        
+                        // adaptive
+                        Ui.Slider {
+                            visible: (thresholding.option == 1)
+                            from: 0
+                            to: 10
+                            stepSize: 0.1
+                            unit: " value"
+                            key: "threshold_value"
+                        }
+
+                        // otsu
+                        Ui.Switch {
+                            visible: (thresholding.option == 0)
+                            text: "Apply"
+                        }
+                    }
+                }
                 
                 // Flip
                 Ui.Feature {
                     id: flip
                     name: "Flip"
                     height: 130
+                    args: ({func_name: "flip", horizontal: false, vertical: false})
 
                     Column {
                     x: 25; y: 35
 
-                        Switch {
+                        Ui.Switch {
                             text: 'Horizontal'
+                            key: "horizontal"
                         }
-                        Switch {
+                        Ui.Switch {
                             text: 'Vertical'
+                            key: "vertical"
                         }
+                    }
+                }
+                
+                // Ridge Detection
+                Ui.Feature {
+                    id: ridge
+                    name: "Ridge Detect"
+                    args: ({func_name: "ridge"})
+
+                    Column {
+                        x: 25; y: 35
+                        
+                        Ui.Switch {
+                            text: "Apply"
+                        }
+
                     }
                 }
 
@@ -169,6 +257,7 @@ Rectangle {
                 Ui.Feature {
                     id: contrast
                     name: "Contrast"
+                    args: ({func_name: "contrast"})
                     
                     Column {
                         x: 25; y: 35
@@ -179,66 +268,7 @@ Rectangle {
                             value: 0
                             stepSize: 0.1
                             unit: " lev"
-                        }
-                    }
-                }
-
-                // Bilateral Blue
-                Ui.Feature {
-                    id: bilateralBlur
-                    name: "Bilateral Blue"
-
-                    Column {
-                        x: 25; y: 35
-                        
-                        Switch {
-                            text: "Apply"
-                        }
-                    }
-                }
-
-                // Edge
-                Ui.Feature {
-                    id: edge
-                    name: "Edge detection"
-
-                    Column {
-                        x: 25; y: 35
-                        
-                        Ui.Slider{
-                            from: 0
-                            to: 127
-                            value: 0
-                            stepSize: 1
-                            unit: " pow" 
-                        }
-                    }
-                }
-
-                // Thresholding
-                Ui.Feature {
-                    id: thresholding
-                    name: "Thresholding"
-
-                    Column {
-                        x: 25; y: 35
-                        
-                        Switch {
-                            text: "Apply"
-                        }
-                    }
-                }
-                
-                // Ridge Detection
-                Ui.Feature {
-                    id: ridge
-                    name: "Ridge Detect"
-
-                    Column {
-                        x: 25; y: 35
-                        
-                        Switch {
-                            text: "Apply"
+                            key: "contrast_limit"
                         }
                     }
                 }
@@ -248,7 +278,7 @@ Rectangle {
                     id: sharpen
                     name: "Sharpening"
                     height: 130
-                    args: ({func_name: "sharpen", strength: 0.0, kernel_size: 0})
+                    args: ({func_name: "sharpen"})
 
                     Column {
                         x: 25; y: 35
@@ -258,7 +288,6 @@ Rectangle {
                             to: 11
                             stepSize: 2
                             unit: " kernel size"
-
                             key: "kernel_size"
                         }
                         Ui.Slider{
@@ -267,12 +296,54 @@ Rectangle {
                             to: 10
                             stepSize: 0.5
                             unit: " strength"
-
                             key: "strength"
                         }
                     }
                 }
-                
+
+                // Corner Edge Detection
+                Ui.Feature {
+                    id: corner
+                    name: "Corner Detection"
+                    height: 130
+                    args: ({func_name: "corner"})
+
+                    Column {
+                        x: 25; y: 35
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 1
+                            to: 11
+                            stepSize: 2
+                            unit: " kernel size"
+                            key: "kernel_size"
+                        }
+                        Ui.Slider{
+                            implicitWidth: 150
+                            from: 0
+                            to: 10
+                            stepSize: 0.5
+                            unit: " strength"
+                            key: "sharpen_strength"
+                        }
+                    }
+                }
+
+                // Rotation
+                Ui.Feature {
+                    id: rotation
+                    name: "Rotation"
+
+                    Column {
+                        x: 25; y: 35
+
+                            Ui.Slider {
+                                from: 0
+                                to: 360
+                                unit: " deg"
+                            }
+                    }
+                }                
 
                 // combo box
                 // Rectangle {
