@@ -2,8 +2,8 @@
 
 ### Team (Complexity:Complicated)
 
--   Gurkirat Singh (2019101069)
--   Sanchit Arora (2019101047)
+-   Gurkirat Singh 
+-   Sanchit Arora 
 -   Kannav Mehta
 -   Triansh Sharma
 -   Shrey Gupta
