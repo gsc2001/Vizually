@@ -1,4 +1,4 @@
-# AAD Image Repositoy
+# AAD Image Repository
 
 ### Team (Complexity:Complicated)
 
