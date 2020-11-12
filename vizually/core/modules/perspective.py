@@ -17,6 +17,9 @@ def perspectiveHandler(image: np.array, params: dict) -> np.array:
 
     """
 
+    if 'point_list' not in params:
+        return image
+
     new_img = transformImage(image, params['point_list'])
     return new_img
 

@@ -14,6 +14,9 @@ def cornerDetectionHandler(image: np.array, params: dict) -> np.array:
         np.array: Image with corners
     """
 
+    if 'sharpen_strength' not in params or 'kernel_size' not in params :
+        return image
+
     if params['sharpen_strength'] > 10 :
         params['sharpen_strength'] = 10
     elif  params['sharpen_strength'] < 0 :

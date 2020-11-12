@@ -19,6 +19,10 @@ def flipHandler(image: np.array, params : dict)-> np.array:
 
     """
 
+
+    if 'flipCode' not in params:
+        return image
+
     new_img = flipImage(image, round(params['flipCode']))
     return new_img
 

@@ -13,6 +13,10 @@ def threshHandler(image: np.array, params: dict) -> np.array:
         np.array: thresholded image
     """
 
+
+    if 'threshold_value' not in params:
+        return image
+
     if params['threshold_value'] < 0: 
         params['threshold_value'] = 0
 

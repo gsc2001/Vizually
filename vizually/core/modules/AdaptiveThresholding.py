@@ -13,6 +13,9 @@ def adaptiveThresholdingHandler(image: np.array, params: dict) -> np.array:
         np.array: thresholded image
     """
 
+    if 'threshold_value' not in params:
+        return image
+
     if params['threshold_value'] > 10 :
         params['threshold_value'] = 10
     elif  params['threshold_value'] < 0 :

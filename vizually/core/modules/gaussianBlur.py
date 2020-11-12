@@ -12,6 +12,10 @@ def gaussianBlurringHandler(image: np.array, params: dict) -> np.array:
         np.array: Blurred image
     """
 
+
+    if 'sigmaX' not in params or 'sigmaY' not in params :
+        return image
+
     if params['sigmaX'] > 2 :
         params['sigmaX'] = 2
     elif  params['sigmaX'] < 0 :

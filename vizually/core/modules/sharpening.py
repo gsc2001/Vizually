@@ -13,6 +13,10 @@ def sharpenHandler(image: np.array, params: dict) -> np.array:
         np.array: Sharpened image
     """
 
+
+    if 'strength' not in params or 'kernel_size' not in params :
+        return image
+
     if params['strength'] > 10 :
         params['strength'] = 10
     elif  params['strength'] < 0 :

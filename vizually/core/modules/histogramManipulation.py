@@ -13,6 +13,10 @@ def histogramManipulationHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: manipulated image
     """
+
+
+    if 'contrast_limit' not in params:
+        return image
     
     if params['contrast_limit'] > 3 :
         params['contrast_limit'] = 3
