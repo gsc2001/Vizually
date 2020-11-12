@@ -3,7 +3,7 @@ import numpy as np
 
 
 def bilateralBlurringHandler(image: np.array, params: dict) -> np.array:
-    """Adaptive Thresholding Handler
+    """Bilateral Thresholding Handler
 
     Args:
         image(np.array): image to change

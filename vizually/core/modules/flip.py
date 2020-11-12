@@ -19,7 +19,11 @@ def flipHandler(image: np.array, params : dict)-> np.array:
 
     """
 
-    new_img = flipImage(image, params['flipCode'])
+
+    if 'flipCode' not in params:
+        return image
+
+    new_img = flipImage(image, round(params['flipCode']))
     return new_img
 
 
@@ -32,4 +36,9 @@ def flipImage(image: np.array, flipCode: int) -> np.array:
     Returns:
         np.array: Flipped image
     """
+    if flipCode < 0:
+        flipCode = -1
+    else:
+        flipCode = 0 if flipCode == 0 else 1
+
     return cv2.flip(image, flipCode)
