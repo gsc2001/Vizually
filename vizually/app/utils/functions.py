@@ -14,7 +14,7 @@ def gray(img: np.array, params: dict) -> np.array:
 
 functions = {
     'gray': gray,
-    'thres': AdaptiveThresholding.adaptiveThresholdingHandler,
+    'thres': adaptiveThresholding.adaptiveThresholdingHandler,
     'avgBlur': averageBlur.averageBlurringHandler,
     'bilateralBlur': bilateralBlur.bilateralBlurringHandler,
     'cannyCartoon': cannyCartoon.cannyCartoonHandler,

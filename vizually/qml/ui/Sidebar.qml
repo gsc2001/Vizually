@@ -52,10 +52,15 @@ Rectangle {
         }
 
         Flickable {
-            width: 325; height: parent.height
             x: 15; y: 15
             contentHeight: sidebar_col.height + 30
             clip: true
+             height: parent.height
+            anchors.left: parent.left;
+            anchors.right: collapse.left
+            flickableDirection: Flickable.VerticalFlick
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {}
 
             Column {
@@ -84,20 +89,21 @@ Rectangle {
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
-                                image.mainImage.reset()
+                                targetimage.reset()
                                 blur.args = ({func_name: blurItems.get(currentIndex).func_name})
                                 blur.option = currentIndex
                                 blur.height = sidebar.getHeight(parent)
                             }
                         }
+                    
 
-                        Ui.Slider {
-                            visible: (blur.option == 0)
-                            from: 1
-                            to: 20
-                            unit: " value"
-                            key: "blurValue"
-                        }
+                    Ui.Slider {
+                        visible: (blur.option == 0)
+                        from: 1
+                        to: 20
+                        unit: " value"
+                        key: "blurValue"
+                    }
 
                         Ui.Slider {
                             visible: (blur.option == 1)
@@ -119,12 +125,12 @@ Rectangle {
                             implicitWidth: 200
                         }
 
-                        Ui.Switch {
-                            visible: (blur.option == 2)
-                            text: "Apply"
-                        }
+                    Ui.Switch {
+                        visible: (blur.option == 2)
+                        text: "Apply"
                     }
                 }
+            }
 
                 // Edge Detection
                 Ui.Feature {
@@ -147,29 +153,36 @@ Rectangle {
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
-                                image.mainImage.reset()
+                                targetimage.reset()
                                 edge.args = ({func_name: edgeItems.get(currentIndex).func_name})
                                 edge.option = currentIndex
                                 edge.height = sidebar.getHeight(parent)
                             }
                         }
+                    
 
-                        // canny
-                        Ui.Slider {
-                            visible: (edge.option == 0)
-                            from: 0
-                            to: 127
-                            unit: " value"
-                            key: "strength"
-                        }
+                    // canny
+                    Ui.Slider {
+                        visible: (edge.option == 0)
+                        from: 0
+                        to: 127
+                        unit: " value"
+                        key: "strength"
+                    }
 
-                        //sobel
-                        Ui.Switch {
-                            visible: (edge.option == 1)
-                            text: "Apply"
+                    Ui.ComboBox {
+                        visible: (edge.option == 1)
+                        textRole: "name"
+                        key: "kernel_size"
+                        model: ListModel {
+                            id: cbItems
+                            ListElement {name: "3"; value: 3}
+                            ListElement {name: "5"; value: 5}
                         }
                     }
+
                 }
+            }
 
                 // Thresholding
                 Ui.Feature {
@@ -179,7 +192,7 @@ Rectangle {
                     args: ({func_name: thresholdingItems.get(0).func_name})
                     height: sidebar.getHeight(children[1])
 
-                    Column {
+                Column {
                     x: 25; y: 35
 
                         ComboBox {
@@ -193,12 +206,13 @@ Rectangle {
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
-                                image.mainImage.reset()
+                                targetimage.reset()
                                 thresholding.args = ({func_name: thresholdingItems.get(currentIndex).func_name})
                                 thresholding.option = currentIndex
                                 thresholding.height = sidebar.getHeight(parent)
                             }
                         }
+                        
                         
                         // adaptive
                         Ui.Slider {
@@ -209,6 +223,7 @@ Rectangle {
                             unit: " value"
                             key: "threshold_value"
                         }
+                    
 
                         // otsu
                         Ui.Switch {
@@ -227,135 +242,139 @@ Rectangle {
                         }
                     }
                 }
-                
-                // Flip
-                Ui.Feature {
-                    id: flip
-                    name: "Flip"
-                    height: 130
-                    args: ({func_name: "flip", horizontal: false, vertical: false})
+            
 
-                    Column {
+            // Flip
+            Ui.Feature {
+                id: flip
+                name: "Flip"
+                height: 130
+                args: ({func_name: "flip", horizontal: false, vertical: false})
+
+                Column {
+                    x: 25; y: 35
+                    width: parent.width
+                    Ui.Switch {
+                        text: 'Horizontal'
+                        key: "horizontal"
+                    }
+                    Ui.Switch {
+                        text: 'Vertical'
+                        key: "vertical"
+                    }
+                }
+            }
+
+            // Ridge Detection
+            Ui.Feature {
+                id: ridge
+                name: "Ridge Detect"
+                args: ({func_name: "ridge"})
+                width: parent.width
+                Column {
                     x: 25; y: 35
 
-                        Ui.Switch {
-                            text: 'Horizontal'
-                            key: "horizontal"
-                        }
-                        Ui.Switch {
-                            text: 'Vertical'
-                            key: "vertical"
-                        }
+                    Ui.Switch {
+                        text: "Apply"
+                    }
+
+                }
+            }
+
+            // Contrast
+            Ui.Feature {
+                id: contrast
+                name: "Contrast"
+                args: ({func_name: "contrast"})
+                width: parent.width
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider{
+                        from: 0
+                        to: 3
+                        value: 0
+                        stepSize: 0.1
+                        unit: " lev"
+                        key: "contrast_limit"
                     }
                 }
-                
-                // Ridge Detection
-                Ui.Feature {
-                    id: ridge
-                    name: "Ridge Detect"
-                    args: ({func_name: "ridge"})
+            }
 
-                    Column {
-                        x: 25; y: 35
-                        
-                        Ui.Switch {
-                            text: "Apply"
-                        }
+            // Sharpening
+            Ui.Feature {
+                id: sharpen
+                name: "Sharpening"
+                height: 130
+                args: ({func_name: "sharpen"})
 
+                Column {
+                    x: 25; y: 35
+                    Ui.Slider{
+                        implicitWidth: 150
+                        from: 1
+                        to: 11
+                        stepSize: 2
+                        unit: " kernel size"
+                        key: "kernel_size"
+                    }
+                    Ui.Slider{
+                        implicitWidth: 150
+                        from: 0
+                        to: 10
+                        stepSize: 0.5
+                        unit: " strength"
+                        key: "strength"
                     }
                 }
+            }
 
-                // Contrast
-                Ui.Feature {
-                    id: contrast
-                    name: "Contrast"
-                    args: ({func_name: "contrast"})
-                    
-                    Column {
-                        x: 25; y: 35
+            // Corner Edge Detection
+            Ui.Feature {
+                id: corner
+                name: "Corner Detection"
+                height: 130
+                args: ({func_name: "corner"})
 
-                        Ui.Slider{
-                            from: 0
-                            to: 3
-                            value: 0
-                            stepSize: 0.1
-                            unit: " lev"
-                            key: "contrast_limit"
-                        }
+                Column {
+                    x: 25; y: 35
+                    Ui.Slider{
+                        implicitWidth: 150
+                        from: 1
+                        to: 11
+                        stepSize: 2
+                        unit: " kernel size"
+                        key: "kernel_size"
+                    }
+                    Ui.Slider{
+                        implicitWidth: 150
+                        from: 0
+                        to: 10
+                        stepSize: 0.5
+                        unit: " strength"
+                        key: "sharpen_strength"
                     }
                 }
+            }
 
-                // Sharpening
-                Ui.Feature {
-                    id: sharpen
-                    name: "Sharpening"
-                    height: 130
-                    args: ({func_name: "sharpen"})
+            // Rotation
+            Ui.Feature {
+                id: rotation
+                name: "Rotation"
+                height: 130
+                args: ({func_name: "rotate"})
 
-                    Column {
-                        x: 25; y: 35
-                        Ui.Slider{
-                            implicitWidth: 150
-                            from: 1
-                            to: 11
-                            stepSize: 2
-                            unit: " kernel size"
-                            key: "kernel_size"
-                        }
-                        Ui.Slider{
-                            implicitWidth: 150
-                            from: 0
-                            to: 10
-                            stepSize: 0.5
-                            unit: " strength"
-                            key: "strength"
-                        }
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider {
+                        from: 0
+                        to: 360
+                        unit: " deg"
+                        key: "rotation_angle"
                     }
                 }
-
-                // Corner Edge Detection
-                Ui.Feature {
-                    id: corner
-                    name: "Corner Detection"
-                    height: 130
-                    args: ({func_name: "corner"})
-
-                    Column {
-                        x: 25; y: 35
-                        Ui.Slider{
-                            implicitWidth: 150
-                            from: 1
-                            to: 11
-                            stepSize: 2
-                            unit: " kernel size"
-                            key: "kernel_size"
-                        }
-                        Ui.Slider{
-                            implicitWidth: 150
-                            from: 0
-                            to: 10
-                            stepSize: 0.5
-                            unit: " strength"
-                            key: "sharpen_strength"
-                        }
-                    }
-                }
-
-                // Rotation
-                Ui.Feature {
-                    id: rotation
-                    name: "Rotation"
-
-                    Column {
-                        x: 25; y: 35
-
-                            Ui.Slider {
-                                from: 0
-                                to: 360
-                                unit: " deg"
-                            }
-                    }
-                }                
+            }                
 
                 // Filters
                 Ui.Feature {
@@ -545,6 +564,7 @@ Rectangle {
                         }
                     }
                 }  
-            }
+            
         }
     }
+}
