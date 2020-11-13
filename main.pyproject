@@ -1,6 +1,10 @@
 {
     "files": ["vizually/qml/main.qml",
               "vizually/main.py",
-              "vizually/qml/ui/ImageCanvas.qml"
+              "vizually/qml/ui/ImageCanvas.qml",
+              "vizually/qml/ui/Feature.qml",
+              "vizually/qml/ui/Sidebar.qml",
+              "vizually/qml/ui/Slider.qml",
+              "vizually/qml/ui/Switch.qml"
               ]
 }

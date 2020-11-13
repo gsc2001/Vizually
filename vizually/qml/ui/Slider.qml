@@ -8,7 +8,7 @@ Slider {
     to: 360
     value: slider.from
     stepSize: 1
-	property string unit: ""
+    property string unit: ""
     property string key
     onVisibleChanged: {
         if (visible) {
@@ -31,7 +31,7 @@ Slider {
             text.text = slider.value.toFixed(1) + unit
         }
     }
-	onMoved: change()
+    onMoved: change()
 
     Text {
         id: text
