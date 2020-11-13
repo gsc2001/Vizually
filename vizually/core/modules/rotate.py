@@ -18,6 +18,11 @@ def rotateHandler(image: np.array, params: dict) -> np.array:
         np.array: Rotated image
 
     """
+
+
+    if 'rotation_angle' not in params:
+        return image
+
     return rotateImage(image, params['rotation_angle'])
 
 

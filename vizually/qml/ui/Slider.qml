@@ -6,14 +6,13 @@ Slider {
     id: slider
     from: 0
     to: 360
-    value: 0
+    value: slider.from
     stepSize: 1
 	property string unit: ""
     property string key
     onVisibleChanged: {
-        value = 0
-        text.text = '0'+ unit
-        parent.parent.update(key, slider.value)
+        value = slider.from
+        text.text = slider.from + unit
     }
 
     function change() {
@@ -31,12 +30,11 @@ Slider {
 
     Text {
         id: text
-        text: '0'+ unit
+        text: slider.value + unit
         anchors.left: parent.right
         // anchors.Margin: 5
         y: 10
     }
 
     implicitWidth: 200
-    // implicitHeight: 26
 }

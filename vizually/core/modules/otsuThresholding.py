@@ -9,11 +9,15 @@ def OtsuThresholdingHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { }
+        params (dict): params has { apply: bool }
 
     Returns:
         np.array: thresholded image
     """
+
+    if params['apply'] is False:
+        return image
+
     return GaussianOtsuImageBinarizer(image)
 
 
