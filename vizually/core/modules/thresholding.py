@@ -7,7 +7,7 @@ def threshHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { threshold_value: float }
+        params (dict): params has { threshold_value: float(1,254) }
 
     Returns:
         np.array: thresholded image
@@ -20,11 +20,11 @@ def threshHandler(image: np.array, params: dict) -> np.array:
     if params['threshold_value'] < 0: 
         params['threshold_value'] = 0
 
-    new_img = binarizeImage(image, float(params['threshold_value']))
+    new_img = binarizeImage(image, round(params['threshold_value']))
     return new_img    
 
     
-def binarizeImage(image: np.array, thresh_value: float) -> np.array:
+def binarizeImage(image: np.array, thresh_value: int) -> np.array:
     """Binarize the image
 
     Args:

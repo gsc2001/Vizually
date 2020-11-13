@@ -7,7 +7,7 @@ def adaptiveThresholdingHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { threshold_value } range(about): (0, 10)
+        params (dict): params has { threshold_value } range(about): (0, 2)
 
     Returns:
         np.array: thresholded image
@@ -16,8 +16,8 @@ def adaptiveThresholdingHandler(image: np.array, params: dict) -> np.array:
     if 'threshold_value' not in params:
         return image
 
-    if params['threshold_value'] > 10 :
-        params['threshold_value'] = 10
+    if params['threshold_value'] > 2 :
+        params['threshold_value'] = 2
     elif  params['threshold_value'] < 0 :
         params['threshold_value'] = 0
 

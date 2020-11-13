@@ -34,6 +34,6 @@ def hessianRidgeDetector(image: np.array) -> np.array:
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     retImg = meijering(gray)
-    # retImg = np.stack((retImg, ) * 3, axis = -1)
-    # return retImg
-    return cv2.cvtColor(retImg, cv2.COLOR_GRAY2BGR)
+    retImg = np.stack((retImg, ) * 3, axis = -1)
+    retImg = (retImg*255).astype(np.uint8)
+    return retImg

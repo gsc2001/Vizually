@@ -27,5 +27,5 @@ functions = {
     'rotate': rotate.rotateHandler,
     'sharpen': sharpening.sharpenHandler,
     'sobel': sobelEdgeDetection.sobelEDHandler,
-    'thres': thresholding.threshHandler,
+    'absThres': thresholding.threshHandler,
 }

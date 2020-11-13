@@ -12,7 +12,7 @@ Rectangle {
     property var args
 
     property var toggle: () => {
-        if (sidebar.opened != feature && sidebar.opened) {
+        if (sidebar.opened && sidebar.opened != feature) {
             sidebar.opened.toggle()
         }
         
