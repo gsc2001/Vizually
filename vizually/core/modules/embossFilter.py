@@ -12,6 +12,8 @@ def embossHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: Image with emboss filter on it
     """
+    if ('bottom_left' or 'bottom_right' or 'top_left' or 'top_right') not in params:
+        return image
 
     if params['bottom_left'] is False and params['bottom_right'] is False and params['top_left'] is False and params['top_right'] is False:
         return image
