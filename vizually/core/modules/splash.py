@@ -12,9 +12,6 @@ def SplashHandler(image: np.array, params: dict) -> np.array:
         params (dict): params has { min_hue, max_hue}
         min_hue and max_hue both have range [0,255] with STEP = 1
 
-        Hue can be thought as colors that you want to get in final image
-        If INTERFACE people can handle multiple values of (min_hue, max_hue); i will update the function, do tell me.
-
     Returns:
         np.array:  image  with extracted colors
     """

@@ -10,14 +10,10 @@ def BlendingHandler(image1: np.array, image2: np.array, params: dict) -> np.arra
         params (dict): params has { alpha , contrast}
 
         alpha has range [0, 1] with STEP = 0.01
-        contrast has range [-50, 50] with STEP = 0.1 or 1 (you decide)
-
-        I have chosen contrast range to be this because i only want 
-        to have subtle contrast changes in blending by user 
+        contrast has range [-50, 50] with STEP = 0.1 
 
     Returns:
         np.array: Blended image
-
 
     NOTE : I dont know what to return if params are absent
     """
