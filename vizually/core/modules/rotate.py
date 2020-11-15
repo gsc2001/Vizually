@@ -52,4 +52,5 @@ def rotateImage(image: np.array, angle: float) -> np.array:
     if angle != 0:  # small correction factor to combat precision issues
         rotation_mat[:, 2] -= int(2)
 
-    return cv2.warpAffine(image, rotation_mat, (int(w_bound), int(h_bound)))
+    warped = cv2.warpAffine(image, rotation_mat, (int(w_bound), int(h_bound)))
+    return cv2.resize(warped, (width, height), interpolation=cv2.INTER_CUBIC)
