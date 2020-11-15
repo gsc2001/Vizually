@@ -269,7 +269,7 @@ Rectangle {
             Ui.Feature {
                 id: ridge
                 name: "Ridge Detect"
-                args: ({func_name: "ridge"})
+                args: ({func_name: ""})
                 width: parent.width
                 Column {
                     x: 25; y: 35
@@ -286,13 +286,14 @@ Rectangle {
                 id: contrast
                 name: "Contrast"
                 args: ({func_name: "contrast"})
-                width: parent.width
+                height: 130
                 Column {
                     x: 25; y: 35
 
-                    Ui.Slider{
+                    Ui.Slider {
+                        implicitWidth: 150
                         from: 0
-                        to: 3
+                        to: 4
                         value: 0
                         stepSize: 0.1
                         unit: " lev"
@@ -360,7 +361,7 @@ Rectangle {
             // Rotation
             Ui.Feature {
                 id: rotation
-                name: "Rotation"
+                name: "Rotate"
                 height: 130
                 args: ({func_name: "rotate"})
 
@@ -368,8 +369,9 @@ Rectangle {
                     x: 25; y: 35
 
                     Ui.Slider {
-                        from: 0
-                        to: 360
+                        from: -45
+                        to: 45
+                        val: 0
                         unit: " deg"
                         key: "rotation_angle"
                     }
