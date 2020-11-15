@@ -6,7 +6,6 @@ Slider {
     id: slider
     from: 0
     to: 360
-    value: slider.from
     stepSize: 1
     property string unit: ""
     property string key
