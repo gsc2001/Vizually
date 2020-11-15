@@ -78,3 +78,5 @@ webencodings==0.5.1
 widgetsnbextension==3.5.1
 wrapt==1.12.1
 yapf==0.30.0
+pyqtgraph~=0.11.0
+scikit-image~=0.17.2

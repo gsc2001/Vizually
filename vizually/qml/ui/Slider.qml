@@ -19,7 +19,7 @@ Slider {
             parent.parent.args[key] = slider.from
         }
     }
-
+    property alias val: slider.value
     function change() {
         if (Number.isInteger(stepSize)) {
             parent.parent.update(key, slider.value)
