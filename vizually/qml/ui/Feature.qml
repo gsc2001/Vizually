@@ -8,7 +8,7 @@ Rectangle {
     radius: 10
     clip: true
     property string name: "Feature"
-    property int total_height: height + 30
+    property int total_height: height + 30      // 30 => to display title
     property var args
 
     property var toggle: () => {
@@ -16,7 +16,13 @@ Rectangle {
             sidebar.opened.toggle()
         }
         
-        feature.height = feature.total_height - feature.height
+        if (feature.height > 30) {
+            feature.total_height = feature.height + 30
+            feature.height = 30     // close
+        } else {
+            feature.height = feature.total_height - 30      //open
+        }
+
         vsymbol.text = String.fromCharCode('^'.charCodeAt(0) + 'V'.charCodeAt(0) - vsymbol.text.charCodeAt(0))
     
         if (vsymbol.text == "^")
@@ -34,7 +40,9 @@ Rectangle {
 
     property var update: (key, value) => {
         args[key] = value
-        image.mainImage.apply(args)
+        
+        if (vsymbol.text == "^") 
+            image.mainImage.apply(args)
     }
 
     Behavior on height { NumberAnimation { duration: 100 } }
@@ -72,5 +80,6 @@ Rectangle {
     Component.onCompleted: () => {
         total_height = total_height
         height = total_height - height
+        feature.children[1].visible = 0
     }
 }

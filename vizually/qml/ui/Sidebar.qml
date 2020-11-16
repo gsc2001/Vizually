@@ -71,10 +71,10 @@ Rectangle {
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
+                                image.mainImage.reset()
+                                blur.args = ({func_name: blurItems.get(currentIndex).func_name})
                                 blur.option = currentIndex
                                 blur.height = blurItems.get(blur.option).height
-                                blur.args = ({func_name: blurItems.get(blur.option).func_name})
-                                image.mainImage.reset()
                             }
                         }
 
@@ -91,8 +91,9 @@ Rectangle {
                             from: 0
                             to: 2
                             stepSize: 0.1
-                            unit: "% sigmaX"
+                            unit: " sigmaX"
                             key: "sigmaX"
+                            implicitWidth: 200
                         }
 
                         Ui.Slider {
@@ -102,6 +103,7 @@ Rectangle {
                             stepSize: 0.1
                             unit: " sigmaY"
                             key: "sigmaY"
+                            implicitWidth: 200
                         }
 
                         Ui.Switch {
@@ -149,9 +151,9 @@ Rectangle {
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
-                                edge.option = currentIndex
-                                edge.args = ({func_name: edgeItems.get(edge.option).func_name})
                                 image.mainImage.reset()
+                                edge.args = ({func_name: edgeItems.get(currentIndex).func_name})
+                                edge.option = currentIndex
                             }
                         }
 
@@ -164,6 +166,7 @@ Rectangle {
                             key: "strength"
                         }
 
+                        //sobel
                         Ui.Switch {
                             visible: (edge.option == 1)
                             text: "Apply"
@@ -189,12 +192,13 @@ Rectangle {
                                 id: thresholdingItems
                                 ListElement { text: "otsu"; func_name: "otsuThres"}
                                 ListElement { text: "Adaptive"; func_name: "thres"}
+                                ListElement { text: "Absolute"; func_name: "absThres"}
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
-                                thresholding.option = currentIndex
-                                thresholding.args = ({func_name: thresholdingItems.get(thresholding.option).func_name})
                                 image.mainImage.reset()
+                                thresholding.args = ({func_name: thresholdingItems.get(currentIndex).func_name})
+                                thresholding.option = currentIndex
                             }
                         }
                         
@@ -202,7 +206,7 @@ Rectangle {
                         Ui.Slider {
                             visible: (thresholding.option == 1)
                             from: 0
-                            to: 10
+                            to: 2
                             stepSize: 0.1
                             unit: " value"
                             key: "threshold_value"
@@ -212,6 +216,16 @@ Rectangle {
                         Ui.Switch {
                             visible: (thresholding.option == 0)
                             text: "Apply"
+                        }
+
+                        // absolute
+                        Ui.Slider {
+                            visible: (thresholding.option == 2)
+                            from: 1
+                            to: 254
+                            stepSize: 1
+                            unit: " value"
+                            key: "threshold_value"
                         }
                     }
                 }

@@ -13,6 +13,7 @@ Slider {
     onVisibleChanged: {
         value = slider.from
         text.text = slider.from + unit
+        parent.parent.update(key, slider.from)
     }
 
     function change() {
