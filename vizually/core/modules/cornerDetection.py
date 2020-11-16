@@ -51,10 +51,10 @@ def cornerDetect(image: np.array, kernel_size: int, strength: float) -> np.array
     dst = cv2.dilate(dst, None)
     thresh = 0.1 * dst.max()
     
-    #Display Corners
-    for j in range(0, dst.shape[0]):
-        for i in range(0, dst.shape[1]):
-            if dst[j,i] > thresh:
-                cv2.circle(retImg, (i, j), 1, (0,255,0), -1)
-    
+    # Display Corners
+    arr = (dst > thresh).nonzero()
+
+    for j in range(0, len(arr[0])):
+        cv2.circle(retImg, (arr[1][j], arr[0][j]), 1, (0, 255, 0), -1)
+
     return retImg
