@@ -17,6 +17,32 @@ ApplicationWindow {
     property real defaultSize: 400
     property real zoomRatio: 1.0
 
+    property var undo: () => {
+        if (sidebar.opened) {
+            sidebar.opened.toggle()
+            image.mainImage.reset()
+        } else {
+            image.mainImage.undo()
+        }
+    }
+
+    property var redo: () => {
+        if (sidebar.opened)
+            sidebar.opened.toggle()
+        
+        image.mainImage.redo()
+    }
+
+    Action {
+        shortcut: "Ctrl+Z"
+        onTriggered: undo()
+    }
+    
+    Action {
+        shortcut: "Ctrl+Y"
+        onTriggered: redo()
+    }
+
     FileDialog {
         id: fileDialog
         title: "Choose an Image for testing"
@@ -94,6 +120,17 @@ ApplicationWindow {
             }
         }
         Menu {
+            title: qsTr("&Edit")
+            MenuItem {
+                text: "Undo"
+                onTriggered: undo()
+            }
+            MenuItem {
+                text: "Redo"
+                onTriggered: redo()
+            }
+        }
+        Menu {
             title: qsTr("&Help")
             MenuItem {
                 text: "About"
@@ -112,7 +149,10 @@ ApplicationWindow {
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
         text: 'Commit Changes'
-        onClicked: image.mainImage.commit()
+        onClicked: {
+            image.mainImage.commit()
+            if (sidebar.opened) sidebar.opened.toggle()
+        }
     }
     Button {
         id: revert
