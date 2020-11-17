@@ -56,7 +56,7 @@ ApplicationWindow {
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         // For testing only
         Component.onCompleted: {
-            targetimage.load_image("file:///home/vagrant/dev/vizually/vizually/data/images/test6.jpeg")
+            targetimage.load_image("file:///home/vagrant/dev/vizually/vizually/data/images/Corner.png")
             loaded = true
         }
     }
