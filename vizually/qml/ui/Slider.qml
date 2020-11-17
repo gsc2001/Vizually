@@ -11,9 +11,13 @@ Slider {
 	property string unit: ""
     property string key
     onVisibleChanged: {
-        value = slider.from
-        text.text = slider.from + unit
-        parent.parent.update(key, slider.from)
+        if (visible) {
+            value = slider.from
+            text.text = slider.from + unit
+            parent.parent.update(key, slider.from)
+        } else {
+            parent.parent.args[key] = slider.from
+        }
     }
 
     function change() {

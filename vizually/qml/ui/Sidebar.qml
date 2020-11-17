@@ -16,8 +16,9 @@ Rectangle {
        // collapse 
         Rectangle {
             color: 'steelblue'
-            width: 20; height: parent.height
+            width: 13; height: parent.height
             anchors.right: parent.right
+            property var tot_width: width + sidebar.width
 
             Text {
                 id: hsymbol
@@ -25,15 +26,19 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: 5
                 font.bold: true
-                font.pointSize: 20
+                font.pointSize: parent.width
             }
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: () => {
-                    sidebar.width = 360 - sidebar.width
+                    sidebar.width = parent.tot_width - sidebar.width
                     hsymbol.text = String.fromCharCode('>'.charCodeAt(0) + '<'.charCodeAt(0) - hsymbol.text.charCodeAt(0))
                 }
+            }
+
+            Component.onCompleted: () => {
+                tot_width = tot_width
             }
         }
 
@@ -42,7 +47,6 @@ Rectangle {
             x: 15; y: 15
             contentHeight: sidebar_col.height + 30
             clip: true
-            // boundsMovement: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {}
 
             Column {
