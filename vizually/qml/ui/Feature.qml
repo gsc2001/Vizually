@@ -40,9 +40,7 @@ Rectangle {
 
     property var update: (key, value) => {
         args[key] = value
-        
-        if (vsymbol.text == "^") 
-            image.mainImage.apply(args)
+        image.mainImage.apply(args)
     }
 
     Behavior on height { NumberAnimation { duration: 100 } }
