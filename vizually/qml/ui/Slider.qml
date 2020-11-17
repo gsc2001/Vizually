@@ -37,7 +37,6 @@ Slider {
         id: text
         text: slider.value + unit
         anchors.left: parent.right
-        // anchors.Margin: 5
         y: 10
     }
 

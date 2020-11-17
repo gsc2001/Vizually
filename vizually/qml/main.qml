@@ -67,11 +67,6 @@ ApplicationWindow {
             }
         }
     }
-    Button {
-        x: 150; y: 500
-        text: 'gray'
-        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
-    }
     Label {
         id: mousePosition
         x: 150; y: 550
