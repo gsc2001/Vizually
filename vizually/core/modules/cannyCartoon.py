@@ -41,5 +41,5 @@ def cartoon1(image: np.array, strength: float) -> np.array:
     
     edge_mask = cv2.bitwise_not(cannyEDHandler(image, {'strength': strength}))
     blur = cv2.bilateralFilter(image, 9, 75, 75)
-    retImg = cv2.bitwise_and(blur, blur, mask=edge_mask)
+    retImg = cv2.bitwise_and(blur, blur, mask=edge_mask[:,:,0])
     return retImg
