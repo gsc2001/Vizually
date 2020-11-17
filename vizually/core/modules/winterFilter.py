@@ -22,7 +22,7 @@ def winterHandler(image: np.array, params: dict) -> np.array:
         params['winter_value'] = 0
 
     new_img = winterFilter(
-        image, float(params['winter_value']))
+        image.copy(), float(params['winter_value']))
     return new_img
 
 

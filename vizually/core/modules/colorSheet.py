@@ -13,7 +13,7 @@ def colorSheetHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: Image with color sheet in front
     """
-    if ('blueStrength' or 'greenStrength' or 'redStrength' or 'noRed' or 'noGreen' or 'noBlue' or 'black_screen') not in params:
+    if 'blueStrength' not in params or 'greenStrength' not in params or 'redStrength' not in params or 'noRed' not in params or 'noGreen' not in params or 'noBlue' not in params or 'black_screen' not in params:
         return image
 
     if params['redStrength'] > 2 :
@@ -31,7 +31,7 @@ def colorSheetHandler(image: np.array, params: dict) -> np.array:
     elif  params['blueStrength'] < 0 :
         params['blueStrength'] = 0
 
-    new_img = cartoon1(image, params['black_screen'], params['noRed'], params['noGreen'], params['noBlue'], params['redStrength'], params['greenStrength'], params['blueStrength'])
+    new_img = cartoon1(image.copy(), params['black_screen'], params['noRed'], params['noGreen'], params['noBlue'], params['redStrength'], params['greenStrength'], params['blueStrength'])
     return new_img
 
 def cartoon1(image: np.array, black: bool, nor: bool, nog: bool, nob: bool, rstrength: float, gstrength: float, bstrength: float) -> np.array:
