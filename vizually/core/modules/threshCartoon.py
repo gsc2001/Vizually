@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 
-from ..modules.AdaptiveThresholding import medianAdaptiveImageBinarizer
+from ..modules.adaptiveThresholding import medianAdaptiveImageBinarizer
+
 
 def threshCartoonHandler(image: np.array, params: dict) -> np.array:
     """Threshold Cartoon Handler

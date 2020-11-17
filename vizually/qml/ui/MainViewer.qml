@@ -9,6 +9,7 @@ import "."
 Rectangle {
     id: mainViewer
     property var image: image.mainImage
+    property var img: image
     Flickable {
         id: flickable
         anchors.fill: parent
