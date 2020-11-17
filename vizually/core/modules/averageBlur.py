@@ -13,17 +13,17 @@ def averageBlurringHandler(image: np.array, params: dict) -> np.array:
         np.array: Blurred image (without edge preservation)
     """
 
-
     if 'blurValue' not in params:
         return image
 
-    if params['blurValue'] > 20 :
+    if params['blurValue'] > 20:
         params['blurValue'] = 20
-    elif  params['blurValue'] < 1 :
+    elif params['blurValue'] < 1:
         params['blurValue'] = 1
 
     new_img = averageBlur(image, round(params['blurValue']))
     return new_img
+
 
 def averageBlur(image: np.array, blurValue: int) -> np.array:
     """Blurs the image
