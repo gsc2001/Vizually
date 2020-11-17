@@ -13,6 +13,15 @@ Rectangle {
 
         Behavior on width { NumberAnimation { duration: 250 } }
 
+        property var getHeight: (par) => {
+            var vis_cnt = 0
+            for(var i=1; i<par.children.length; i++){
+                if(par.children[i].visible == 1)
+                    vis_cnt++
+            }
+            return 40 * vis_cnt + 90
+        }
+
        // collapse 
         Rectangle {
             color: 'steelblue'
@@ -59,7 +68,7 @@ Rectangle {
                     name: "Blur"
                     property int option: 0
                     args: ({func_name: blurItems.get(0).func_name})
-                    height: blurItems.get(0).height
+                    height: sidebar.getHeight(children[1])
 
                     Column {
                     x: 25; y: 35
@@ -69,16 +78,16 @@ Rectangle {
                             textRole: "text"
                             model: ListModel {
                                 id: blurItems
-                                ListElement { text: "Average Blur"; func_name: "avgBlur"; height: 130}
-                                ListElement { text: "Gaussian Blur"; func_name: "gaussianBlur"; height: 160}
-                                ListElement { text: "Bilateral Blur"; func_name: "bilateralBlur"; height: 130}
+                                ListElement { text: "Average Blur"; func_name: "avgBlur"}
+                                ListElement { text: "Gaussian Blur"; func_name: "gaussianBlur"}
+                                ListElement { text: "Bilateral Blur"; func_name: "bilateralBlur"}
                             }
                             width: 200
                             onCurrentIndexChanged: () => {
                                 image.mainImage.reset()
                                 blur.args = ({func_name: blurItems.get(currentIndex).func_name})
                                 blur.option = currentIndex
-                                blur.height = blurItems.get(blur.option).height
+                                blur.height = sidebar.getHeight(parent)
                             }
                         }
 
@@ -117,30 +126,13 @@ Rectangle {
                     }
                 }
 
-                // Blur
-                // Ui.Feature {
-                //     id: blur
-                //     name: "Blurring"
-                //     args: ({func_name: "avgBlur"})
-                //     Column {
-                //     x: 25; y: 35
-
-                //         Ui.Slider {
-                //             from: 1
-                //             to: 20
-                //             unit: "%"
-                //             key: "blurValue"
-                //         }
-                //     }
-                // }
-
                 // Edge Detection
                 Ui.Feature {
                     id: edge
                     name: "Edge"
                     property int option: 0
                     args: ({func_name: edgeItems.get(0).func_name})
-                    height: 130
+                    height: sidebar.getHeight(children[1])
 
                     Column {
                     x: 25; y: 35
@@ -158,6 +150,7 @@ Rectangle {
                                 image.mainImage.reset()
                                 edge.args = ({func_name: edgeItems.get(currentIndex).func_name})
                                 edge.option = currentIndex
+                                edge.height = sidebar.getHeight(parent)
                             }
                         }
 
@@ -184,7 +177,7 @@ Rectangle {
                     name: "Thresholding"
                     property int option: 0
                     args: ({func_name: thresholdingItems.get(0).func_name})
-                    height: 130
+                    height: sidebar.getHeight(children[1])
 
                     Column {
                     x: 25; y: 35
@@ -203,6 +196,7 @@ Rectangle {
                                 image.mainImage.reset()
                                 thresholding.args = ({func_name: thresholdingItems.get(currentIndex).func_name})
                                 thresholding.option = currentIndex
+                                thresholding.height = sidebar.getHeight(parent)
                             }
                         }
                         
@@ -363,51 +357,194 @@ Rectangle {
                     }
                 }                
 
-                // combo box
-                // Rectangle {
-                //     width: 300; height: 100
-                //     color: "#eee"
-                //     radius: 10
+                // Filters
+                Ui.Feature {
+                    id: filter
+                    name: "Filters"
+                    property int option: 0
+                    args: ({func_name: filterItems.get(0).func_name})
+                    height: sidebar.getHeight(children[1])
 
-                //     Column {
-                //         x: 25; y: 15
+                    Column {
+                    x: 25; y: 35
 
-                //         Text {
-                //             y: 100
-                //             text: "Select Filter to be applied: "
-                //             font.italic: true
-                //             font.pointSize: 11
-                //         }
+                        ComboBox {
+                            currentIndex: 0
+                            textRole: "text"
+                            model: ListModel {
+                                id: filterItems
+                                ListElement { text: "Canny Cartoon"; func_name: "cannyCartoon"}
+                                ListElement { text: "Color Sheet"; func_name: "colorSheet"}
+                                ListElement { text: "Day Light"; func_name: "dayLight"}
+                                ListElement { text: "Emboss"; func_name: "embossFilter"}
+                                ListElement { text: "Invert"; func_name: "invert"}
+                                ListElement { text: "Pencil Sketch"; func_name: "pencilSketch"}
+                                ListElement { text: "Sepia"; func_name: "sepia"}
+                                ListElement { text: "Splash"; func_name: "splash"}
+                                ListElement { text: "Summer"; func_name: "summer"}
+                                ListElement { text: "Thresh Cartoon"; func_name: "threshCartoon"}
+                                ListElement { text: "Winter"; func_name: "winter"}
+                            }
+                            width: 200
+                            onCurrentIndexChanged: () => {
+                                image.mainImage.reset()
+                                filter.args = ({func_name: filterItems.get(currentIndex).func_name})
+                                filter.option = currentIndex
+                                filter.height = sidebar.getHeight(parent)
+                            }
+                        }
 
-                //         ComboBox {
-                //             y: 50
-                //             currentIndex: 0
-                //             model: ListModel {
-                //                 id: cbItems
-                //                 ListElement { text: "None"}
-                //                 ListElement { text: "Sharpening" }
-                //                 ListElement { text: "Blurring" }
-                //                 ListElement { text: "Perspective" }
-                //                 ListElement { text: "Morphing" }
-                //                 ListElement { text: "Perspective" }
-                //             }
-                //             width: 200
-                //             onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
-                //         }
-                //     }
-                // }   
+                        // Canny Cartoon
+                        Ui.Slider {
+                            visible: (filter.option == 0)
+                            from: 0
+                            to: 127
+                            unit: " strength"
+                            key: "strength"
+                        }
+
+                        // Color Sheet
+                        Ui.Switch {
+                            visible: (filter.option == 1)
+                            text: "Black Screen"
+                            key: "black_screen"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 1)
+                            text: "No Red"
+                            key: "noRed"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 1)
+                            text: "No Green"
+                            key: "noGreen"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 1)
+                            text: "No Blue"
+                            key: "noBlue"
+                        }
+                        Ui.Slider {
+                            visible: (filter.option == 1)
+                            from: 0
+                            to: 2
+                            stepSize: 0.1
+                            unit: " Red"
+                            key: "redStrength"
+                        }
+                        Ui.Slider {
+                            visible: (filter.option == 1)
+                            from: 0
+                            to: 2
+                            stepSize: 0.1
+                            unit: " Green"
+                            key: "greenStrength"
+                        }
+                        Ui.Slider {
+                            visible: (filter.option == 1)
+                            from: 0
+                            to: 2
+                            stepSize: 0.1
+                            unit: " Blue"
+                            key: "blueStrength"
+                        }
+
+                        // Day Light
+                        Ui.Slider {
+                            visible: (filter.option == 2)
+                            from: 1
+                            to: 3
+                            stepSize: 0.1
+                            unit: " lighting"
+                            key: "lighting"
+                        }
+
+                        // Emboss Filter
+                        Ui.Switch {
+                            visible: (filter.option == 3)
+                            text: "Bottom Left"
+                            key: "bottom_left"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 3)
+                            text: "Bottom Right"
+                            key: "bottom_right"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 3)
+                            text: "Top Left"
+                            key: "top_left"
+                        }
+                        Ui.Switch {
+                            visible: (filter.option == 3)
+                            text: "Top Right"
+                            key: "top_right"
+                        }
+
+                        // Invert
+                        Ui.Switch {
+                            visible: (filter.option == 4)
+                            text: "Apply"
+                        }
+
+                       // Pencil Sketch
+                        Ui.Switch {
+                            visible: (filter.option == 5)
+                            text: "Apply"
+                        }
+
+                        // Sepia
+                        Ui.Switch {
+                            visible: (filter.option == 6)
+                            text: "Apply"
+                        }
+
+                        // Splash
+                        Ui.Slider {
+                            visible: (filter.option == 7)
+                            from: 0
+                            to: 255
+                            unit: " Min Hue"
+                            key: "min_hue"
+                        }
+                        Ui.Slider {
+                            visible: (filter.option == 7)
+                            from: 0
+                            to: 255
+                            unit: " Max Hue"
+                            key: "max_hue"
+                        }
+
+                        // Summer Filter
+                        Ui.Slider {
+                            visible: (filter.option == 8)
+                            from: 0
+                            to: 1
+                            stepSize: 0.01
+                            unit: " Value"
+                            key: "summer_value"
+                        }
+
+                        // Thresh Cartoon
+                        Ui.Slider {
+                            visible: (filter.option == 9)
+                            from: 0
+                            to: 10
+                            unit: " Value"
+                            key: "threshold_value"
+                        }
+                        
+                        // Winter Filter
+                        Ui.Slider {
+                            visible: (filter.option == 10)
+                            from: 0
+                            to: 1
+                            stepSize: 0.01
+                            unit: " Value"
+                            key: "winter_value"
+                        }
+                    }
+                }  
             }
-        // Rectangle {
-        //     x: 25; y: 25
-        //     width: 300; height: 100
-        //     color: "#eee"
-        //     radius: 10
-        //     Text {
-        //         id: tb
-        //         x : 0; y : 0
-        //         width: 100; height: 100
-        //         text: qsTr("Hello World!")
-        //     }
-        // }
         }
     }
