@@ -1,11 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import "Utils.js" as Utils
 
-import "../Fonts"
+// import "../Fonts"
 
 Rectangle {
     id: feature
-    width: parent.width; height: 30
+    width: parent.width; height: 80
     color: "#eee"
     clip: true
     property string name: "Feature"
@@ -16,27 +17,18 @@ Rectangle {
         if (sidebar.opened && sidebar.opened != feature) {
             sidebar.opened.toggle()
         }
-        
-        if (feature.height > 30) {
-            feature.total_height = feature.height + 30
-            feature.height = 30     // close
+        vsymbol.text = String.fromCharCode('\uf106'.charCodeAt(0) + '\uf107'.charCodeAt(0) - vsymbol.text.charCodeAt(0))
+    
+        if (vsymbol.text == "\uf106") {   
+            sidebar.opened = feature
+            feature.children[1].visible = 1
         } else {
-            feature.height = feature.total_height - 30      //open
+            sidebar.opened = 0
+            feature.children[1].visible = 0
+            targetimage.reset()
         }
 
-        vsymbol.text = String.fromCharCode('^'.charCodeAt(0) + 'V'.charCodeAt(0) - vsymbol.text.charCodeAt(0))
-    
-        if (vsymbol.text == "^")
-            {   
-                sidebar.opened = feature
-                feature.children[1].visible = 1
-            }
-        else
-            {
-                sidebar.opened = 0
-                feature.children[1].visible = 0
-                image.mainImage.reset()
-            }
+        feature.height = Utils.getHeight(children[1])
     }
 
     property var update: (key, value) => {
@@ -58,7 +50,7 @@ Rectangle {
 
         Text {
             id: vsymbol
-            text: "V"
+            text: "\uf107"
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 10
@@ -82,5 +74,6 @@ Rectangle {
         total_height = total_height
         height = total_height - height
         feature.children[1].visible = 0
+        console.log("hh", height)
     }
 }
