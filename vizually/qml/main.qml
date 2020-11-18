@@ -21,9 +21,9 @@ ApplicationWindow {
     property var undo: () => {
         if (sidebar.opened) {
             sidebar.opened.toggle()
-            image.mainImage.reset()
+            targetimage.reset()
         } else {
-            image.mainImage.undo()
+            targetimage.undo()
         }
     }
 
@@ -31,7 +31,7 @@ ApplicationWindow {
         if (sidebar.opened)
             sidebar.opened.toggle()
         
-        image.mainImage.redo()
+        targetimage.redo()
     }
 
     Action {
@@ -56,7 +56,7 @@ ApplicationWindow {
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         // For testing only
         Component.onCompleted: {
-            targetimage.load_image("file:///home/vagrant/dev/vizually/vizually/data/images/Corner.png")
+            fileDialog.open()
             loaded = true
         }
     }

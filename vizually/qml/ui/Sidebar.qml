@@ -408,7 +408,7 @@ Rectangle {
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                                                   image.mainImage.reset()
+                                                   targetimage.reset()
                                                    filter.args = ({func_name: filterItems.get(currentIndex).func_name})
                                                    filter.option = currentIndex
                                                    filter.height = Utils.getHeight(parent)
