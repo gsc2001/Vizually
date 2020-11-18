@@ -4,6 +4,7 @@ import QtQuick.Extras 1.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.15
 
+
 import "ui" as Ui
 
 ApplicationWindow {
@@ -55,10 +56,6 @@ ApplicationWindow {
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         // For testing only
-        Component.onCompleted: {
-            fileDialog.open()
-            loaded = true
-        }
     }
 
     Ui.MainViewer {

@@ -59,7 +59,7 @@ Rectangle {
 
         Column {
             id: sidebar_col
-            spacing: 15
+            spacing: 5
             width: parent.width
 
             // Blur
@@ -269,7 +269,7 @@ Rectangle {
             Ui.Feature {
                 id: ridge
                 name: "Ridge Detect"
-                args: ({func_name: ""})
+                args: ({func_name: "ridge"})
                 width: parent.width
                 Column {
                     x: 25; y: 35
