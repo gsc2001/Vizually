@@ -6,15 +6,20 @@ Slider {
     id: slider
     from: 0
     to: 360
-    value: slider.from
     stepSize: 1
-	property string unit: ""
+    value: slider.from
+    property var def_val: 0
+    property string unit: ""
     property string key
     onVisibleChanged: {
-        value = slider.from
-        text.text = slider.from + unit
+        if (visible) {
+            value = def_val
+            text.text = def_val + unit
+            parent.parent.update(key, def_val)
+        } else {
+            parent.parent.args[key] = def_val
+        }
     }
-
     function change() {
         if (Number.isInteger(stepSize)) {
             parent.parent.update(key, slider.value)
@@ -26,15 +31,19 @@ Slider {
             text.text = slider.value.toFixed(1) + unit
         }
     }
-	onMoved: change()
+    onMoved: change()
 
     Text {
         id: text
         text: slider.value + unit
         anchors.left: parent.right
-        // anchors.Margin: 5
         y: 10
     }
 
     implicitWidth: 200
+
+    Component.onCompleted: {
+        def_val = slider.value
+        def_val = def_val
+    }
 }

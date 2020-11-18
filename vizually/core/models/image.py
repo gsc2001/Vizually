@@ -16,5 +16,3 @@ class Image:
         self.img = cv2.imread(self.path)
         
 
-    # def apply(self, func: Callable):
-    #     self.img = func(self.img)

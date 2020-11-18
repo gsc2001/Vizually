@@ -1,7 +1,7 @@
+import math
+
 import cv2
 import numpy as np
-
-from ..models.image import Image
 
 
 def rotateHandler(image: np.array, params: dict) -> np.array:
@@ -18,7 +18,6 @@ def rotateHandler(image: np.array, params: dict) -> np.array:
         np.array: Rotated image
 
     """
-
 
     if 'rotation_angle' not in params:
         return image
@@ -40,13 +39,21 @@ def rotateImage(image: np.array, angle: float) -> np.array:
 
     rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1)
 
-    cos = np.abs(rotation_mat[0, 0])
-    sin = np.abs(rotation_mat[0, 1])
+    alpha = math.degrees(math.fabs(math.atan(height / width)))
+    alpha2 = alpha
+    if (height > width):
+        alpha2 = 90 - alpha
+    
+    scale = (min(height, width) * math.sin(math.radians(alpha))) / (math.sin(math.fabs(math.radians(angle)) + math.radians(alpha2)) * height)
 
-    w_bound = int(height * sin + width * cos)
-    h_bound = int(height * cos + width * sin)
+    w_bound = width * scale
+    h_bound = height * scale
 
-    rotation_mat[0, 2] += w_bound / 2 - image_center[0]
-    rotation_mat[1, 2] += h_bound / 2 - image_center[1]
+    rotation_mat[0, 2] += int(w_bound / 2 - image_center[0])
+    rotation_mat[1, 2] += int(h_bound / 2 - image_center[1])
 
-    return cv2.warpAffine(image, rotation_mat, (w_bound, h_bound))
+    if angle != 0:  # small correction factor to combat precision issues
+        rotation_mat[:, 2] -= int(2)
+
+    warped = cv2.warpAffine(image, rotation_mat, (int(w_bound), int(h_bound)))
+    return cv2.resize(warped, (width, height), interpolation=cv2.INTER_CUBIC)

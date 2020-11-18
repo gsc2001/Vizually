@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 
-from ..modules.AdaptiveThresholding import medianAdaptiveImageBinarizer
+from ..modules.adaptiveThresholding import medianAdaptiveImageBinarizer
+
 
 def threshCartoonHandler(image: np.array, params: dict) -> np.array:
     """Threshold Cartoon Handler
@@ -22,7 +23,7 @@ def threshCartoonHandler(image: np.array, params: dict) -> np.array:
     elif  params['threshold_value'] < 0 :
         params['threshold_value'] = 0
 
-    new_img = cartoon1(image, float(params['threshold_value']))
+    new_img = cartoon2(image, float(params['threshold_value']))
     return new_img
 
 def cartoon2(image: np.array, threshold_value: float) -> np.array:
@@ -37,5 +38,5 @@ def cartoon2(image: np.array, threshold_value: float) -> np.array:
     
     edge_mask = medianAdaptiveImageBinarizer(image, threshold_value)
     blur = cv2.bilateralFilter(image, 9, 75, 75)
-    retImg = cv2.bitwise_and(blur, blur, mask=edge_mask)
+    retImg = cv2.bitwise_and(blur, blur, mask=edge_mask[:,:,0])
     return retImg

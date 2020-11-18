@@ -4,6 +4,7 @@ import QtQuick.Extras 1.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.15
 
+
 import "ui" as Ui
 
 ApplicationWindow {
@@ -13,68 +14,62 @@ ApplicationWindow {
     title: qsTr("Vizually")
     visible: true
     
-    property var currentChose: undefined
-    property real defaultSize: 400
+    property var targetimage: mainViewer.image
+    property bool loaded: false
+    property real defaultSize: 600
     property real zoomRatio: 1.0
+
+    property var undo: () => {
+        if (sidebar.opened) {
+            sidebar.opened.toggle()
+            targetimage.reset()
+        } else {
+            targetimage.undo()
+        }
+    }
+
+    property var redo: () => {
+        if (sidebar.opened)
+            sidebar.opened.toggle()
+        
+        targetimage.redo()
+    }
+
+    Action {
+        shortcut: "Ctrl+Z"
+        onTriggered: undo()
+    }
+    
+    Action {
+        shortcut: "Ctrl+Y"
+        onTriggered: redo()
+    }
 
     FileDialog {
         id: fileDialog
         title: "Choose an Image for testing"
         folder: shortcuts.home
         onAccepted: {
-            console.log(fileUrl)
-            image.mainImage.load_image(fileUrl)
+            
+            targetimage.load_image(fileUrl)
+            if (!loaded) loaded = true
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
+        // For testing only
         Component.onCompleted: {
-            if (typeof contextInitialUrl !== 'undefined') {
-                // Launched from python with context properties set.
-                imageNameFilters = contextImageNameFilters;
-                picturesLocation = contextPicturesLocation;
-                if (contextInitialUrl == "")
-                    fileDialog.open();
-                else
-                    folderModel.folder = contextInitialUrl + "/";
-            } else {
-                // Launched via QML viewer without context properties set.
-                fileDialog.open();
-            }
+            fileDialog.open()
+            loaded = true
         }
     }
-    Button {
-        x: 150; y: 500
-        text: 'gray'
-        onClicked: image.mainImage.apply({func_name: "rotate", rotation_angle: 45})
-    }
-    Label {
-        id: mousePosition
-        x: 150; y: 550
-        text: "%1".arg(image.mouse.mouseX.toString())
-    }
 
-    Flickable {
-        id: flickable
+    Ui.MainViewer {
+        id: mainViewer
         anchors.left: sidebar.right
         anchors.right: parent.right
         anchors.top : parent.top
         anchors.bottom: parent.bottom
-        boundsBehavior: Flickable.StopAtBounds
-        contentWidth: Math.max(image.width * image.scale + 300, width);
-        contentHeight: Math.max(image.height * image.scale + 100, height);
-        clip: true
-        Ui.ImageCanvas {
-            id: image
-        }
-        ScrollBar.vertical: ScrollBar {
-            id: verticalScrollBar
-            active: horizontalScrollBar.active
-        }
-        ScrollBar.horizontal: ScrollBar {
-            id: horizontalScrollBar
-            active: verticalScrollBar.active
-        }
-        
     }
+    
     menuBar: MenuBar {
         Menu {
             title: qsTr("&File")
@@ -91,6 +86,17 @@ ApplicationWindow {
             MenuItem {
                 text: "Exit"
                 onTriggered: Qt.quit()
+            }
+        }
+        Menu {
+            title: qsTr("&Edit")
+            MenuItem {
+                text: "Undo"
+                onTriggered: undo()
+            }
+            MenuItem {
+                text: "Redo"
+                onTriggered: redo()
             }
         }
         Menu {
@@ -112,7 +118,11 @@ ApplicationWindow {
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
         text: 'Commit Changes'
-        onClicked: image.mainImage.commit()
+        onClicked: {
+            targetimage.commit()
+            if (sidebar.opened) sidebar.opened.toggle()
+        }
+        visible: loaded
     }
     Button {
         id: revert
@@ -127,11 +137,13 @@ ApplicationWindow {
         text: 'Revert Changes'
         onClicked: () => {
             if (sidebar.opened) sidebar.opened.toggle()
-            image.mainImage.reset()
+            targetimage.reset()
         }
+        visible: loaded
     }
     Ui.Sidebar {
         id: sidebar
+        visible: loaded
     }
 
 }

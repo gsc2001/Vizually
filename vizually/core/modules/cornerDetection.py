@@ -3,6 +3,7 @@ import numpy as np
 
 from ..modules.sharpening import sharpenHandler
 
+
 def cornerDetectionHandler(image: np.array, params: dict) -> np.array:
     """Corner Detection Handler
 
@@ -40,21 +41,20 @@ def cornerDetect(image: np.array, kernel_size: int, strength: float) -> np.array
     """
     #Make copy to display corners
     retImg = image.copy()
-    
+
     # Sharpen The Image
     sharpened_img = sharpenHandler(image, {'kernel_size': kernel_size, 'strength': strength})
-    
+
     # Find Corners
     gray = cv2.cvtColor(sharpened_img, cv2.COLOR_BGR2GRAY)
     gray = np.float32(gray)
     dst = cv2.cornerHarris(gray, 2, 3, 0.04)
     dst = cv2.dilate(dst, None)
     thresh = 0.1 * dst.max()
-    
-    #Display Corners
-    for j in range(0, dst.shape[0]):
-        for i in range(0, dst.shape[1]):
-            if dst[j,i] > thresh:
-                cv2.circle(retImg, (i, j), 1, (0,255,0), -1)
-    
+    # Display Corners
+    arr = (dst > thresh).nonzero()
+
+    for j in range(0, len(arr[0])):
+        cv2.circle(retImg, (arr[1][j], arr[0][j]), 1, (0, 255, 0), -1)
+
     return retImg

@@ -22,7 +22,7 @@ def summerHandler(image: np.array, params: dict) -> np.array:
         params['summer_value'] = 0
 
     new_img = summerFilter(
-        image, float(params['summer_value']))
+        image.copy(), float(params['summer_value']))
     return new_img
 
 

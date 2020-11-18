@@ -4,7 +4,7 @@ import numpy as np
 from ..models.image import Image
 
 
-def SplashHandler(image: np.array, params: dict) -> np.array:
+def splashHandler(image: np.array, params: dict) -> np.array:
     """Splash Hnadler
 
     Args:

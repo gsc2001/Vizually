@@ -8,6 +8,11 @@ Switch {
     property string key: "apply"
     onVisibleChanged: {
         swtch.checked = false
+        if (visible) {
+            parent.parent.update(key, false)
+        } else {
+            parent.parent.args[key] = false
+        }
     }
 
     onClicked: {
