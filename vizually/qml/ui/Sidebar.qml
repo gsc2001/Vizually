@@ -34,14 +34,14 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: () => {
-                           sidebar.width = parent.tot_width - sidebar.width
-                           hsymbol.text = String.fromCharCode('>'.charCodeAt(0) + '<'.charCodeAt(0) - hsymbol.text.charCodeAt(0))
-                       }
+                sidebar.width = parent.tot_width - sidebar.width
+                hsymbol.text = String.fromCharCode('>'.charCodeAt(0) + '<'.charCodeAt(0) - hsymbol.text.charCodeAt(0))
+            }
         }
 
         Component.onCompleted: () => {
-                                   tot_width = tot_width
-                               }
+            tot_width = tot_width
+        }
     }
 
     Flickable {
@@ -53,13 +53,16 @@ Rectangle {
         anchors.right: collapse.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        anchors.leftMargin: 15
+        anchors.rightMargin: 15
+        anchors.topMargin: 15   
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
         ScrollBar.vertical: ScrollBar {}
 
         Column {
             id: sidebar_col
-            spacing: 5
+            spacing: 15
             width: parent.width
 
             // Blur
@@ -70,11 +73,8 @@ Rectangle {
                 args: ({func_name: blurItems.get(0).func_name})
                 height: Utils.getHeight(children[1])
 
-                // height: 130
-                
-
                 Column {
-                    x: 25; y: 30
+                    x: 25; y: 35
 
                     ComboBox {
                         currentIndex: 0
@@ -87,16 +87,16 @@ Rectangle {
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                                                   targetimage.reset()
-                                                   blur.args = ({func_name: blurItems.get(currentIndex).func_name})
-                                                   blur.option = currentIndex
-                                                   blur.height = Utils.getHeight(parent)
-                                               }
+                            targetimage.reset()
+                            blur.args = ({func_name: blurItems.get(currentIndex).func_name})
+                            blur.option = currentIndex
+                            blur.height = Utils.getHeight(parent)
+                        }
                     }
                     
 
                     Ui.Slider {
-                        visible: true
+                        visible: (blur.option == 0)
                         from: 1
                         to: 20
                         unit: " value"
@@ -156,7 +156,7 @@ Rectangle {
                                                    targetimage.reset()
                                                    edge.args = ({func_name: edgeItems.get(currentIndex).func_name})
                                                    edge.option = currentIndex
-                                                   edge.height = sidebar.getHeight(parent)
+                                                   edge.height = Utils.getHeight(parent)
                                                }
                     }
                     
@@ -169,7 +169,7 @@ Rectangle {
                         unit: " value"
                         key: "strength"
                     }
-
+                    // sobel
                     Ui.ComboBox {
                         visible: (edge.option == 1)
                         textRole: "name"
@@ -249,11 +249,10 @@ Rectangle {
                 id: flip
                 name: "Flip"
                 height: 130
-                args: ({func_name: "flip", horizontal: false, vertical: false})
+                args: ({func_name: "flip"})
 
                 Column {
                     x: 25; y: 35
-                    width: parent.width
                     Ui.Switch {
                         text: 'Horizontal'
                         key: "horizontal"
@@ -270,7 +269,6 @@ Rectangle {
                 id: ridge
                 name: "Ridge Detect"
                 args: ({func_name: "ridge"})
-                width: parent.width
                 Column {
                     x: 25; y: 35
 
@@ -286,7 +284,6 @@ Rectangle {
                 id: contrast
                 name: "Contrast"
                 args: ({func_name: "contrast"})
-                height: 130
                 Column {
                     x: 25; y: 35
 
@@ -294,7 +291,6 @@ Rectangle {
                         implicitWidth: 150
                         from: 0
                         to: 4
-                        value: 0
                         stepSize: 0.1
                         unit: " lev"
                         key: "contrast_limit"
@@ -362,7 +358,6 @@ Rectangle {
             Ui.Feature {
                 id: rotation
                 name: "Rotate"
-                height: 130
                 args: ({func_name: "rotate"})
 
                 Column {
@@ -371,7 +366,7 @@ Rectangle {
                     Ui.Slider {
                         from: -45
                         to: 45
-                        val: 0
+                        value: 0
                         unit: " deg"
                         key: "rotation_angle"
                     }
