@@ -30,6 +30,10 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         self.img_src.set_src(self._image.img)
         self.set_image(self._image)
 
+    @QtCore.pyqtSlot(str)
+    def save_image(self):
+        cv2.imwrite(self._image.path, self._image.img)
+
     @QtCore.pyqtSlot(QtQml.QJSValue)
     def apply(self, config: QtQml.QJSValue):
         params = config.toVariant()
