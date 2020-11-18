@@ -39,9 +39,12 @@ def rotateImage(image: np.array, angle: float) -> np.array:
 
     rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1)
 
-    alpha = math.atan(height / width)
-    scale = min(height, width) * math.fabs(math.sin(alpha)) / math.sin(
-        math.fabs(math.radians(angle)) + math.fabs(alpha)) / height
+    alpha = math.degrees(math.fabs(math.atan(height / width)))
+    alpha2 = alpha
+    if (height > width):
+        alpha2 = 90 - alpha
+    
+    scale = (min(height, width) * math.sin(math.radians(alpha))) / (math.sin(math.fabs(math.radians(angle)) + math.radians(alpha2)) * height)
 
     w_bound = width * scale
     h_bound = height * scale
