@@ -74,6 +74,5 @@ Rectangle {
         total_height = total_height
         height = total_height - height
         feature.children[1].visible = 0
-        console.log("hh", height)
     }
 }
