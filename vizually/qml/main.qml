@@ -56,6 +56,10 @@ ApplicationWindow {
         }
         property var imageNameFilters : ["*.png", "*.jpg", ".jpeg"]
         // For testing only
+        Component.onCompleted: {
+            fileDialog.open()
+            loaded = true
+        }
     }
 
     Ui.MainViewer {

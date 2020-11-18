@@ -2,15 +2,15 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 import "Utils.js" as Utils
 
-// import "../Fonts"
+import "../Fonts"
 
 Rectangle {
     id: feature
     width: parent.width; height: 80
     color: "#eee"
+    radius: 10
     clip: true
     property string name: "Feature"
-    property int total_height: height + 30      // 30 => to display title
     property var args
 
     property var toggle: () => {
@@ -32,11 +32,11 @@ Rectangle {
     }
 
     property var update: (key, value) => {
-                             args[key] = value
-                             if (loaded) {
-                                 targetimage.apply(args)
-                             }
-                         }
+        args[key] = value
+        if (loaded) {
+            targetimage.apply(args)
+        }
+    }
 
     Behavior on height { NumberAnimation { duration: 100 } }
 
@@ -71,8 +71,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        total_height = total_height
-        height = total_height - height
+        height = 30
         feature.children[1].visible = 0
     }
 }

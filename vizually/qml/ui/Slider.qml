@@ -7,18 +7,19 @@ Slider {
     from: 0
     to: 360
     stepSize: 1
+    value: slider.from
+    property var def_val: 0
     property string unit: ""
     property string key
     onVisibleChanged: {
         if (visible) {
-            value = slider.from
-            text.text = slider.from + unit
-            parent.parent.update(key, slider.from)
+            value = def_val
+            text.text = def_val + unit
+            parent.parent.update(key, def_val)
         } else {
-            parent.parent.args[key] = slider.from
+            parent.parent.args[key] = def_val
         }
     }
-    property alias val: slider.value
     function change() {
         if (Number.isInteger(stepSize)) {
             parent.parent.update(key, slider.value)
@@ -40,4 +41,9 @@ Slider {
     }
 
     implicitWidth: 200
+
+    Component.onCompleted: {
+        def_val = slider.value
+        def_val = def_val
+    }
 }
