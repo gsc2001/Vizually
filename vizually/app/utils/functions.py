@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from ...core.modules import *
 
+
 def gray(img: np.array, params: dict) -> np.array:
     print(f"In function: {params}")
     gray = np.stack((cv2.cvtColor(img, cv2.COLOR_BGR2GRAY),) * 3, axis=-1)
@@ -39,4 +40,5 @@ functions = {
     'threshCartoon': threshCartoon.threshCartoonHandler,
     'absThres': thresholding.threshHandler,
     'winter': winterFilter.winterHandler,
+    'blend': blending.blendingHandler
 }
