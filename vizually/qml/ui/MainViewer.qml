@@ -8,17 +8,20 @@ import "."
 
 Rectangle {
     id: mainViewer
-    property var image: image.mainImage
-    property var img: image
+    property var image: imageCanvas.mainImage
+    property var overlay: overlay
     Flickable {
         id: flickable
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: Math.max(image.width * image.scale + 300, width);
-        contentHeight: Math.max(image.height * image.scale + 100, height);
+        contentWidth: Math.max(imageCanvas.width * imageCanvas.scale + 300, width);
+        contentHeight: Math.max(imageCanvas.height * imageCanvas.scale + 100, height);
         clip: true
         ImageCanvas {
-            id: image
+            id: imageCanvas
+        }
+        ImageOverlay {
+            id: overlay
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar

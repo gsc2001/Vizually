@@ -30,6 +30,7 @@ functions = {
     'invert': invert.invertHandler,
     'otsuThres': otsuThresholding.OtsuThresholdingHandler,
     'pencilSketch': pencilSketch.pencilSketchHandler,
+    'perspective': perspective.perspectiveHandler,
     'ridge': ridgeDetector.ridgeDetectorHandler,
     'rotate': rotate.rotateHandler,
     'sepia': sepia.sepiaHandler,
