@@ -9,50 +9,54 @@ def splashHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image (np.array): image to change
-        params (dict): params has { min_hue, max_hue}
+        params (dict): params has { min[i], max[i]} (multiple)
         min_hue and max_hue both have range [0,255] with STEP = 1
 
     Returns:
         np.array:  image  with extracted colors
     """
 
-    if 'min_hue' not in params or 'max_hue' not in params:
-        return image
+    strm = ("min", "max")
+    min_max_list = []
+    for i in range(1, 10):
+        m = (strm[0] + str(i), strm[1] + str(i))
+        if m[0] not in params or m[1] not in params:
+            break
+        else:
+            params[m[0]] = 255 if params[m[0]] > 255 else params[m[0]]
+            params[m[1]] = 255 if params[m[1]] > 255 else params[m[1]]
+            params[m[0]] = 0 if params[m[0]] < 0 else params[m[0]]
+            params[m[1]] = 0 if params[m[1]] < 0 else params[m[1]]
 
-    if params['min_hue'] > 255:
-        params['min_hue'] = 255
-    elif params['min_hue'] < 0:
-        params['min_hue'] = 0
+            pair = (round(min(params[m[0]], params[m[1]])), round(
+                max(params[m[0]], params[m[1]])))
+            min_max_list.append(pair)
 
-    if params['max_hue'] > 255:
-        params['max_hue'] = 255
-    elif params['max_hue'] < 0:
-        params['max_hue'] = 0
-
-    if params['max_hue'] < params['min_hue']:
-        params['max_hue'], params['min_hue'] = params['min_hue'], params['max_hue']
-
-    return getColors(image, round(params['min_hue']), round(params['max_hue']))
+    return getColors(image, min_max_list)
 
 
-def getColors(image: np.array, min_hue: int, max_hue: int) -> np.array:
-    """Color Extarction
+def getColors(image: np.array, min_max_list) -> np.array:
+    """Splash Sketch
 
     Args:
         image (np.array): image to change
-        min_hue: (int) : 
 
     Returns:
-        np.array: image  with extracted colors
+        np.array: pencil sketched image
     """
 
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv, (min_hue, 0, 0), (max_hue, 255, 255))
-    final_img = cv2.bitwise_and(image, image, mask=mask)
+    mask0 = cv2.inRange(hsv, (0, 0, 0), (0, 0, 0))
+    final_img = cv2.bitwise_and(image, image, mask=mask0)
 
-    inv = ~mask
+    for minH, maxH in min_max_list:
+        mask = cv2.inRange(hsv, (minH, 0, 0), (maxH, 255, 255))
+        cur_img = cv2.bitwise_and(image, image, mask=mask)
+        mask0 = mask0 | mask
+        final_img = final_img | cur_img
+
+    inv = ~mask0
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    gray_mk = cv2.bitwise_and(gray, gray, mask=inv)
-    bw = cv2.cvtColor(gray_mk, cv2.COLOR_GRAY2BGR)
-
-    return (bw | final_img)
+    grayMask = cv2.bitwise_and(gray, gray, mask=inv)
+    back = cv2.cvtColor(grayMask, cv2.COLOR_GRAY2BGR)
+    return final_img | back
