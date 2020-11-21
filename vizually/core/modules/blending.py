@@ -2,22 +2,24 @@ import cv2
 import numpy as np
 
 
-def BlendingHandler(primary_image: np.array, secondary_image: np.array, params: dict) -> np.array:
+def blendingHandler(primary_image: np.array, params: dict) -> np.array:
     """ Blending Image Handler
 
     Args:
         primary_image and secondary_image (np.array): images to blend
-        params (dict): params has { alpha , contrast}
+        params (dict): params has {secondary_image, alpha , contrast}
 
+        secondary_image str (path of the image)
         alpha has range [0, 1] with STEP = 0.01
-        contrast has range [-50, 50] with STEP = 0.1 
+        contrast has range [-50, 50] with STEP = 0.1
 
     Returns:
         np.array: Blended image
 
     NOTE : I dont know what to return if params are absent
     """
-
+    if 'secondary_image' not in params:
+        return primary_image
     if params['alpha'] > 1:
         params['alpha'] = 1
     elif params['alpha'] < 0:
@@ -27,8 +29,7 @@ def BlendingHandler(primary_image: np.array, secondary_image: np.array, params: 
         params['contrast'] = 50
     elif params['contrast'] < -50:
         params['contrast'] = -50
-
-    new_img = blendImages(primary_image, secondary_image, float(
+    new_img = blendImages(primary_image, cv2.imread(params['secondary_image'][7:]), float(
         params['alpha']), float(params['contrast']))
     return new_img
 

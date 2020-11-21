@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import QtQuick.Dialogs 1.3
 
 import "." as Ui
 import "Utils.js" as Utils
@@ -559,6 +560,49 @@ Rectangle {
                         unit: " Value"
                         key: "winter_value"
                     }
+                }
+            }
+            Ui.Feature {
+                id: blending
+                name: "Blending"
+                args: ({func_name: "blend"})
+                property var fileGot : 0
+
+                Column {
+                    x: 25; y: 35
+
+                    Button {
+                        // visible: (blending.fileGot == 0)
+                        text: 'Upload'
+                        onClicked: blendFileDialog.open()
+                    }
+
+                    Ui.Slider {
+                        visible: (blending.fileGot == 1)
+                        from: 0
+                        to: 1
+                        stepSize: 0.01
+                        unit: " alpha"
+                        key: "alpha"
+                    }
+                    Ui.Slider {
+                        visible: (blending.fileGot == 1)
+                        from: -50
+                        to: 50
+                        unit: " alpha"
+                        key: "contrast"
+                    }
+                }
+                FileDialog {
+                    id: blendFileDialog
+                    title: "Image to blend"
+                    folder: shortcuts.home
+                    onAccepted: {
+                        blending.args['secondary_image'] = fileUrl.toString();
+                        blending.fileGot = 1;
+                        blending.height = Utils.getHeight(blending.children[1]);
+                    }
+                    property var imageNameFilters : ["*.png", "*.jpg", "*.jpeg"]
                 }
             }
         }
