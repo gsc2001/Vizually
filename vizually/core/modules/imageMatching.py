@@ -3,7 +3,7 @@ import numpy as np
 
 from ..models.image import Image
 
-def cannyEDHandler(image1: np.array, image2: np.array) -> float:
+def imageMatchingHandler(image1: np.array, image2: np.array) -> float:
     """Image Matching Hnadler
 
     Args:
