@@ -23,10 +23,10 @@ def perspectiveHandler(image: np.array, params: dict) -> np.array:
         return image
 
     x = params['point_list']
-    new = [(x[0], x[1]), (x[2], x[3]), (x[4], x[5]), (x[6], x[7])]
-    params['point_list'] = new
+    point_list = [(x[0], x[1]), (x[2], x[3]), (x[4], x[5]), (x[6], x[7])]
+    
 
-    new_img = transformImage(image, params['point_list'])
+    new_img = transformImage(image, point_list)
     return new_img
 
 

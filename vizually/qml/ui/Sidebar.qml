@@ -374,7 +374,7 @@ Rectangle {
                 }
             }
 
-            // Ridge Detection
+            // Perspective Transform
             Ui.Feature {
                 id: perspective
                 name: "Perspective Transform"
