@@ -33,13 +33,8 @@ def matcher(image1: np.array, image2: np.array) -> float:
     keypoints1, descriptors1 = sift.detectAndCompute(image1, None)
     keypoints2, descriptors2 = sift.detectAndCompute(image2, None)
 
-    bf = cv2.BFMatcher()
-    matches = bf.knnMatch(descriptors1, descriptors2, k = 2)
+    bf = cv2.BFMatcher(cv2.NORM_L1, crossCheck = True)
 
-    good = []
-    for m,n in matches:
-        if m.distance < 0.75 * n.distance:
-            good.append([m])
-
-    num_matches = len(good)
-    return (num_matches * 100 / len(keypoints1))
+    matches = bf.match(descriptors1, descriptors2)
+    
+    return (len(matches) * 100 / len(keypoints1))
