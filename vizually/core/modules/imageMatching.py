@@ -28,7 +28,7 @@ def matcher(image1: np.array, image2: np.array) -> float:
     Returns:
         float: 
     """
-    sift = cv2.SIFT()
+    sift = cv2.SIFT_create()
 
     keypoints1, descriptors1 = sift.detectAndCompute(image1, None)
     keypoints2, descriptors2 = sift.detectAndCompute(image2, None)
