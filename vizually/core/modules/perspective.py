@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 
-def perspectiveHandler(image: np.array, params: dict, scale: float) -> np.array:
+def perspectiveHandler(image: np.array, params: dict) -> np.array:
     """
     Args:
         image (np.array): image to change
@@ -26,8 +26,6 @@ def perspectiveHandler(image: np.array, params: dict, scale: float) -> np.array:
     new = [(x[0], x[1]), (x[2], x[3]), (x[4], x[5]), (x[6], x[7])]
     params['point_list'] = new
 
-    print(new)
-
     new_img = transformImage(image, params['point_list'])
     return new_img
 
@@ -48,7 +46,6 @@ def transformImage(image: np.array, points: list) -> np.array:
 
     point_list =  np.array(points, dtype = "float32")
     rect = order_points(point_list)
-    print(rect)
     (tl, tr, br, bl) = rect
 
     maxWidth = max(getDist(br,bl), getDist(tr, tl))

@@ -16,6 +16,7 @@ ApplicationWindow {
     
     property var targetimage: mainViewer.image
     property var targetoverlay: mainViewer.overlay
+    property var targetscale: mainViewer.scale
     property bool loaded: false
     property real defaultSize: 600
     property real zoomRatio: 1.0

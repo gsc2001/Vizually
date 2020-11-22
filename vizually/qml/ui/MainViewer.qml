@@ -8,6 +8,7 @@ import "."
 
 Rectangle {
     id: mainViewer
+    property var scale: imageCanvas.scale
     property var image: imageCanvas.mainImage
     property var overlay: overlay
     Flickable {

@@ -378,15 +378,15 @@ Rectangle {
             Ui.Feature {
                 id: perspective
                 name: "Perspective Transform"
-                args: ({func_name: "perspective",
-                        point_list: targetoverlay.pts})
+                args: ({
+                            func_name: "perspective",
+                            point_list: targetoverlay.pts
+                        })
                 Column {
                     x: 25; y: 35
-
                     Ui.Switch {
                         text: "Apply"
                     }
-
                 }
             }
 
