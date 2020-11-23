@@ -11,6 +11,7 @@ def create_application(args):
     new_app.setApplicationName("Vizually")
     new_app.setApplicationDisplayName("Vizually: Image Processing Application")
     new_app.setApplicationVersion("0.0.1")
+    new_app.setWindowIcon(QtGui.QIcon("./vizually/data/favicon.png"))
     return new_app
 
 
