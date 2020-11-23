@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtQuick, QtQml
 import numpy as np
+import cv2
 
 from ..core.models.image import Image
 from .utils.functions import functions
@@ -30,7 +31,7 @@ class ImageViewer(QtQuick.QQuickPaintedItem):
         self.img_src.set_src(self._image.img)
         self.set_image(self._image)
 
-    @QtCore.pyqtSlot(str)
+    @QtCore.pyqtSlot()
     def save_image(self):
         cv2.imwrite(self._image.path, self._image.img)
 

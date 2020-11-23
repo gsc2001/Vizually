@@ -50,7 +50,7 @@ def getColors(image: np.array, min_max_list: list) -> np.array:
     final_img = cv2.bitwise_and(image, image, mask=mask0)
 
     for minH, maxH in min_max_list:
-        mask = cv2.inRange(hsv, (minH, 0, 0), (maxH, 179, 179))
+        mask = cv2.inRange(hsv, (minH, 0, 0), (maxH, 255, 255))
         cur_img = cv2.bitwise_and(image, image, mask=mask)
         mask0 = mask0 | mask
         final_img = final_img | cur_img

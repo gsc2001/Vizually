@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs 1.3
+import QtQuick.Controls.Material 2.15
 
 import "." as Ui
 import "Utils.js" as Utils
@@ -9,8 +10,8 @@ Rectangle {
     id: sidebar
     x: 0; y: 0
     width: 345; height: parent.height
-    color: "#333"
     clip: true
+    color: "#262626"
     property var opened: 0
 
     Behavior on width { NumberAnimation { duration: 250 } }
@@ -18,7 +19,7 @@ Rectangle {
     // collapse
     Rectangle {
         id: collapse
-        color: 'steelblue'
+        color: "#9C27B0"
         width: 13; height: parent.height
         anchors.right: parent.right
         property var tot_width: width + sidebar.width
@@ -59,7 +60,6 @@ Rectangle {
         anchors.topMargin: 15   
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
-        ScrollBar.vertical: ScrollBar {}
 
         Column {
             id: sidebar_col
@@ -123,7 +123,6 @@ Rectangle {
 
                     Ui.Switch {
                         visible: (blur.option == 2)
-                        text: "Apply"
                     }
                 }
             }
@@ -133,7 +132,7 @@ Rectangle {
             // Edge Detection
             Ui.Feature {
                 id: edge
-                name: "Edge"
+                name: "Edge Detection"
                 property int option: 0
                 args: ({func_name: edgeItems.get(0).func_name})
                 height: Utils.getHeight(children[1])
@@ -222,7 +221,6 @@ Rectangle {
                     // otsu
                     Ui.Switch {
                         visible: (thresholding.option == 0)
-                        text: "Apply"
                     }
 
                     // absolute
@@ -261,14 +259,12 @@ Rectangle {
             // Ridge Detection
             Ui.Feature {
                 id: ridge
-                name: "Ridge Detect"
+                name: "Ridge Detection"
                 args: ({func_name: "ridge"})
                 Column {
                     x: 25; y: 35
 
-                    Ui.Switch {
-                        text: "Apply"
-                    }
+                    Ui.Switch {}
 
                 }
             }
@@ -355,6 +351,35 @@ Rectangle {
                 }
             }
 
+            // Contour Detection
+            Ui.Feature {
+                id: contour
+                name: "Contour Detection"
+                args: ({func_name: "contour"})
+
+                Column {
+                    x: 25; y: 35
+                    Ui.Switch {
+                        text: "Contour"
+                        key: "show_contour"
+                    }
+                    Ui.Switch {
+                        text: "Bounding Box"
+                        key: "show_bounding_box"
+                    }
+                    Ui.Switch {
+                        text: "Centroid"
+                        key: "show_centroid"
+                    }
+                    Ui.Slider{
+                        from: 0
+                        to: 255
+                        unit: " strength"
+                        key: "thres_strength"
+                    }
+                }
+            }
+
             // Rotation
             Ui.Feature {
                 id: rotation
@@ -385,8 +410,53 @@ Rectangle {
                 Column {
                     x: 25; y: 35
                     Ui.Switch {
-                        text: "Apply"
+                        reset: true
                     }
+                }
+            }
+
+            // Image masking
+            Ui.Feature {
+                id: masking
+                name: "Image Masking"
+                args: ({ func_name: "masking",
+                 top_left_x: targetmaskoverlay.top_left_x, 
+                 top_left_y: targetmaskoverlay.top_left_y,
+                 bottom_right_x: targetmaskoverlay.bottom_right_x,
+                 bottom_right_y: targetmaskoverlay.bottom_right_y,
+                 secondary_image: maskFileDialog.fileUrl.toString()
+                 })
+
+                property var fileGot: 0;
+                Column {
+                    x: 25; y: 35
+
+                    onVisibleChanged: {
+                        delete masking.args.secondary_image;
+                        masking.args.fileGot = 0;
+                    }
+
+                    Button {
+                        text: 'Upload'
+                        visible: (applysw.checked == 0)
+                        onClicked: maskFileDialog.open()
+                    }
+
+                    Ui.Switch {
+                        id: applysw
+                        visible: (masking.fileGot == 1)
+                        reset: true
+                    }
+                }
+                FileDialog {
+                    id: maskFileDialog
+                    title: "Image to mask"
+                    folder: shortcuts.home
+                    onAccepted: {
+                        masking.fileGot = 1;
+                        masking.height = Utils.getHeight(masking.children[1]);
+                    }
+                    property var imageNameFilters : ["*.png", "*.jpg", "*.jpeg"]
                 }
             }
 
@@ -514,19 +584,16 @@ Rectangle {
                     // Invert
                     Ui.Switch {
                         visible: (filter.option == 4)
-                        text: "Apply"
                     }
 
                     // Pencil Sketch
                     Ui.Switch {
                         visible: (filter.option == 5)
-                        text: "Apply"
                     }
 
                     // Sepia
                     Ui.Switch {
                         visible: (filter.option == 6)
-                        text: "Apply"
                     }
 
                     // Summer Filter
@@ -573,6 +640,7 @@ Rectangle {
 
                     ComboBox {
                         currentIndex: 0
+                        x: 20
                         model: ListModel {
                             id: splashItems
                             ListElement { text: "1"}
@@ -648,6 +716,7 @@ Rectangle {
                 }
             }
 
+            // Blending
             Ui.Feature {
                 id: blending
                 name: "Blending"
@@ -656,7 +725,10 @@ Rectangle {
 
                 Column {
                     x: 25; y: 35
-
+                    onVisibleChanged: {
+                        delete blending.args.secondary_image
+                        blending.fileGot = 0
+                    }
                     Button {
                         text: 'Upload'
                         onClicked: blendFileDialog.open()
@@ -688,6 +760,54 @@ Rectangle {
                         blending.height = Utils.getHeight(blending.children[1]);
                     }
                     property var imageNameFilters : ["*.png", "*.jpg", "*.jpeg"]
+                }
+            }
+        
+            // Hue
+            Ui.Feature {
+                id: hue
+                name: "Hue"
+                args: ({func_name: "hue"})
+
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider {
+                        to: 35
+                        from: -35
+                        value: 0
+                        unit: " value"
+                        key: "hue_value"
+                    }
+                }
+            }
+
+            // Interpolation
+            Ui.Feature {
+                id: interpolation
+                name: "Interpolation"
+                args: ({func_name: "interpolation"})
+
+                Column {
+                    x: 25; y: 35
+                    Ui.ComboBox {
+                        textRole: "name"
+                        key: "type"
+                        unit: "Type"
+                        model: ListModel {
+                            ListElement {name: "Bi Cubic"; value: 0}
+                            ListElement {name: "Area Based"; value: 1}
+                        }
+                    }
+                    Ui.TextInput {
+                        unit: "px width"
+                        key: "width"
+                    }
+                    Ui.TextInput {
+                        unit: "px height"
+                        key: "height"
+                    }
+
                 }
             }
         }

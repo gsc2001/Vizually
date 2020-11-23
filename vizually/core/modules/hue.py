@@ -7,7 +7,7 @@ def hueHandler(image: np.array, params: dict) -> np.array:
 
     Args:
         image(np.array): image to change
-        params (dict): params has { hue_value } range: (-179, 179) step size of 1
+        params (dict): params has { hue_value } range: [-35, 35] step size of 1
 
     Returns:
         np.array: Image having a hue filter
@@ -16,10 +16,10 @@ def hueHandler(image: np.array, params: dict) -> np.array:
     if 'hue_value' not in params:
         return image
 
-    if params['hue_value'] >= 179:
-        params['hue_value'] = 179
-    elif params['hue_value'] < 0:
-        params['hue_value'] = 0
+    if params['hue_value'] >= 35:
+        params['hue_value'] = 35
+    elif params['hue_value'] < -35:
+        params['hue_value'] = -35
 
     new_img = hueFilter(
         image, float(params['hue_value']))

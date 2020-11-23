@@ -9,5 +9,5 @@ function getHeight(par) {
 			vis_cnt++
 		}
 	}
-	return 40 * vis_cnt + 90
+	return 48 * vis_cnt + 90
 }

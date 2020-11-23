@@ -24,4 +24,6 @@ ComboBox {
 	onCurrentIndexChanged: {
         parent.parent.update(key, combobox.model.get(currentIndex).value)	
 	}
+
+    implicitWidth: 150
 }

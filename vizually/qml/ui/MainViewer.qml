@@ -8,9 +8,10 @@ import "."
 
 Rectangle {
     id: mainViewer
-    property var scale: imageCanvas.scale
+    property var sscale: imageCanvas.sscale
     property var image: imageCanvas.mainImage
     property var overlay: overlay
+    property var maskoverlay: maskoverlay
     Flickable {
         id: flickable
         anchors.fill: parent
@@ -21,8 +22,11 @@ Rectangle {
         ImageCanvas {
             id: imageCanvas
         }
-        ImageOverlay {
+        PerspectiveOverlay {
             id: overlay
+        }
+        MaskOverlay {
+            id: maskoverlay
         }
         ScrollBar.vertical: ScrollBar {
             id: verticalScrollBar
