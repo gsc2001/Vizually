@@ -18,9 +18,6 @@ def cannyEDHandler(image: np.array, params: dict) -> np.array:
         np.array:  image  after canny edge detection
     """
 
-    if 'strength' not in params:
-        return image
-
     params['min_threshold'] = 255 if params['min_threshold'] > 255 else params['min_threshold']
     params['min_threshold'] = 0 if params['min_threshold'] < 0 else params['min_threshold']
 
