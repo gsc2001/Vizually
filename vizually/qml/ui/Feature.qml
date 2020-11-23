@@ -7,7 +7,7 @@ import "../Fonts"
 Rectangle {
     id: feature
     width: parent.width; height: 80
-    color: "#eee"
+    color: "#ddd"
     radius: 10
     clip: true
     property string name: "Feature"

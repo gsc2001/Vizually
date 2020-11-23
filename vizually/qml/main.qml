@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Extras 1.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.15
-
+import QtQuick.Controls.Material 2.12
 
 import "ui" as Ui
 
@@ -14,9 +14,13 @@ ApplicationWindow {
     title: qsTr("Vizually")
     visible: true
     
+    Material.theme: Material.Light
+    Material.accent: Material.Purple
+    
     property var targetimage: mainViewer.image
     property var targetoverlay: mainViewer.overlay
-    property var targetscale: mainViewer.scale
+    property var targetmaskoverlay: mainViewer.maskoverlay
+    property var targetscale: mainViewer.sscale
     property bool loaded: false
     property real defaultSize: 600
     property real zoomRatio: 1.0
@@ -37,6 +41,8 @@ ApplicationWindow {
         targetimage.redo()
     }
 
+    property var save: () => targetimage.save_image()
+
     Action {
         shortcut: "Ctrl+Z"
         onTriggered: undo()
@@ -45,6 +51,11 @@ ApplicationWindow {
     Action {
         shortcut: "Ctrl+Y"
         onTriggered: redo()
+    }
+
+    Action {
+        shortcut: "Ctrl+S"
+        onTriggered: save()
     }
 
     FileDialog {
@@ -82,9 +93,10 @@ ApplicationWindow {
                 if (sidebar.opened) sidebar.opened.toggle()
                 }
             }
-            // MenuItem {
-            //     text: "Save"
-            // }
+            MenuItem {
+                text: "Save"
+                onTriggered: save()
+            }
             MenuItem {
                 text: "Exit"
                 onTriggered: Qt.quit()
@@ -111,15 +123,14 @@ ApplicationWindow {
 
     Button {
         id: commit
-        palette {
-            button: "blue"
-            buttonText: "white"
-        }
         anchors.right : parent.right
         anchors.bottom : parent.bottom
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
-        text: 'Commit Changes'
+        text: ' Apply '
+        Material.background: Material.Blue
+        Material.foreground: "#ffffff"
+        Material.elevation: 6
         onClicked: {
             targetimage.commit()
             if (sidebar.opened) sidebar.opened.toggle()
@@ -128,15 +139,14 @@ ApplicationWindow {
     }
     Button {
         id: revert
-        palette {
-            button: "red"
-            buttonText: "white"
-        }
         anchors.right : parent.right
         anchors.bottom : parent.bottom
-        anchors.rightMargin: 20
-        anchors.bottomMargin: 80
-        text: 'Revert Changes'
+        anchors.rightMargin: 100
+        anchors.bottomMargin: 20
+        text: 'Revert'
+        Material.background: Material.Red
+        Material.foreground: "#ffffff"
+        Material.elevation: 6
         onClicked: () => {
             if (sidebar.opened) sidebar.opened.toggle()
             targetimage.reset()

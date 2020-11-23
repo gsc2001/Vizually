@@ -4,18 +4,20 @@ import QtQuick.Controls 2.15
 Switch {
     x: 0; y: 0
     id: swtch
-    text: "Apply"
+    text: "Try"
+    property bool reset: false
     property string key: "apply"
+    function change() {
+        parent.parent.update(key, swtch.checked)        
+    }
     onVisibleChanged: {
-        swtch.checked = false
         if (visible) {
-            parent.parent.update(key, false)
-        } else {
-            parent.parent.args[key] = false
-        }
+            if(reset == true){
+                swtch.checked = false
+            }
+            change()
+        } 
     }
 
-    onClicked: {
-        parent.parent.update(key, swtch.checked)
-    }
+    onClicked: change()
 }

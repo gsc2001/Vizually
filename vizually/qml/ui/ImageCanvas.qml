@@ -14,7 +14,7 @@ Rectangle {
     anchors.centerIn: parent
     property ImageViewer mainImage: mainImage
     property MouseArea mouse: zoomArea
-    property var scale: photoContainer.scale
+    property var sscale: photoContainer.scale
     property bool reset: true
     Rectangle {
         id: photoContainer

@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs 1.3
+import QtQuick.Controls.Material 2.15
 
 import "." as Ui
 import "Utils.js" as Utils
@@ -9,8 +10,8 @@ Rectangle {
     id: sidebar
     x: 0; y: 0
     width: 345; height: parent.height
-    color: "#333"
     clip: true
+    color: "#262626"
     property var opened: 0
 
     Behavior on width { NumberAnimation { duration: 250 } }
@@ -18,7 +19,7 @@ Rectangle {
     // collapse
     Rectangle {
         id: collapse
-        color: 'steelblue'
+        color: "#9C27B0"
         width: 13; height: parent.height
         anchors.right: parent.right
         property var tot_width: width + sidebar.width
@@ -59,7 +60,6 @@ Rectangle {
         anchors.topMargin: 15   
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
-        ScrollBar.vertical: ScrollBar {}
 
         Column {
             id: sidebar_col
@@ -88,7 +88,6 @@ Rectangle {
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                            targetimage.reset()
                             blur.args = ({func_name: blurItems.get(currentIndex).func_name})
                             blur.option = currentIndex
                             blur.height = Utils.getHeight(parent)
@@ -111,7 +110,6 @@ Rectangle {
                         stepSize: 0.1
                         unit: " sigmaX"
                         key: "sigmaX"
-                        implicitWidth: 200
                     }
 
                     Ui.Slider {
@@ -121,12 +119,10 @@ Rectangle {
                         stepSize: 0.1
                         unit: " sigmaY"
                         key: "sigmaY"
-                        implicitWidth: 200
                     }
 
                     Ui.Switch {
                         visible: (blur.option == 2)
-                        text: "Apply"
                     }
                 }
             }
@@ -136,7 +132,7 @@ Rectangle {
             // Edge Detection
             Ui.Feature {
                 id: edge
-                name: "Edge"
+                name: "Edge Detection"
                 property int option: 0
                 args: ({func_name: edgeItems.get(0).func_name})
                 height: Utils.getHeight(children[1])
@@ -154,29 +150,26 @@ Rectangle {
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                                                   targetimage.reset()
                                                    edge.args = ({func_name: edgeItems.get(currentIndex).func_name})
                                                    edge.option = currentIndex
                                                    edge.height = Utils.getHeight(parent)
                                                }
                     }
                     
-
                     // canny
-                    Ui.Slider {
+                    Ui.RangeSlider {
                         visible: (edge.option == 0)
-                        from: 0
-                        to: 127
-                        unit: " value"
-                        key: "strength"
+                        minKey: 'min_threshold'
+                        maxKey: 'max_threshold'
+                        to: 255
                     }
                     // sobel
                     Ui.ComboBox {
                         visible: (edge.option == 1)
                         textRole: "name"
                         key: "kernel_size"
+                        unit: "Kernel Size"
                         model: ListModel {
-                            id: cbItems
                             ListElement {name: "3"; value: 3}
                             ListElement {name: "5"; value: 5}
                         }
@@ -207,7 +200,6 @@ Rectangle {
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                                                   targetimage.reset()
                                                    thresholding.args = ({func_name: thresholdingItems.get(currentIndex).func_name})
                                                    thresholding.option = currentIndex
                                                    thresholding.height = Utils.getHeight(parent)
@@ -229,7 +221,6 @@ Rectangle {
                     // otsu
                     Ui.Switch {
                         visible: (thresholding.option == 0)
-                        text: "Apply"
                     }
 
                     // absolute
@@ -268,14 +259,12 @@ Rectangle {
             // Ridge Detection
             Ui.Feature {
                 id: ridge
-                name: "Ridge Detect"
+                name: "Ridge Detection"
                 args: ({func_name: "ridge"})
                 Column {
                     x: 25; y: 35
 
-                    Ui.Switch {
-                        text: "Apply"
-                    }
+                    Ui.Switch {}
 
                 }
             }
@@ -289,7 +278,6 @@ Rectangle {
                     x: 25; y: 35
 
                     Ui.Slider {
-                        implicitWidth: 150
                         from: 0
                         to: 4
                         stepSize: 0.1
@@ -308,16 +296,20 @@ Rectangle {
 
                 Column {
                     x: 25; y: 35
-                    Ui.Slider{
-                        implicitWidth: 150
-                        from: 1
-                        to: 11
-                        stepSize: 2
-                        unit: " kernel size"
+                    Ui.ComboBox {
+                        textRole: "name"
                         key: "kernel_size"
+                        unit: "Kernel Size"
+                        model: ListModel {
+                            ListElement {name: "1"; value: 1}
+                            ListElement {name: "3"; value: 3}
+                            ListElement {name: "5"; value: 5}
+                            ListElement {name: "7"; value: 7}
+                            ListElement {name: "9"; value: 9}
+                            ListElement {name: "11"; value: 11}
+                        }
                     }
                     Ui.Slider{
-                        implicitWidth: 150
                         from: 0
                         to: 10
                         stepSize: 0.5
@@ -336,21 +328,54 @@ Rectangle {
 
                 Column {
                     x: 25; y: 35
-                    Ui.Slider{
-                        implicitWidth: 150
-                        from: 1
-                        to: 11
-                        stepSize: 2
-                        unit: " kernel size"
+                    Ui.ComboBox {
+                        textRole: "name"
                         key: "kernel_size"
+                        unit: "Kernel Size"
+                        model: ListModel {
+                            ListElement {name: "1"; value: 1}
+                            ListElement {name: "3"; value: 3}
+                            ListElement {name: "5"; value: 5}
+                            ListElement {name: "7"; value: 7}
+                            ListElement {name: "9"; value: 9}
+                            ListElement {name: "11"; value: 11}
+                        }
                     }
                     Ui.Slider{
-                        implicitWidth: 150
                         from: 0
                         to: 10
                         stepSize: 0.5
                         unit: " strength"
                         key: "sharpen_strength"
+                    }
+                }
+            }
+
+            // Contour Detection
+            Ui.Feature {
+                id: contour
+                name: "Contour Detection"
+                args: ({func_name: "contour"})
+
+                Column {
+                    x: 25; y: 35
+                    Ui.Switch {
+                        text: "Contour"
+                        key: "show_contour"
+                    }
+                    Ui.Switch {
+                        text: "Bounding Box"
+                        key: "show_bounding_box"
+                    }
+                    Ui.Switch {
+                        text: "Centroid"
+                        key: "show_centroid"
+                    }
+                    Ui.Slider{
+                        from: 0
+                        to: 255
+                        unit: " strength"
+                        key: "thres_strength"
                     }
                 }
             }
@@ -365,8 +390,8 @@ Rectangle {
                     x: 25; y: 35
 
                     Ui.Slider {
-                        from: -45
-                        to: 45
+                        from: -90
+                        to: 90
                         value: 0
                         unit: " deg"
                         key: "rotation_angle"
@@ -385,8 +410,53 @@ Rectangle {
                 Column {
                     x: 25; y: 35
                     Ui.Switch {
-                        text: "Apply"
+                        reset: true
                     }
+                }
+            }
+
+            // Image masking
+            Ui.Feature {
+                id: masking
+                name: "Image Masking"
+                args: ({ func_name: "masking",
+                 top_left_x: targetmaskoverlay.top_left_x, 
+                 top_left_y: targetmaskoverlay.top_left_y,
+                 bottom_right_x: targetmaskoverlay.bottom_right_x,
+                 bottom_right_y: targetmaskoverlay.bottom_right_y,
+                 secondary_image: maskFileDialog.fileUrl.toString()
+                 })
+
+                property var fileGot: 0;
+                Column {
+                    x: 25; y: 35
+
+                    onVisibleChanged: {
+                        delete masking.args.secondary_image;
+                        masking.args.fileGot = 0;
+                    }
+
+                    Button {
+                        text: 'Upload'
+                        visible: (applysw.checked == 0)
+                        onClicked: maskFileDialog.open()
+                    }
+
+                    Ui.Switch {
+                        id: applysw
+                        visible: (masking.fileGot == 1)
+                        reset: true
+                    }
+                }
+                FileDialog {
+                    id: maskFileDialog
+                    title: "Image to mask"
+                    folder: shortcuts.home
+                    onAccepted: {
+                        masking.fileGot = 1;
+                        masking.height = Utils.getHeight(masking.children[1]);
+                    }
+                    property var imageNameFilters : ["*.png", "*.jpg", "*.jpeg"]
                 }
             }
 
@@ -413,14 +483,12 @@ Rectangle {
                             ListElement { text: "Invert"; func_name: "invert"}
                             ListElement { text: "Pencil Sketch"; func_name: "pencilSketch"}
                             ListElement { text: "Sepia"; func_name: "sepia"}
-                            ListElement { text: "Splash"; func_name: "splash"}
                             ListElement { text: "Summer"; func_name: "summer"}
                             ListElement { text: "Thresh Cartoon"; func_name: "threshCartoon"}
                             ListElement { text: "Winter"; func_name: "winter"}
                         }
                         width: 200
                         onCurrentIndexChanged: () => {
-                                                   targetimage.reset()
                                                    filter.args = ({func_name: filterItems.get(currentIndex).func_name})
                                                    filter.option = currentIndex
                                                    filter.height = Utils.getHeight(parent)
@@ -428,12 +496,11 @@ Rectangle {
                     }
 
                     // Canny Cartoon
-                    Ui.Slider {
+                    Ui.RangeSlider {
                         visible: (filter.option == 0)
-                        from: 0
-                        to: 127
-                        unit: " strength"
-                        key: "strength"
+                        minKey: 'min_threshold'
+                        maxKey: 'max_threshold'
+                        to: 255
                     }
 
                     // Color Sheet
@@ -517,40 +584,21 @@ Rectangle {
                     // Invert
                     Ui.Switch {
                         visible: (filter.option == 4)
-                        text: "Apply"
                     }
 
                     // Pencil Sketch
                     Ui.Switch {
                         visible: (filter.option == 5)
-                        text: "Apply"
                     }
 
                     // Sepia
                     Ui.Switch {
                         visible: (filter.option == 6)
-                        text: "Apply"
-                    }
-
-                    // Splash
-                    Ui.Slider {
-                        visible: (filter.option == 7)
-                        from: 0
-                        to: 255
-                        unit: " Min Hue"
-                        key: "min_hue"
-                    }
-                    Ui.Slider {
-                        visible: (filter.option == 7)
-                        from: 0
-                        to: 255
-                        unit: " Max Hue"
-                        key: "max_hue"
                     }
 
                     // Summer Filter
                     Ui.Slider {
-                        visible: (filter.option == 8)
+                        visible: (filter.option == 7)
                         from: 0
                         to: 1
                         stepSize: 0.01
@@ -560,7 +608,7 @@ Rectangle {
 
                     // Thresh Cartoon
                     Ui.Slider {
-                        visible: (filter.option == 9)
+                        visible: (filter.option == 8)
                         from: 0
                         to: 10
                         unit: " Value"
@@ -569,7 +617,7 @@ Rectangle {
 
                     // Winter Filter
                     Ui.Slider {
-                        visible: (filter.option == 10)
+                        visible: (filter.option == 9)
                         from: 0
                         to: 1
                         stepSize: 0.01
@@ -578,6 +626,97 @@ Rectangle {
                     }
                 }
             }
+
+            // Splash
+            Ui.Feature {
+                id: splash
+                name: "Splash"
+                property int option: 0
+                args: ({func_name: 'splash'})
+                height: Utils.getHeight(children[1])
+
+                Column {
+                    x: 25; y: 35
+
+                    ComboBox {
+                        currentIndex: 0
+                        x: 20
+                        model: ListModel {
+                            id: splashItems
+                            ListElement { text: "1"}
+                            ListElement { text: "2"}
+                            ListElement { text: "3"}
+                            ListElement { text: "4"}
+                            ListElement { text: "5"}
+                            ListElement { text: "6"}
+                            ListElement { text: "7"}
+                            ListElement { text: "8"}
+                            ListElement { text: "9"}
+                            ListElement { text: "10"}
+
+                        }
+                        width: 200
+                        onCurrentIndexChanged: () => {
+                            splash.option = currentIndex
+                            splash.height = Utils.getHeight(parent)
+                            targetimage.apply(splash.args)
+                        }
+                    }
+
+                    Ui.RangeSlider {
+                        visible: splash.option >= 0
+                        minKey: 'min0'
+                        maxKey: 'max0'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 1
+                        minKey: 'min1'
+                        maxKey: 'max1'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 2
+                        minKey: 'min2'
+                        maxKey: 'max2'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 3
+                        minKey: 'min3'
+                        maxKey: 'max3'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 4
+                        minKey: 'min4'
+                        maxKey: 'max4'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 5
+                        minKey: 'min5'
+                        maxKey: 'max5'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 6
+                        minKey: 'min6'
+                        maxKey: 'max6'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 7
+                        minKey: 'min7'
+                        maxKey: 'max7'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 8
+                        minKey: 'min8'
+                        maxKey: 'max8'
+                    }
+                    Ui.RangeSlider {
+                        visible: splash.option >= 9
+                        minKey: 'min9'
+                        maxKey: 'max9'
+                    }
+                }
+            }
+
+            // Blending
             Ui.Feature {
                 id: blending
                 name: "Blending"
@@ -586,9 +725,11 @@ Rectangle {
 
                 Column {
                     x: 25; y: 35
-
+                    onVisibleChanged: {
+                        delete blending.args.secondary_image
+                        blending.fileGot = 0
+                    }
                     Button {
-                        // visible: (blending.fileGot == 0)
                         text: 'Upload'
                         onClicked: blendFileDialog.open()
                     }
@@ -619,6 +760,54 @@ Rectangle {
                         blending.height = Utils.getHeight(blending.children[1]);
                     }
                     property var imageNameFilters : ["*.png", "*.jpg", "*.jpeg"]
+                }
+            }
+        
+            // Hue
+            Ui.Feature {
+                id: hue
+                name: "Hue"
+                args: ({func_name: "hue"})
+
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider {
+                        to: 35
+                        from: -35
+                        value: 0
+                        unit: " value"
+                        key: "hue_value"
+                    }
+                }
+            }
+
+            // Interpolation
+            Ui.Feature {
+                id: interpolation
+                name: "Interpolation"
+                args: ({func_name: "interpolation"})
+
+                Column {
+                    x: 25; y: 35
+                    Ui.ComboBox {
+                        textRole: "name"
+                        key: "type"
+                        unit: "Type"
+                        model: ListModel {
+                            ListElement {name: "Bi Cubic"; value: 0}
+                            ListElement {name: "Area Based"; value: 1}
+                        }
+                    }
+                    Ui.TextInput {
+                        unit: "px width"
+                        key: "width"
+                    }
+                    Ui.TextInput {
+                        unit: "px height"
+                        key: "height"
+                    }
+
                 }
             }
         }

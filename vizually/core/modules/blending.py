@@ -15,10 +15,8 @@ def blendingHandler(primary_image: np.array, params: dict) -> np.array:
 
     Returns:
         np.array: Blended image
-
-    NOTE : I dont know what to return if params are absent
     """
-    if 'secondary_image' not in params:
+    if 'secondary_image' not in params or 'alpha' not in params or 'contrast' not in params:
         return primary_image
     if params['alpha'] > 1:
         params['alpha'] = 1

@@ -51,7 +51,8 @@ def contour(image: np.array, show_contour: bool, show_bounding_box: bool, show_c
     if show_bounding_box is True:
         for i in range(len(contours)):
             x, y, w, h = cv2.boundingRect(contours[i])
-            cv2.rectangle(copy, (x, y), (x+w, y+h), (0, 255, 255), 2)
+            if h * w > 100:
+                cv2.rectangle(copy, (x, y), (x+w, y+h), (0, 255, 255), 2)
     if show_centroid is True:
         for i in range(len(contours)):
             M = cv2.moments(contours[i])

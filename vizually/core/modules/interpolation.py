@@ -14,7 +14,15 @@ def interpolationHandler(image: np.array, params: dict) -> np.array:
     Returns:
         np.array: Interpolated image
     """
-    new_img = interpolation(image, params['type'], (params['width'], params['height']))
+    try:
+        params['width'] = int(params['width'])
+        params['height'] = int(params['height'])
+        params['type'] = int(params['type'])
+    except Exception:
+        return image
+
+    new_img = interpolation(
+        image, params['type'], (params['width'], params['height']))
     return new_img
 
 
