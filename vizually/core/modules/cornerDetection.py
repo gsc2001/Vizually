@@ -15,12 +15,12 @@ def cornerDetectionHandler(image: np.array, params: dict) -> np.array:
         np.array: Image with corners
     """
 
-    if 'sharpen_strength' not in params or 'kernel_size' not in params :
+    if 'sharpen_strength' not in params or 'kernel_size' not in params:
         return image
 
-    if params['sharpen_strength'] > 10 :
+    if params['sharpen_strength'] > 10:
         params['sharpen_strength'] = 10
-    elif  params['sharpen_strength'] < 0 :
+    elif params['sharpen_strength'] < 0:
         params['sharpen_strength'] = 0
 
     params['kernel_size'] = round(params['kernel_size'])
@@ -39,7 +39,7 @@ def cornerDetect(image: np.array, kernel_size: int, strength: float) -> np.array
     Returns:
         np.array: corners in image
     """
-    #Make copy to display corners
+    # Make copy to display corners
     retImg = image.copy()
 
     # Sharpen The Image
@@ -50,7 +50,7 @@ def cornerDetect(image: np.array, kernel_size: int, strength: float) -> np.array
     gray = np.float32(gray)
     dst = cv2.cornerHarris(gray, 2, 3, 0.04)
     dst = cv2.dilate(dst, None)
-    thresh = 0.1 * dst.max()
+    thresh = 0.01 * dst.max()
     # Display Corners
     arr = (dst > thresh).nonzero()
 
