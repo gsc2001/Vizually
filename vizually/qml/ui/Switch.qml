@@ -6,16 +6,14 @@ Switch {
     id: swtch
     text: "Apply"
     property string key: "apply"
+    function change() {
+        parent.parent.update(key, swtch.checked)        
+    }
     onVisibleChanged: {
-        swtch.checked = false
         if (visible) {
-            parent.parent.update(key, false)
-        } else {
-            parent.parent.args[key] = false
-        }
+            change()
+        } 
     }
 
-    onClicked: {
-        parent.parent.update(key, swtch.checked)
-    }
+    onClicked: change()
 }
