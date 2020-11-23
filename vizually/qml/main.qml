@@ -15,6 +15,8 @@ ApplicationWindow {
     visible: true
     
     property var targetimage: mainViewer.image
+    property var targetoverlay: mainViewer.overlay
+    property var targetscale: mainViewer.scale
     property bool loaded: false
     property real defaultSize: 600
     property real zoomRatio: 1.0
@@ -61,7 +63,7 @@ ApplicationWindow {
             loaded = true
         }
     }
-
+    
     Ui.MainViewer {
         id: mainViewer
         anchors.left: sidebar.right
