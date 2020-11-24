@@ -33,9 +33,7 @@ Rectangle {
 
     property var update: (key, value) => {
         args[key] = value
-        if (loaded) {
             targetimage.apply(args)
-        }
     }
 
     Behavior on height { NumberAnimation { duration: 100 } }
