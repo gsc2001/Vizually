@@ -269,56 +269,6 @@ Rectangle {
                 }
             }
 
-            // Contrast
-            Ui.Feature {
-                id: contrast
-                name: "Contrast"
-                args: ({func_name: "contrast"})
-                Column {
-                    x: 25; y: 35
-
-                    Ui.Slider {
-                        from: 0
-                        to: 4
-                        stepSize: 0.1
-                        unit: " lev"
-                        key: "contrast_limit"
-                    }
-                }
-            }
-
-            // Sharpening
-            Ui.Feature {
-                id: sharpen
-                name: "Sharpening"
-                height: 130
-                args: ({func_name: "sharpen"})
-
-                Column {
-                    x: 25; y: 35
-                    Ui.ComboBox {
-                        textRole: "name"
-                        key: "kernel_size"
-                        unit: "Kernel Size"
-                        model: ListModel {
-                            ListElement {name: "1"; value: 1}
-                            ListElement {name: "3"; value: 3}
-                            ListElement {name: "5"; value: 5}
-                            ListElement {name: "7"; value: 7}
-                            ListElement {name: "9"; value: 9}
-                            ListElement {name: "11"; value: 11}
-                        }
-                    }
-                    Ui.Slider{
-                        from: 0
-                        to: 10
-                        stepSize: 0.5
-                        unit: " strength"
-                        key: "strength"
-                    }
-                }
-            }
-
             // Corner Edge Detection
             Ui.Feature {
                 id: corner
@@ -627,6 +577,75 @@ Rectangle {
                 }
             }
 
+            // Contrast
+            Ui.Feature {
+                id: contrast
+                name: "Contrast"
+                args: ({func_name: "contrast"})
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider {
+                        from: 0
+                        to: 4
+                        stepSize: 0.1
+                        unit: " lev"
+                        key: "contrast_limit"
+                    }
+                }
+            }
+
+            // Sharpening
+            Ui.Feature {
+                id: sharpen
+                name: "Sharpening"
+                height: 130
+                args: ({func_name: "sharpen"})
+
+                Column {
+                    x: 25; y: 35
+                    Ui.ComboBox {
+                        textRole: "name"
+                        key: "kernel_size"
+                        unit: "Kernel Size"
+                        model: ListModel {
+                            ListElement {name: "1"; value: 1}
+                            ListElement {name: "3"; value: 3}
+                            ListElement {name: "5"; value: 5}
+                            ListElement {name: "7"; value: 7}
+                            ListElement {name: "9"; value: 9}
+                            ListElement {name: "11"; value: 11}
+                        }
+                    }
+                    Ui.Slider{
+                        from: 0
+                        to: 10
+                        stepSize: 0.5
+                        unit: " strength"
+                        key: "strength"
+                    }
+                }
+            }
+
+            // Hue
+            Ui.Feature {
+                id: hue
+                name: "Hue"
+                args: ({func_name: "hue"})
+
+                Column {
+                    x: 25; y: 35
+
+                    Ui.Slider {
+                        to: 35
+                        from: -35
+                        value: 0
+                        unit: " value"
+                        key: "hue_value"
+                    }
+                }
+            }
+
             // Splash
             Ui.Feature {
                 id: splash
@@ -755,7 +774,7 @@ Rectangle {
                     title: "Image to blend"
                     folder: shortcuts.home
                     onAccepted: {
-                        blending.args['secondary_image'] = fileUrl.toString();
+                        blending.args['secondary_ima    ge'] = fileUrl.toString();
                         blending.fileGot = 1;
                         blending.height = Utils.getHeight(blending.children[1]);
                     }
@@ -763,24 +782,6 @@ Rectangle {
                 }
             }
         
-            // Hue
-            Ui.Feature {
-                id: hue
-                name: "Hue"
-                args: ({func_name: "hue"})
-
-                Column {
-                    x: 25; y: 35
-
-                    Ui.Slider {
-                        to: 35
-                        from: -35
-                        value: 0
-                        unit: " value"
-                        key: "hue_value"
-                    }
-                }
-            }
 
             // Interpolation
             Ui.Feature {
