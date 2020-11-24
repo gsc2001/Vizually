@@ -20,12 +20,12 @@ def rotateHandler(image: np.array, params: dict) -> np.array:
     """
 
     if 'rotation_angle' not in params:
-        return image
+        params['rotation_angle'] = 0
 
     return rotateImage(image, params['rotation_angle'])
 
 
-def rotateImage(image: np.array, angle: float) -> np.array:
+def rotateImage(image: np.array, angle: float, plus90: bool, minus90: bool) -> np.array:
     """ Rotating Image Handler
     Args:
         image (np.array): image to change
@@ -34,6 +34,11 @@ def rotateImage(image: np.array, angle: float) -> np.array:
         np.array: Rotated image
 
     """
+    if plus90:
+        return cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    elif minus90:
+        return cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
     height, width = image.shape[:2]
     image_center = (width / 2, height / 2)
 
@@ -43,8 +48,9 @@ def rotateImage(image: np.array, angle: float) -> np.array:
     alpha2 = alpha
     if (height > width):
         alpha2 = 90 - alpha
-    
-    scale = (min(height, width) * math.sin(math.radians(alpha))) / (math.sin(math.fabs(math.radians(angle)) + math.radians(alpha2)) * height)
+
+    scale = (min(height, width) * math.sin(math.radians(alpha))) / \
+        (math.sin(math.fabs(math.radians(angle)) + math.radians(alpha2)) * height)
 
     w_bound = width * scale
     h_bound = height * scale
