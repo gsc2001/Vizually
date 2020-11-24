@@ -22,10 +22,15 @@ def rotateHandler(image: np.array, params: dict) -> np.array:
     if 'rotation_angle' not in params:
         params['rotation_angle'] = 0
 
-    return rotateImage(image, params['rotation_angle'])
+    if params['90Rotation'] < 0:
+        params['90Rotation'] = -(abs(params['90Rotation']) % 4)
+    else:
+        params['90Rotation'] %= 4
+
+    return rotateImage(image, params['rotation_angle'], params['90Rotation'] % 4)
 
 
-def rotateImage(image: np.array, angle: float, plus90: bool, minus90: bool) -> np.array:
+def rotateImage(image: np.array, angle: float, rotation_90: int) -> np.array:
     """ Rotating Image Handler
     Args:
         image (np.array): image to change
@@ -34,10 +39,13 @@ def rotateImage(image: np.array, angle: float, plus90: bool, minus90: bool) -> n
         np.array: Rotated image
 
     """
-    if plus90:
-        return cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
-    elif minus90:
-        return cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+    if rotation_90 >= 0:
+        for i in range(rotation_90):
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+    else:
+        for i in range(-rotation_90):
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
     height, width = image.shape[:2]
     image_center = (width / 2, height / 2)

@@ -384,34 +384,34 @@ Rectangle {
             Ui.Feature {
                 id: rotation
                 name: "Rotate"
-                args: ({func_name: "rotate", 'plus90': false, 'minus90': false})
+                args: ({func_name: "rotate", '90Rotation': 0})
 
                 Column {
                     x: 25; y: 35
 
                     Ui.Slider {
-                        from: -90
-                        to: 90
+                        from: -45
+                        to: 45
                         value: 0
                         unit: " deg"
                         key: "rotation_angle"
                     }
+                    Row {
 
-                    Button {
-                        text: '+90 deg'
-                        
-                        onClicked: {
-                            parent.parent.update('plus90', true)
-                            parent.parent.args['plus90'] = false
+                        Button {
+                            text: '-90 deg'
+
+                            onClicked: {
+                                rotation.update('90Rotation', rotation.args['90Rotation'] - 1)
+                            }
                         }
-                    }
-
-                    Button {
-                        text: '-90 deg'
-
-                        onClicked: {
-                            parent.parent.update('minus90', true)
-                            parent.parent.args['minus90'] = false
+                        
+                        Button {
+                            text: '+90 deg'
+                            
+                            onClicked: {
+                                rotation.update('90Rotation', rotation.args['90Rotation'] + 1)
+                            }
                         }
                     }
                 }
