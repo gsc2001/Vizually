@@ -384,7 +384,7 @@ Rectangle {
             Ui.Feature {
                 id: rotation
                 name: "Rotate"
-                args: ({func_name: "rotate"})
+                args: ({func_name: "rotate", 'plus90': false, 'minus90': false})
 
                 Column {
                     x: 25; y: 35
@@ -395,6 +395,24 @@ Rectangle {
                         value: 0
                         unit: " deg"
                         key: "rotation_angle"
+                    }
+
+                    Button {
+                        text: '+90 deg'
+                        
+                        onClicked: {
+                            parent.parent.update('plus90', true)
+                            parent.parent.args['plus90'] = false
+                        }
+                    }
+
+                    Button {
+                        text: '-90 deg'
+
+                        onClicked: {
+                            parent.parent.update('minus90', true)
+                            parent.parent.args['minus90'] = false
+                        }
                     }
                 }
             }
