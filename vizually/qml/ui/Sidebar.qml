@@ -774,7 +774,7 @@ Rectangle {
                     title: "Image to blend"
                     folder: shortcuts.home
                     onAccepted: {
-                        blending.args['secondary_ima    ge'] = fileUrl.toString();
+                        blending.args['secondary_image'] = fileUrl.toString();
                         blending.fileGot = 1;
                         blending.height = Utils.getHeight(blending.children[1]);
                     }
