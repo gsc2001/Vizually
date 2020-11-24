@@ -7,10 +7,10 @@ import "."
 
 Rectangle {
     id: photoFrame
-    width: photoContainer.width * photoContainer.scale + 2;
-    height: photoContainer.height * photoContainer.scale + 2;
+    width: photoContainer.width * photoContainer.scale + 5;
+    height: photoContainer.height * photoContainer.scale + 5;
     border.color: "transparent"
-    border.width: 2
+    border.width: 5
     anchors.centerIn: parent
     property ImageViewer mainImage: mainImage
     property MouseArea mouse: zoomArea
@@ -36,7 +36,7 @@ Rectangle {
             id: zoomArea
             anchors.fill: parent
             onClicked: {
-                photoFrame.border.color = "yellow"
+                photoFrame.border.color = "#9C27B0"
             }
             onWheel: {
                 if (wheel.modifiers & Qt.ControlModifier) {
