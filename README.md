@@ -13,6 +13,9 @@
 
 - ### Thresholding
   - Otsu
+    Before             |  After
+    :-------------------------:|:-------------------------:
+    ![otsu-before](https://user-images.githubusercontent.com/48274694/126597408-9d92f12a-401f-4b16-b0e3-3fc07282f00b.png)  |  ![otsu-after](https://user-images.githubusercontent.com/48274694/126597450-d5dbad2a-4ed6-4423-a740-5e0678693543.png)
   - Adaptive
   - Absolute
 
